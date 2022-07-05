@@ -1,5 +1,6 @@
 package GoGetters.GoGetter.domain;
 
+import GoGetters.GoGetter.dto.ArticleFixes;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -28,22 +29,56 @@ public class Article {
 
     private Integer currentParticipants;
 
+    private Integer totalParticipants;
+
     private LocalDateTime createdTime;
 
     private String title;
 
     private String content;
 
-    Article(String departure,String destination,LocalDate date,LocalTime time, Integer currentParticipants,
+    @Enumerated(EnumType.STRING)
+    private ArticleStatus status;
+    public Article(User user,String departure,String destination,LocalDate date,LocalTime time,
+                   Integer currentParticipants,Integer totalParticipants,
+                   String title,String content){
+        this(departure,destination,date,time,currentParticipants,totalParticipants, title,content);
+        this.setWriter(user);
+    }
+    public Article(String departure,String destination,LocalDate date,LocalTime time,
+                   Integer currentParticipants,Integer totalParticipants,
             String title,String content){
         this.departure=departure;
         this.destination=destination;
         this.date=date;
         this.time=time;
         this.currentParticipants=currentParticipants;
+        this.totalParticipants=totalParticipants;
         this.title=title;
         this.content=content;
 
         this.createdTime=LocalDateTime.now();
+        this.status=ArticleStatus.CREATE;
+    }
+
+    public void changeArticleStatus(ArticleStatus status){
+        this.status=status;
+    }
+
+    public void modifyArticle(ArticleFixes fixes){
+        this.departure=fixes.getDeparture();
+        this.destination=fixes.getDestination();
+        this.date=fixes.getDate();
+        this.time=fixes.getTime();
+        this.currentParticipants= fixes.getCurrentParticipants();
+        this.totalParticipants= fixes.getTotalParticipants();;
+        this.title=fixes.getTitle();
+        this.content= fixes.getContent();
+    }
+
+
+    //연관관계 메서드
+    public void setWriter(User user){
+        this.writer=user;
     }
 }

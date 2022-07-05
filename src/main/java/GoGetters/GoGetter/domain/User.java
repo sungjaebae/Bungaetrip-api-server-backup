@@ -22,7 +22,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    User(String email, String password, Integer age, Gender gender) {
+    public User(String email, String password, Integer age, Gender gender) {
         this.email=email;
         this.password=password;
         this.age=age;

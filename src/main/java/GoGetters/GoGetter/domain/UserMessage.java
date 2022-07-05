@@ -16,7 +16,7 @@ public class UserMessage {
     @JoinColumn(name = "message_id")
     private Message message;
 
-    UserMessage(User user,Message message){
+    public UserMessage(User user,Message message){
         this.user=user;
         this.message=message;
     }
