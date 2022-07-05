@@ -1,10 +1,14 @@
 package GoGetters.GoGetter.repository;
 
 import GoGetters.GoGetter.domain.Message;
+import GoGetters.GoGetter.domain.Receiver;
+import GoGetters.GoGetter.domain.User;
+import GoGetters.GoGetter.domain.UserMessage;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -22,6 +26,15 @@ public class MessageRepository {
     public Message findMessage(Long message_id){
         return em.find(Message.class, message_id);
     }
+
+    //받는 사람 아이디를 기준으로 쪽지를 가져오기
+    public List<Message> findMessagesByReceiverId(Long receiverId){
+        Receiver receiver = em.find(Receiver.class, receiverId);
+        return receiver.getMessages();
+
+    }
+
+
 
 
 

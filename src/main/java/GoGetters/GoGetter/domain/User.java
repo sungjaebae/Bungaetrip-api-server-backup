@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Member")
@@ -21,6 +22,8 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+
 
     public User(String email, String password, Integer age, Gender gender) {
         this.email=email;

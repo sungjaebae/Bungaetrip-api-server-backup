@@ -1,8 +1,11 @@
 package GoGetters.GoGetter.domain;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 public class UserMessage {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_message_id")

@@ -20,7 +20,6 @@ class UserRepositoryTest {
     @Autowired
     UserRepository userRepository;
 
-
     @Test
     @Transactional
     @Rollback(value = false)
