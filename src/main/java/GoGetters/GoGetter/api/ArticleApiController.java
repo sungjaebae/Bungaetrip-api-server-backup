@@ -3,6 +3,7 @@ package GoGetters.GoGetter.api;
 import GoGetters.GoGetter.domain.Article;
 import GoGetters.GoGetter.dto.ArticleDto;
 import GoGetters.GoGetter.dto.ArticleRequest;
+import GoGetters.GoGetter.dto.Result;
 import GoGetters.GoGetter.dto.TempDTO;
 import GoGetters.GoGetter.service.ArticleService;
 import lombok.AllArgsConstructor;
@@ -79,10 +80,10 @@ public class ArticleApiController {
 
     }
 
-    @Data
-    @AllArgsConstructor
-    static class Result<T>{
-        private T data;
-    }
+//    @Data
+//    @AllArgsConstructor
+//    static class Result<T>{
+//        private T data;
+//    }
 
 }

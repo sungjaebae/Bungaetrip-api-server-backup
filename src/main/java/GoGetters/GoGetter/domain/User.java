@@ -16,6 +16,7 @@ public class User {
 
     private String email;
 
+    private String nickName;
     private String password;
 
     private Integer age;
@@ -25,8 +26,9 @@ public class User {
 
 
 
-    public User(String email, String password, Integer age, Gender gender) {
+    public User(String email,String nickName, String password, Integer age, Gender gender) {
         this.email=email;
+        this.nickName=nickName;
         this.password=password;
         this.age=age;
         this.gender=gender;
