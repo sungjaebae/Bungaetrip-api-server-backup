@@ -1,7 +1,8 @@
 package GoGetters.GoGetter.domain;
 
-import GoGetters.GoGetter.dto.ArticleFixes;
+import GoGetters.GoGetter.dto.ArticleDto;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
-@Getter
+@Getter @NoArgsConstructor
 public class Article {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_id")
@@ -65,7 +66,7 @@ public class Article {
         this.status=status;
     }
 
-    public void modifyArticle(ArticleFixes fixes){
+    public void modifyArticle(ArticleDto fixes){
         this.departure=fixes.getDeparture();
         this.destination=fixes.getDestination();
         this.date=fixes.getDate();

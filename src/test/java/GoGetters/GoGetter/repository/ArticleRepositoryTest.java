@@ -4,8 +4,7 @@ import GoGetters.GoGetter.domain.Article;
 import GoGetters.GoGetter.domain.ArticleStatus;
 import GoGetters.GoGetter.domain.Gender;
 import GoGetters.GoGetter.domain.User;
-import GoGetters.GoGetter.dto.ArticleFixes;
-import GoGetters.GoGetter.libs.GenerateEntity;
+import GoGetters.GoGetter.dto.ArticleDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +54,7 @@ class ArticleRepositoryTest {
                 LocalTime.of(10,10),2,4,"동행구합니다","애월-> 협재 동행 구해요"  );
         Long saveId = articleRepository.save(article);
         //when
-        ArticleFixes fixes=new ArticleFixes("협재시","애월시",
+        ArticleDto fixes=new ArticleDto("협재시","애월시",
                 LocalDate.of(2022,11,18),LocalTime.of(10,00),
                 3,4,"동행","협재-> 애월 동행 구해요");
         Long modifiedId = articleRepository.modifyArticle(1L, fixes);
