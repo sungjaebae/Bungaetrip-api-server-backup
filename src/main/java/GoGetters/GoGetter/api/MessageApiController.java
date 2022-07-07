@@ -54,7 +54,7 @@ public class MessageApiController {
     public Result readMessage(@RequestParam("message_id")Long messageId){
         Message message = messageService.findMessage(messageId);
         MessageDto messageDto=new MessageDto(message.getId(),message.getSender().getUser().getNickName(),
-                message.getReceiver().getUser().getNickName(),message.getCreated());
+                message.getContent(),message.getCreated());
 
         return new Result(messageDto);
     }

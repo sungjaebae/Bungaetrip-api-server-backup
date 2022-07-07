@@ -16,13 +16,7 @@ public class UserService {
 
 
 
-    public Sender findSender(Long sender_id) {
-        return  new Sender();
-    }
 
-    public Receiver findReceiver(Long receiver_id) {
-        return new Receiver();
-    }
 
     public Long join(User user) {
         validateDuplicateUser(user);
@@ -40,4 +34,12 @@ public class UserService {
     public User findUser(Long userId) {
         return userRepository.findUser(userId);
     }
+
+    public Sender findSender(Long userId) {
+        return userRepository.findSender(userId);
+    }
+    public Receiver findReceiver(Long userId){
+        return userRepository.findReceiver(userId);
+    }
+
 }

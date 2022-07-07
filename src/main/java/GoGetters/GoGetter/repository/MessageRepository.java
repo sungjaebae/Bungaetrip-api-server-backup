@@ -31,7 +31,7 @@ public class MessageRepository {
     public List<Message> findMessagesByReceiverId(Long receiverId){
         String query="select m from Message m " +
                 "join fetch m.receiver r " +
-                "join fetch r.user u where u.id=:userId";
+                "join fetch r.user u where u.id=:userId order by m.created desc";
         return em.createQuery(query,Message.class)
                 .setParameter("userId",receiverId).getResultList();
     }
