@@ -43,8 +43,8 @@ public class MessageApiController {
         Receiver receiver=userService.findReceiver(messageRequest.getReceiver_id());
 
         //메시지 작성
-        Message message=new Message(sender,receiver,messageRequest.getContent() );
-        Long messageId= messageService.writeMessage(message);
+        Message message=new Message(messageRequest.getContent());
+        Long messageId= messageService.send(sender,receiver,message);
 
         return new Result(messageId);
     }

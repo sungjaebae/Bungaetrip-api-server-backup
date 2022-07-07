@@ -54,7 +54,7 @@ class ArticleRepositoryTest {
                 LocalTime.of(10,10),2,4,"동행구합니다","애월-> 협재 동행 구해요"  );
         Long saveId = articleRepository.save(article);
         //when
-        ArticleDto fixes=new ArticleDto("협재시","애월시",
+        ArticleDto fixes=new ArticleDto(article.getId(), "협재시","애월시",
                 LocalDate.of(2022,11,18),LocalTime.of(10,00),
                 3,4,"동행","협재-> 애월 동행 구해요");
         Long modifiedId = articleRepository.modifyArticle(1L, fixes);

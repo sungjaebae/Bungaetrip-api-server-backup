@@ -16,20 +16,29 @@ public class Message {
 
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id")
     private Sender sender;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
     private Receiver receiver;
 
     private LocalDateTime created;
 
+    public Message(String content) {
+        this.content=content;
+        this.created=LocalDateTime.now();
+    }
     public Message(Sender sender,Receiver receiver,String content){
+        this(content);
         this.sender=sender;
         this.receiver=receiver;
         this.receiver.getMessages().add(this);
-        this.content=content;
+    }
+
+    public void setUsers(Sender sender,Receiver receiver){
+        this.sender=sender;
+        this.receiver=receiver;
     }
 }
