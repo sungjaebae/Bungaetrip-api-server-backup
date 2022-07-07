@@ -32,9 +32,9 @@ class MessageRepositoryTest {
     @Rollback(value = false)
     public void 쪽지작성 () throws Exception{
         //given
-        User user1 = new User("rlagudtn4510@naver.com", "1234", 20, Gender.MALE);
+        User user1 = new User("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
         userRepository.save(user1);
-        User user2 = new User("rlagudtn@naver.com", "1234", 21, Gender.MALE);
+        User user2 = new User("rlagudtn@naver.com", "호로로","1234", 21, Gender.MALE);
         userRepository.save(user2);
 
         Sender sender = new Sender(user1);
@@ -56,9 +56,9 @@ class MessageRepositoryTest {
     @Rollback(value = false)
     public void 쪽지목록조회 () throws Exception{
         //given
-        User user1 = new User("rlagudtn4510@naver.com", "1234", 20, Gender.MALE);
+        User user1 = new User("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
         userRepository.save(user1);
-        User user2 = new User("rlagudtn@naver.com", "1234", 21, Gender.MALE);
+        User user2 = new User("rlagudtn@naver.com", "호로로","1234", 21, Gender.MALE);
         userRepository.save(user2);
 
         Sender sender = new Sender(user1);
@@ -91,9 +91,9 @@ class MessageRepositoryTest {
     @Rollback(value = false)
     public void 특정쪽지조회 () throws Exception{
         //given
-        User user1 = new User("rlagudtn4510@naver.com", "1234", 20, Gender.MALE);
+        User user1 = new User("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
         userRepository.save(user1);
-        User user2 = new User("rlagudtn@naver.com", "1234", 21, Gender.MALE);
+        User user2 = new User("rlagudtn@naver.com", "호로로","1234", 21, Gender.MALE);
         userRepository.save(user2);
 
         Sender sender = new Sender(user1);

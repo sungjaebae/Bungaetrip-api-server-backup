@@ -31,7 +31,7 @@ class ArticleRepositoryTest {
     @Transactional
     public void  글작성() throws Exception{
         //given
-        User user = new User("rlagudtn4510@naver.com", "1234", 20, Gender.MALE);
+        User user = new User("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
         userRepository.save(user);
 
         //when
@@ -48,7 +48,7 @@ class ArticleRepositoryTest {
     @Transactional
     public void 글수정() throws Exception{
         //given
-        User user = new User("rlagudtn4510@naver.com", "1234", 20, Gender.MALE);
+        User user = new User("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
         userRepository.save(user);
         Article article=new Article(user,"애월시","협재시", LocalDate.of(2022,12,20),
                 LocalTime.of(10,10),2,4,"동행구합니다","애월-> 협재 동행 구해요"  );
@@ -67,7 +67,7 @@ class ArticleRepositoryTest {
     @Test
     public void 글목록조회 () throws Exception{
         //given
-        User user = new User("rlagudtn4510@naver.com", "1234", 20, Gender.MALE);
+        User user = new User("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
         userRepository.save(user);
 
 
@@ -88,9 +88,9 @@ class ArticleRepositoryTest {
     @Transactional
     public void 글삭제 () throws Exception{
         //given
-        User user = new User("rlagudtn4510@naver.com", "1234", 20, Gender.MALE);
+        User user = new User("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
         userRepository.save(user);
-        User user1 = new User("rlagudtn@naver.com", "1234", 21, Gender.MALE);
+        User user1 = new User("rlagudtn@naver.com", "호로로","1234", 21, Gender.MALE);
         userRepository.save(user1);
         for(int i=0;i<10;i++){
             Article article=new Article(user,"애월시","협재시", LocalDate.of(2022,12,20),

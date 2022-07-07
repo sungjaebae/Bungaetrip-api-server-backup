@@ -25,7 +25,7 @@ class UserRepositoryTest {
     @Rollback(value = false)
     public void 회원생성() throws Exception {
         //given
-        User user = new User("rlagudtn4510@naver.com", "1234", 20, Gender.MALE);
+        User user = new User("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
         //when
         Long savedId = userRepository.save(user);
         User find = userRepository.findUser(savedId);

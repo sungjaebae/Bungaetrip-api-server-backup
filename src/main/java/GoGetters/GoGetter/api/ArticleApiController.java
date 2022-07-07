@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,7 +31,7 @@ public class ArticleApiController {
         List<Article> findArticles=articleService.findArticles();
 
         //DTO 리스트로 변환
-        List<ArticleDto> collect = findArticles.stream().map(a -> new ArticleDto(a.getDeparture(), a.getDestination(),
+        List<ArticleDto> collect = findArticles.stream().map(a -> new ArticleDto(a.getId(),a.getDeparture(), a.getDestination(),
                 a.getDate(), a.getTime(), a.getCurrentParticipants(), a.getTotalParticipants()
                 , a.getTitle(), a.getContent())).collect(Collectors.toList());
 
@@ -40,7 +42,7 @@ public class ArticleApiController {
     public Result readArticle(@RequestParam("id") Long articleId){
         Article article = articleService.findArticle(articleId);
         ArticleDto articleDto=new ArticleDto(article);
-        return new Result(1L);
+        return new Result(articleDto);
     }
 
     //글 작성
@@ -50,12 +52,17 @@ public class ArticleApiController {
                                 @RequestParam("date")LocalDate date,
                               @DateTimeFormat(pattern = "HH:mm:ss")
                                 @RequestParam("time")LocalTime time){
-
+        System.out.println("post");
         Article article = new Article(createArticleRequest.getDeparture(), createArticleRequest.getDestination(),
                 date,time,createArticleRequest.getCurrentParticipants(), createArticleRequest.getTotalParticipants(),
                 createArticleRequest.getTitle(), createArticleRequest.getContent());
         Long writeId=articleService.writeArticle(article);
-        return new Result(writeId);
+        System.out.println(writeId);
+        Article findArticle=articleService.findArticle(writeId);
+
+        Map<String,Long> ret=new HashMap<>();
+        ret.put("articleId", findArticle.getId());
+        return new Result(ret);
     }
 
     //글 수정
@@ -69,21 +76,21 @@ public class ArticleApiController {
         ArticleDto article=new ArticleDto(updateArticleRequest,date,time);
         Long updatedId=articleService.updateArticleRequest(articleId,article);
 
-        return new Result(updatedId);
+        Map<String, Long> ret = new HashMap<>();
+        ret.put("articleId",updatedId);
+        return new Result(ret);
     }
 
     //글 삭제
     @DeleteMapping("/articles")
     public Result deleteArticle(@RequestParam("id") Long articleId){
         Long deleteId=articleService.deleteArticle(articleId);
-        return new Result(deleteId);
+
+        Map<String, Long> ret = new HashMap<>();
+        ret.put("articleId", deleteId);
+        return new Result(ret);
 
     }
 
-//    @Data
-//    @AllArgsConstructor
-//    static class Result<T>{
-//        private T data;
-//    }
 
 }

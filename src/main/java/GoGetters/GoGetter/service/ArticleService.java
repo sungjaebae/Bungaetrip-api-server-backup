@@ -6,6 +6,7 @@ import GoGetters.GoGetter.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,23 +17,31 @@ public class ArticleService {
 
     //
     public List<Article> findArticles() {
-        return new ArrayList<>();
+        return articleRepository.findCreateArticles();
     }
 
-    public Article findArticle(Long aLong) {
-        return new Article();
+    public Article findArticle(Long articleId) {
+        return articleRepository.findArticle(articleId);
     }
 
+    @Transactional
     public Long writeArticle(Article article) {
-        return 0L;
+        return articleRepository.save(article);
     }
 
+    @Transactional
     public Long updateArticleRequest(Long articleId,ArticleDto article) {
-        return articleId;
+        return articleRepository.modifyArticle(articleId, article);
 
     }
 
+    @Transactional
     public Long deleteArticle(Long articleId) {
-        return 3L;
+
+        return articleRepository.deleteArticleState(articleId);
+    }
+
+    public Long save(Article article) {
+        return articleRepository.save(article);
     }
 }

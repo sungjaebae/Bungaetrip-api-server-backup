@@ -3,6 +3,7 @@ package GoGetters.GoGetter.service;
 import GoGetters.GoGetter.domain.Message;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class MessageService {
         return new ArrayList<>();
     }
 
+    @Transactional
     public Long writeMessage(Message message) {
         return null;
     }

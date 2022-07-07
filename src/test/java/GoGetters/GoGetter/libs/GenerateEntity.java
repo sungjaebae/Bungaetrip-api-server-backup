@@ -15,7 +15,7 @@ public class GenerateEntity {
     UserRepository userRepository;
     public List<User> generateUsers(){
         for(int i=0;i<10;i++){
-            User user=new User("rlagudtn"+i,"1234",20+i, Gender.MALE);
+            User user=new User("rlagudtn"+i,"호로로","1234",20+i, Gender.MALE);
             userRepository.save(user);
 
         }

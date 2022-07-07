@@ -13,6 +13,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleDto {
+    private Long articleId;
     private String departure;
 
     private String destination;
@@ -31,6 +32,7 @@ public class ArticleDto {
     private String content;
 
     public ArticleDto(Article article){
+        this.articleId=article.getId();
         this.departure=article.getDeparture();
         this.destination=article.getDestination();
         this.date=article.getDate();
@@ -48,5 +50,7 @@ public class ArticleDto {
         this.totalParticipants=articleRequest.getTotalParticipants();
         this.title=articleRequest.getTitle();
         this.content=articleRequest.getContent();
+        this.date=date;
+        this.time=time;
     }
 }
