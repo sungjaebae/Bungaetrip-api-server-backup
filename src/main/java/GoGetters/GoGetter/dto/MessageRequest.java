@@ -8,7 +8,7 @@ import lombok.Data;
 public class MessageRequest {
     private String content;
 
-    private Long sender_id;
+    private Long senderId;
 
-    private Long receiver_id;
+    private Long receiverId;
 }

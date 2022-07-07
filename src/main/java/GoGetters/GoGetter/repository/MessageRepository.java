@@ -1,14 +1,10 @@
 package GoGetters.GoGetter.repository;
 
 import GoGetters.GoGetter.domain.Message;
-import GoGetters.GoGetter.domain.Receiver;
-import GoGetters.GoGetter.domain.User;
-import GoGetters.GoGetter.domain.UserMessage;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
