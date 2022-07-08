@@ -29,7 +29,7 @@ public class MessageApiController {
 
 
     //receiver_id 를 통해 message 목록 조회 api
-    @GetMapping("/messages")
+    @GetMapping(value="/messages",params = "receiverId")
     public Result listMessage(@RequestParam("receiverId") Long receiverId) {
         List<Message> messages=messageService.findAllMessages(receiverId);
         List<MessageDto> collect = messages.stream().map(m ->
@@ -56,7 +56,7 @@ public class MessageApiController {
     }
 
     //message 내용 조회 api
-    @GetMapping("/message")
+    @GetMapping(value = "/messages",params = "messageId")
     public Result readMessage(@RequestParam("messageId")Long messageId){
         Message message = messageService.findMessage(messageId);
         MessageDto messageDto=new MessageDto(message.getId(),message.getSender().getUser().getNickName(),

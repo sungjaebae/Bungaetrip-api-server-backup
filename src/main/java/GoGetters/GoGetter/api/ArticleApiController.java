@@ -25,8 +25,10 @@ import java.util.stream.Collectors;
 public class ArticleApiController {
     private final ArticleService articleService;
     //모든 글 조회
-    @GetMapping("/articles")
+    @GetMapping(value = "/articles")
     public Result listArticle(){
+        System.out.println("모든 글 조회");
+
         //모든 글 가져오기
         List<Article> findArticles=articleService.findArticles();
 
@@ -38,8 +40,9 @@ public class ArticleApiController {
         return new Result(collect);
     }
     //특정 게시글 조회
-    @GetMapping("/article")
-    public Result readArticle(@RequestParam("id") Long articleId){
+    @GetMapping(value = "/articles",params = "id")
+    public Result readArticle(@RequestParam(value = "id") Long articleId){
+        System.out.println("특정 글 조회");
         Article article = articleService.findArticle(articleId);
         ArticleDto articleDto=new ArticleDto(article);
         return new Result(articleDto);
