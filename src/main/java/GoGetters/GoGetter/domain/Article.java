@@ -1,6 +1,7 @@
 package GoGetters.GoGetter.domain;
 
 import GoGetters.GoGetter.dto.ArticleDto;
+import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -68,7 +69,7 @@ public class Article {
         this.status=status;
     }
 
-    public void modifyArticle(ArticleDto fixes){
+    public void modifyArticle(UpdateArticleRequest fixes){
         this.departure=fixes.getDeparture();
         this.destination=fixes.getDestination();
         this.date=fixes.getDate();

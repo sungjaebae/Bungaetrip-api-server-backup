@@ -1,6 +1,7 @@
 package GoGetters.GoGetter.dto;
 
 import GoGetters.GoGetter.domain.Article;
+import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -52,5 +53,16 @@ public class ArticleDto {
         this.content=articleRequest.getContent();
         this.date=date;
         this.time=time;
+    }
+
+    public ArticleDto(UpdateArticleRequest request){
+        this.departure=request.getDeparture();
+        this.destination=request.getDestination();
+        this.currentParticipants=request.getCurrentParticipants();
+//        this.totalParticipants=articleRequest.getTotalParticipants();
+        this.title=request.getTitle();
+        this.content=request.getContent();
+        this.date=request.getDate();
+        this.time=request.getTime();
     }
 }

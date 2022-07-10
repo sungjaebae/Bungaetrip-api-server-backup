@@ -2,6 +2,7 @@ package GoGetters.GoGetter.service;
 
 import GoGetters.GoGetter.domain.Article;
 import GoGetters.GoGetter.dto.ArticleDto;
+import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
 import GoGetters.GoGetter.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,8 @@ public class ArticleService {
     }
 
     @Transactional
-    public Long updateArticleRequest(Long articleId,ArticleDto article) {
-        return articleRepository.modifyArticle(articleId, article);
+    public Long updateArticleRequest(UpdateArticleRequest article) {
+        return articleRepository.modifyArticle(article);
 
     }
 

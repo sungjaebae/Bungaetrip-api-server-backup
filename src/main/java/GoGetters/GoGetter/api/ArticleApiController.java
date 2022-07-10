@@ -4,6 +4,7 @@ import GoGetters.GoGetter.domain.Article;
 import GoGetters.GoGetter.domain.User;
 import GoGetters.GoGetter.dto.ArticleDto;
 import GoGetters.GoGetter.dto.ArticleRequest;
+import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
 import GoGetters.GoGetter.dto.Result;
 import GoGetters.GoGetter.dto.TempDTO;
 import GoGetters.GoGetter.service.ArticleService;
@@ -70,20 +71,19 @@ public class ArticleApiController {
     }
 
     //글 수정
-    @PutMapping("/articles")
-    public Result updateArticle(@RequestParam("id") Long articleId, ArticleRequest updateArticleRequest,
-                              @DateTimeFormat(pattern = "yyyy-MM-dd")
-                              @RequestParam("date")LocalDate date,
-                              @DateTimeFormat(pattern = "HH:mm:ss")
-                              @RequestParam("time")LocalTime time){
 
-        ArticleDto article=new ArticleDto(updateArticleRequest,date,time);
-        Long updatedId=articleService.updateArticleRequest(articleId,article);
+    @PutMapping("/articles")
+    public Result updateArticle(@RequestBody UpdateArticleRequest articleRequest){
+        System.out.println("articleId");
+        System.out.println(articleRequest.getDeparture());
+        System.out.println(articleRequest.getArticleId());
+        Long updatedId=articleService.updateArticleRequest(articleRequest);
 
         Map<String, Long> ret = new HashMap<>();
         ret.put("articleId",updatedId);
         return new Result(ret);
     }
+
 
     //글 삭제
     @DeleteMapping("/articles")

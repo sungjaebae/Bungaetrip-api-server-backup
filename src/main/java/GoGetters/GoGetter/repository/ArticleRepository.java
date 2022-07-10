@@ -3,6 +3,7 @@ package GoGetters.GoGetter.repository;
 import GoGetters.GoGetter.domain.Article;
 import GoGetters.GoGetter.domain.ArticleStatus;
 import GoGetters.GoGetter.dto.ArticleDto;
+import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -43,8 +44,8 @@ public class ArticleRepository {
     }
 
     //글 수정
-    public Long modifyArticle(Long articleId, ArticleDto fixes){
-        Article article = em.find(Article.class, articleId);
+    public Long modifyArticle(UpdateArticleRequest fixes){
+        Article article = em.find(Article.class, fixes.getArticleId());
         article.modifyArticle(fixes);
         return article.getId();
     }

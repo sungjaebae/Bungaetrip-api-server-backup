@@ -51,7 +51,7 @@ public class MessageApiController {
         System.out.println(messageRequest.getContent());
         //senderId, receiverId를 통해 sender,receiver 찾기
         Sender sender=userService.findSender(messageRequest.getSenderId());
-        Receiver receiver=userService.findReceiver(messageRequest.getReceiverId());
+        Receiver receiver=userService.findReceiver(messageRequest.getReceiverId().get(0));
 
         //메시지 작성
         Message message=new Message(messageRequest.getContent());
