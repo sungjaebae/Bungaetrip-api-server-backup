@@ -5,6 +5,7 @@ import GoGetters.GoGetter.domain.Gender;
 import GoGetters.GoGetter.domain.User;
 import GoGetters.GoGetter.dto.ArticleDto;
 import GoGetters.GoGetter.dto.ArticleRequest;
+import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -56,21 +57,25 @@ class ArticleServiceTest {
             articleService.save(article);
         }
 
-//        //when
-//        ArticleRequest articleRequest=new ArticleRequest("출발지","도착지",
-//                4,4,"제목","내용");
-//        ArticleDto article=new ArticleDto(articleRequest,LocalDate.of(2022,10,01),
-//                LocalTime.of(8,8));
-//        Long updateId = articleService.updateArticleRequest(1L, article);
+        //when
 
-//        //then
-//        Article findArticle = articleService.findArticle(updateId);
-//        assertEquals(findArticle.getDeparture(), "출발지");
-//        assertEquals(findArticle.getId(),1L);
-//        assertEquals(findArticle.getDestination(),"도착지");
+        UpdateArticleRequest request=new UpdateArticleRequest(1L
+                ,"출발지","도착지",4
+                ,LocalDate.of(2022,10,01),LocalTime.of(8,8)
+                ,"수정된 제목","수정된 내용");
+        System.out.println("수정아이디");
+        System.out.println(request.getArticleId());
+        Long updateId = articleService.updateArticleRequest(request);
+
+        //then
+        Article findArticle = articleService.findArticle(updateId);
+        assertEquals(findArticle.getDeparture(), "출발지");
+        assertEquals(findArticle.getId(),1L);
+        assertEquals(findArticle.getDestination(),"도착지");
     }
 
     @Test
+    @Rollback(value = false)
     public void 글삭제하기 () throws Exception{
         //given
         User user = new User("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
@@ -82,13 +87,13 @@ class ArticleServiceTest {
                     LocalTime.of(10,10),2,"동행구해요","애월->협재");
             articleService.save(article);
         }
-
-        //when
-        Long deleteId=articleService.deleteArticle(2L);
-        List<Article> articles = articleService.findArticles();
-
-        //then
-        assertEquals(articles.size(),9);
+//
+//        //when
+//        Long deleteId=articleService.deleteArticle(2L);
+//        List<Article> articles = articleService.findArticles();
+//
+//        //then
+//        assertEquals(articles.size(),9);
     }
 
     @Test
@@ -109,9 +114,9 @@ class ArticleServiceTest {
 
         //then
         assertEquals(articles.size(),10);
-        assertEquals(articles.get(0).getDeparture(),"애월9");
-        assertEquals(articles.get(1).getDeparture(),"애월8");
-        assertEquals(articles.get(9).getDeparture(),"애월0");
+        assertEquals(articles.get(0).getDeparture(),"애월0");
+        assertEquals(articles.get(1).getDeparture(),"애월1");
+        assertEquals(articles.get(9).getDeparture(),"애월9");
     }
 
 

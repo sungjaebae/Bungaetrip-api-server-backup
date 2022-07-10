@@ -1,9 +1,6 @@
 package GoGetters.GoGetter.service;
 
-import GoGetters.GoGetter.domain.Message;
-import GoGetters.GoGetter.domain.Receiver;
-import GoGetters.GoGetter.domain.Sender;
-import GoGetters.GoGetter.domain.User;
+import GoGetters.GoGetter.domain.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +24,11 @@ class MessageServiceTest {
     @Rollback(value = false)
     public void  메시지전송() throws Exception{
         //given
+        User user = new User("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
+        userService.join(user);
+        User user1 = new User("rlagudtn45@naver.com","호로로", "1234", 20, Gender.MALE);
+        userService.join(user1);
+
         User userA = userService.findUser(1L);
         User userB = userService.findUser(2L);
         Sender sender=new Sender(userA);
@@ -46,6 +48,11 @@ class MessageServiceTest {
     @Rollback(value = false)
     public void 받은메시지조회 () throws Exception{
         //given
+
+        User user = new User("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
+        userService.join(user);
+        User user1 = new User("rlagudtn45@naver.com","호로로", "1234", 20, Gender.MALE);
+        userService.join(user1);
         User userA = userService.findUser(1L);
         User userB = userService.findUser(2L);
         User userC=userService.findUser(8L);
@@ -67,7 +74,7 @@ class MessageServiceTest {
 
 
         //when
-        List<Message> findUserBReceived = messageService.findAllMessages(2L);
+        List<Message> findUserBReceived = messageService.findAllMessages(1L,2L);
 
         //then
         assertEquals(findUserBReceived.size(),5);
@@ -79,6 +86,11 @@ class MessageServiceTest {
     @Test
     public void 메시지내용보기 () throws Exception{
         //given
+
+        User user = new User("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
+        userService.join(user);
+        User user1 = new User("rlagudtn40@naver.com","호로로", "1234", 20, Gender.MALE);
+        userService.join(user1);
         User userA = userService.findUser(1L);
         User userB = userService.findUser(2L);
         User userC=userService.findUser(8L);

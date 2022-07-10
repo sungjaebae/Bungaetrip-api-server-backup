@@ -24,7 +24,7 @@ spring:
 #    database: mysql
     database: h2
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
 #      ddl-auto: create
   # 콘솔 확인 을 위한 always
   mvc:

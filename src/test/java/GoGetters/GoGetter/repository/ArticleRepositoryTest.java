@@ -30,7 +30,7 @@ class ArticleRepositoryTest {
 
     @Test
     @Transactional
-    public void  글작성() throws Exception{
+    public void  writeArticle() throws Exception{
         //given
         User user = new User("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
         userRepository.save(user);
@@ -94,7 +94,8 @@ class ArticleRepositoryTest {
         User user1 = new User("rlagudtn@naver.com", "호로로","1234", 21, Gender.MALE);
         userRepository.save(user1);
         for(int i=0;i<10;i++){
-            Article article=new Article(user,"애월시","협재시", LocalDate.of(2022,12,20),
+            Article article=new Article(user,"애월시","협재시"
+                    , LocalDate.of(2022,12,20),
                     LocalTime.of(10,10),2,"동행구합니다","애월-> 협재 동행 구해요"  );
 
             articleRepository.save(article);

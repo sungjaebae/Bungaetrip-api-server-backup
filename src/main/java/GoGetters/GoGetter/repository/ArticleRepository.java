@@ -45,6 +45,8 @@ public class ArticleRepository {
 
     //글 수정
     public Long modifyArticle(UpdateArticleRequest fixes){
+        System.out.println("AricleId");
+        System.out.println(fixes.getArticleId());
         Article article = em.find(Article.class, fixes.getArticleId());
         article.modifyArticle(fixes);
         return article.getId();
