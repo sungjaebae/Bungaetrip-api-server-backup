@@ -45,9 +45,10 @@ public class ArticleApiController {
         return new Result(collect);
     }
     //특정 게시글 조회
-    @GetMapping(value = "/articles",params = "id")
-    public Result readArticle(@RequestParam(value = "id") Long articleId){
+    @GetMapping(value = "/articles/{id}")
+    public Result readArticle(@PathVariable(value = "id") Long articleId){
         System.out.println("특정 글 조회");
+        System.out.println(articleId);
         Article article = articleService.findArticle(articleId);
         ArticleDto articleDto=new ArticleDto(article);
         return new Result(articleDto);
@@ -86,8 +87,8 @@ public class ArticleApiController {
 
 
     //글 삭제
-    @DeleteMapping("/articles")
-    public Result deleteArticle(@RequestParam("id") Long articleId){
+    @DeleteMapping("/articles/{id}")
+    public Result deleteArticle(@PathVariable("id") Long articleId){
         Long deleteId=articleService.deleteArticle(articleId);
 
         Map<String, Long> ret = new HashMap<>();

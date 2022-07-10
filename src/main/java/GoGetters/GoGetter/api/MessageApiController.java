@@ -34,8 +34,8 @@ public class MessageApiController {
         return new Result(collect);
     }
     //receiver_id 를 통해 message 목록 조회 api
-    @GetMapping(value="/messages",params = {"senderId","receiverId"})
-    public Result listMessage(@RequestParam("senderId")Long senderId, @RequestParam("receiverId") Long receiverId) {
+    @GetMapping(value="/messages/{senderId}/{receiverId}")
+    public Result listMessage(@PathVariable("senderId")Long senderId, @PathVariable("receiverId") Long receiverId) {
         System.out.println("sender&receiver");
         List<Message> messages=messageService.findAllMessages(senderId,receiverId);
         List<MessageDto> collect = messages.stream().map(m ->
