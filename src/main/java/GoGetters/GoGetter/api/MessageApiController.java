@@ -11,10 +11,7 @@ import GoGetters.GoGetter.service.MessageService;
 import GoGetters.GoGetter.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,11 +24,20 @@ public class MessageApiController {
     private final MessageService messageService;
     private final UserService userService;
 
-
+    @GetMapping(value = "/messages")
+    public Result listAllMessages(){
+        System.out.println("messages all");
+        List<Message> messages= messageService.findAllMessages();
+        List<MessageDto> collect = messages.stream().map(m ->
+                new MessageDto(m.getId(), m.getSender().getUser().getNickName()
+                        , m.getContent(), m.getCreated())).collect(Collectors.toList());
+        return new Result(collect);
+    }
     //receiver_id 를 통해 message 목록 조회 api
-    @GetMapping(value="/messages",params = "receiverId")
-    public Result listMessage(@RequestParam("receiverId") Long receiverId) {
-        List<Message> messages=messageService.findAllMessages(receiverId);
+    @GetMapping(value="/messages",params = {"senderId","receiverId"})
+    public Result listMessage(@RequestParam("senderId")Long senderId, @RequestParam("receiverId") Long receiverId) {
+        System.out.println("sender&receiver");
+        List<Message> messages=messageService.findAllMessages(senderId,receiverId);
         List<MessageDto> collect = messages.stream().map(m ->
                 new MessageDto(m.getId(),m.getSender().getUser().getNickName(), m.getContent(),
                 m.getCreated())).collect(Collectors.toList());
@@ -41,7 +47,8 @@ public class MessageApiController {
 
     //메시지 작성 api
     @PostMapping("/messages")
-    public Result createMessage(MessageRequest messageRequest){
+    public Result createMessage(@RequestBody MessageRequest messageRequest){
+        System.out.println(messageRequest.getContent());
         //senderId, receiverId를 통해 sender,receiver 찾기
         Sender sender=userService.findSender(messageRequest.getSenderId());
         Receiver receiver=userService.findReceiver(messageRequest.getReceiverId());
@@ -64,6 +71,5 @@ public class MessageApiController {
 
         return new Result(messageDto);
     }
-
 
 }

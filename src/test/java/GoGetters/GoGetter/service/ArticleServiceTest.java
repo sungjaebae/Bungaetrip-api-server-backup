@@ -34,7 +34,7 @@ class ArticleServiceTest {
 
         //when
         Article article=new Article(user,"애월","협재", LocalDate.of(2022,10,10),
-                LocalTime.of(10,10),2,4,"동행구해요","애월->협재");
+                LocalTime.of(10,10),2,"동행구해요","애월->협재");
         Long saveId=articleService.save(article);
 
         //then
@@ -52,13 +52,13 @@ class ArticleServiceTest {
         //when
         for(int i=0;i<10;i++){
             Article article=new Article(user,"애월"+i,"협재", LocalDate.of(2022,10,10),
-                    LocalTime.of(10,10),2,4,"동행구해요","애월->협재");
+                    LocalTime.of(10,10),2,"동행구해요","애월->협재");
             articleService.save(article);
         }
 
         //when
         ArticleRequest articleRequest=new ArticleRequest("출발지","도착지",
-                4,4,"제목","내용");
+                4,"제목","내용");
         ArticleDto article=new ArticleDto(articleRequest,LocalDate.of(2022,10,01),
                 LocalTime.of(8,8));
         Long updateId = articleService.updateArticleRequest(1L, article);
@@ -79,7 +79,7 @@ class ArticleServiceTest {
         //when
         for(int i=0;i<10;i++){
             Article article=new Article(user,"애월"+i,"협재", LocalDate.of(2022,10,10),
-                    LocalTime.of(10,10),2,4,"동행구해요","애월->협재");
+                    LocalTime.of(10,10),2,"동행구해요","애월->협재");
             articleService.save(article);
         }
 
@@ -100,7 +100,7 @@ class ArticleServiceTest {
         //when
         for(int i=0;i<10;i++){
             Article article=new Article(user,"애월"+i,"협재", LocalDate.of(2022,10,10),
-                    LocalTime.of(10,10),2,4,"동행구해요","애월->협재");
+                    LocalTime.of(10,10),2,"동행구해요","애월->협재");
             articleService.save(article);
         }
 

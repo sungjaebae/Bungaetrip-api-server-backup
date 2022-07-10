@@ -51,7 +51,7 @@ public class InitDb {
             for(int i=0;i<100;i++){
                 Article article=createArticle(users.get(random.nextInt(10)),"출발지"+String.valueOf(i),
                         "도착지"+String.valueOf(i),LocalDate.of(2022,9,1)
-                        ,LocalTime.of(10,20), 4/(random.nextInt(4)+1),5,
+                        ,LocalTime.of(10,20), 4/(random.nextInt(4)+1),
                         "제목"+String.valueOf(i),"내용" +String.valueOf(i)  );
                 em.persist(article);
                 articles.add(article);
@@ -85,8 +85,10 @@ public class InitDb {
         }
 
         private Article createArticle(User user, String dep, String des, LocalDate date, LocalTime time,
-                                      Integer current, Integer total, String title, String content) {
-            return new Article(user,dep,des,date,time,current,total,title,content);
+                                      Integer current,
+//                                      Integer total,
+                                      String title, String content) {
+            return new Article(user,dep,des,date,time,current,title,content);
         }
 
 

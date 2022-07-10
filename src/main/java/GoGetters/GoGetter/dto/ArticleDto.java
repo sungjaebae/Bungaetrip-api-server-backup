@@ -26,7 +26,7 @@ public class ArticleDto {
 
     private Integer currentParticipants;
 
-    private Integer totalParticipants;
+//    private Integer totalParticipants;
     private String title;
 
     private String content;
@@ -38,7 +38,7 @@ public class ArticleDto {
         this.date=article.getDate();
         this.time=article.getTime();
         this.currentParticipants=article.getCurrentParticipants();
-        this.totalParticipants=article.getTotalParticipants();
+//        this.totalParticipants=article.getTotalParticipants();
         this.title=article.getTitle();
         this.content=article.getContent();
     }
@@ -47,7 +47,7 @@ public class ArticleDto {
         this.departure=articleRequest.getDeparture();
         this.destination=articleRequest.getDestination();
         this.currentParticipants=articleRequest.getCurrentParticipants();
-        this.totalParticipants=articleRequest.getTotalParticipants();
+//        this.totalParticipants=articleRequest.getTotalParticipants();
         this.title=articleRequest.getTitle();
         this.content=articleRequest.getContent();
         this.date=date;

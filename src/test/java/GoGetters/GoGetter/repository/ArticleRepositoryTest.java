@@ -36,7 +36,7 @@ class ArticleRepositoryTest {
 
         //when
         Article article=new Article(user,"애월시","협재시", LocalDate.of(2022,12,20),
-                LocalTime.of(10,10),2,4,"동행구합니다","애월-> 협재 동행 구해요"  );
+                LocalTime.of(10,10),2,"동행구합니다","애월-> 협재 동행 구해요"  );
         Long saveId = articleRepository.save(article);
         Article article1 = articleRepository.findArticle(saveId);
 
@@ -51,12 +51,12 @@ class ArticleRepositoryTest {
         User user = new User("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
         userRepository.save(user);
         Article article=new Article(user,"애월시","협재시", LocalDate.of(2022,12,20),
-                LocalTime.of(10,10),2,4,"동행구합니다","애월-> 협재 동행 구해요"  );
+                LocalTime.of(10,10),2,"동행구합니다","애월-> 협재 동행 구해요"  );
         Long saveId = articleRepository.save(article);
         //when
         ArticleDto fixes=new ArticleDto(article.getId(), "협재시","애월시",
                 LocalDate.of(2022,11,18),LocalTime.of(10,00),
-                3,4,"동행","협재-> 애월 동행 구해요");
+                3,"동행","협재-> 애월 동행 구해요");
         Long modifiedId = articleRepository.modifyArticle(1L, fixes);
         Article modified = articleRepository.findArticle(modifiedId);
 
@@ -74,7 +74,7 @@ class ArticleRepositoryTest {
         //when
         for(int i=0;i<10;i++){
             Article article=new Article(user,"애월시","협재시", LocalDate.of(2022,12,20),
-                    LocalTime.of(10,10),2,4,"동행구합니다","애월-> 협재 동행 구해요"  );
+                    LocalTime.of(10,10),2,"동행구합니다","애월-> 협재 동행 구해요"  );
             articleRepository.save(article);
 
         }
@@ -94,7 +94,7 @@ class ArticleRepositoryTest {
         userRepository.save(user1);
         for(int i=0;i<10;i++){
             Article article=new Article(user,"애월시","협재시", LocalDate.of(2022,12,20),
-                    LocalTime.of(10,10),2,4,"동행구합니다","애월-> 협재 동행 구해요"  );
+                    LocalTime.of(10,10),2,"동행구합니다","애월-> 협재 동행 구해요"  );
 
             articleRepository.save(article);
         }

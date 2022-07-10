@@ -25,11 +25,11 @@ public class ArticleRepository {
     }
 
     public List<Article> findAllArticles(){
-        return em.createQuery("select a from Article a order by a.createdTime desc",Article.class).getResultList();
+        return em.createQuery("select a from Article a",Article.class).getResultList();
     }
 
     public List<Article> findCreateArticles(){
-        String query="select a from Article a where a.status=:status order by a.createdTime desc";
+        String query="select a from Article a where a.status=:status";
         return em.createQuery(query,Article.class)
                 .setParameter("status",ArticleStatus.CREATE)
                 .getResultList();

@@ -32,4 +32,19 @@ public class MessageRepository {
                 .setParameter("userId",receiverId).getResultList();
     }
 
+    public List<Message> findAllMessages() {
+        return em.createQuery("select m from Message m").getResultList();
+    }
+
+    public List<Message> findMessagesBySenderAndReceiverId(Long senderId, Long receiverId) {
+        String query="select m from Message m " +
+                "join fetch m.sender s " +
+                "join fetch s.user su "+
+                "join fetch m.receiver r " +
+                "join fetch r.user ru "+
+                "where su.id=:senderId and ru.id=:receiverId";
+        return em.createQuery(query).setParameter("senderId", senderId)
+                .setParameter("receiverId", receiverId)
+                .getResultList();
+    }
 }
