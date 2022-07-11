@@ -63,8 +63,8 @@ public class MessageApiController {
     }
 
     //message 내용 조회 api
-    @GetMapping(value = "/messages",params = "messageId")
-    public Result readMessage(@RequestParam("messageId")Long messageId){
+    @GetMapping(value = "/messages/{messageId}")
+    public Result readMessage(@PathVariable("messageId")Long messageId){
         Message message = messageService.findMessage(messageId);
         MessageDto messageDto=new MessageDto(message.getId(),message.getSender().getUser().getNickName(),
                 message.getContent(),message.getCreated());
