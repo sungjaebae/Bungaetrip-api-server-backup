@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -18,28 +19,28 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/users")
-@RequiredArgsConstructor
+@Slf4j
 public class UserApiController {
-    private final FirebaseAuth firebaseAuth;
+    @Autowired
+    FirebaseAuth firebaseAuth;
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("")
     public Long register(@RequestHeader("Authorization") String authorization,
                          @RequestBody CreateUserRequest request) {
-        System.out.println("token init");
+        System.out.println("controller init : ");
+
         System.out.println(authorization);
         // TOKEN을 가져온다.
         FirebaseToken decodedToken;
         try {
             String token = RequestUtil.getAuthorizationToken(authorization);
-            System.out.println(token);
-            System.out.println("verify token");
+            System.out.println("controller token : "+ token);
+
             decodedToken = firebaseAuth.verifyIdToken(token);
-            System.out.println("email");
-            System.out.println(decodedToken.getEmail());
-            System.out.println("name");
-            System.out.println(decodedToken.getName());
+            System.out.println("controller decodedToken : "+decodedToken);
         } catch (IllegalArgumentException | FirebaseAuthException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");

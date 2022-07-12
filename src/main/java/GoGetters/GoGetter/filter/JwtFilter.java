@@ -1,8 +1,10 @@
 package GoGetters.GoGetter.filter;
 
+import GoGetters.GoGetter.util.RequestUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,12 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
-public class FirebaseTokenFilter extends OncePerRequestFilter {
+@Slf4j
+public class JwtFilter extends OncePerRequestFilter {
 
     private UserDetailsService userDetailsService;
     private FirebaseAuth firebaseAuth;
 
-    public FirebaseTokenFilter(UserDetailsService userDetailsService, FirebaseAuth firebaseAuth) {
+    public JwtFilter(UserDetailsService userDetailsService, FirebaseAuth firebaseAuth) {
         this.userDetailsService = userDetailsService;
         this.firebaseAuth = firebaseAuth;
     }
@@ -33,18 +36,16 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
 
         // get the token from the request
         FirebaseToken decodedToken;
-        String header = request.getHeader("Authorization");
-        if (header == null || !header.startsWith("Bearer ")) {
-            setUnauthorizedResponse(response, "INVALID_HEADER");
-            return;
-        }
-        String token = header.substring(7);
-
-        // verify IdToken
         try{
-            decodedToken = firebaseAuth.verifyIdToken(token);
-        } catch (FirebaseAuthException e) {
-            setUnauthorizedResponse(response, "INVALID_TOKEN");
+            log.debug("request : ",request);
+            String header = RequestUtil.getAuthorizationToken(request.getHeader("Authorization"));
+            decodedToken = firebaseAuth.verifyIdToken(header);
+            log.debug("decodedToken : ",decodedToken);
+        } catch (FirebaseAuthException | IllegalArgumentException e) {
+            // ErrorMessage 응답 전송
+            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
             return;
         }
 
@@ -55,11 +56,15 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
                     user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch(NoSuchElementException e){
-            setUnauthorizedResponse(response, "USER_NOT_FOUND");
+            // ErrorMessage 응답 전송
+            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"code\":\"USER_NOT_FOUND\"}");
             return;
         }
         filterChain.doFilter(request, response);
     }
+
 
     private void setUnauthorizedResponse(HttpServletResponse response, String code) throws IOException {
         response.setStatus(HttpStatus.SC_UNAUTHORIZED);
