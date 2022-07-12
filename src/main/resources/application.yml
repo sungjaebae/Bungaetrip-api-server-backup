@@ -35,18 +35,7 @@ spring:
   output:
     ansi:
       enabled: always
-#aws s3 설정
-cloud:
-  aws:
-    stack:
-      auto: false
-    region:
-      static: ap-northeast-2
-    credentials:
-      access-key: AKIAXJEG2GMYME5XI5KS
-      secret-key: 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
-    s3:
-      bucket: https://500646425392.signin.aws.amazon.com/console
+
 # 파라미터 확인을 위한 trace
 logging:
   level:

@@ -1,0 +1,11 @@
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAXJEG2GMYEAMRUJEN
+      secretKey: 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
+    s3:
+      bucket: gogetter
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
