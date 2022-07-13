@@ -36,33 +36,32 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // get the token from the request
         FirebaseToken decodedToken;
-        try{
-            log.debug("request : ",request);
-            String header = RequestUtil.getAuthorizationToken(request.getHeader("Authorization"));
-            decodedToken = firebaseAuth.verifyIdToken(header);
-            log.debug("decodedToken : ",decodedToken);
-        } catch (FirebaseAuthException | IllegalArgumentException e) {
-            // ErrorMessage 응답 전송
-            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
+        String header = request.getHeader("Authorization");
+        if (header == null || !header.startsWith("Bearer ")) {
+            setUnauthorizedResponse(response, "INVALID_HEADER");
             return;
         }
-
-        // User를 가져와 SecurityContext에 저장한다.
+        String token = header.substring(7);
+        try{
+            System.out.println("start decodedToken");
+            decodedToken = firebaseAuth.verifyIdToken(token);
+            System.out.println(decodedToken);
+        } catch (FirebaseAuthException e) {
+            setUnauthorizedResponse(response, "INVALID_TOKEN");
+            return;
+        }
         try{
             UserDetails user = userDetailsService.loadUserByUsername(decodedToken.getUid());
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch(NoSuchElementException e){
-            // ErrorMessage 응답 전송
-            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"code\":\"USER_NOT_FOUND\"}");
+            setUnauthorizedResponse(response, "USER_NOT_FOUND");
             return;
         }
         filterChain.doFilter(request, response);
+
+
     }
 
 

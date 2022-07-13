@@ -30,22 +30,23 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     public User(String email,String uid,String nickName, String password, Integer age, Gender gender) {
-        this.email=email;
-        this.uid=uid;
+        this(email, uid);
         this.nickName=nickName;
         this.age=age;
         this.gender=gender;
         this.password=password;
     }
     public User(String email,String uid, String nickName, Integer age, Gender gender) {
-        this.email=email;
-        this.uid=uid;
+        this(email, uid);
         this.nickName=nickName;
         this.age=age;
         this.gender=gender;
     }
 
-
+    public User(String email, String uid) {
+        this.email = email;
+        this.uid = uid;
+    }
 
 
 

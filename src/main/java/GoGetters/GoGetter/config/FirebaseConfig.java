@@ -37,7 +37,7 @@ public class FirebaseConfig {
     public FirebaseAuth firebaseAuth() throws IOException {
         System.out.println("firebaseAuth");
         FileInputStream serviceAccount =
-                new FileInputStream("src/main/resources/serviceAccountKey.json");
+                new FileInputStream("serviceAccountKey.json");
 
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))

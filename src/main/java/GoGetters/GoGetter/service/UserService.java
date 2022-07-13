@@ -7,6 +7,7 @@ import GoGetters.GoGetter.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -17,7 +18,7 @@ public class UserService {
 
 
 
-
+    @Transactional
     public Long join(User user) {
         validateDuplicateUser(user);
         Long saveId = userRepository.save(user);

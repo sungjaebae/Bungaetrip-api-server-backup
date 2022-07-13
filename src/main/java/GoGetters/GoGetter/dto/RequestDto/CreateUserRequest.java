@@ -12,7 +12,7 @@ import javax.persistence.Enumerated;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateUserRequest {
-    private String nickName;
+    private String nickname;
 
     private Integer age;
 
