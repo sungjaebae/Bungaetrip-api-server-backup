@@ -24,6 +24,25 @@ public class UserService {
         return saveId;
     }
 
+
+    public User loginUser(String email, String password) throws Exception {
+        List<User> users = userRepository.findUserByEmail(email);
+        if(users.isEmpty()) throw new Exception("멤버가 조회되지 않음");
+
+        User user = users.get(0);
+
+        //인코딩 해서 동일한지 확인하는 로직
+        if(!isPasswordEqual(user,password))
+            throw new Exception("아이디 또는 비밀번호가 일치하지 않습니다");
+        return user;
+    }
+    private Boolean isPasswordEqual(User user,String password){
+        String salt="string";
+        password=  "salt 와 password 를 통해 인코딩";
+        if(!user.getPassword().equals(password))
+            return false;
+        return true;
+    }
     private void validateDuplicateUser(User user) {
         List<User> findUsers = userRepository.findUserByEmail(user.getEmail());
         if(!findUsers.isEmpty()){
