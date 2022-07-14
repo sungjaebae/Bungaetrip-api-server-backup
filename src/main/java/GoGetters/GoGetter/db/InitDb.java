@@ -2,6 +2,7 @@ package GoGetters.GoGetter.db;
 
 import GoGetters.GoGetter.domain.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -18,19 +19,19 @@ import java.util.Random;
 public class InitDb {
     private final InitService initService;
 //
-//    @PostConstruct
-//    public void init(){
-//        initService.dbInitUser();
-//        initService.dbInitArticle();
-//        initService.dbInitMessage();
-//    }
+    @PostConstruct
+    public void init(){
+        initService.dbInitUser();
+        initService.dbInitArticle();
+        initService.dbInitMessage();
+    }
 
     @Component
     @Transactional
     @RequiredArgsConstructor
     static class InitService{
         private final EntityManager em;
-
+        private final PasswordEncoder pe;
         private List<Member> members =new ArrayList<>();
         private List<Article> articles=new ArrayList<>();
         private List<Message> messages=new ArrayList<>();
@@ -38,7 +39,9 @@ public class InitDb {
 
         public void dbInitUser(){
             for(int i=0;i<10;i++){
-                Member member = createUser(String.valueOf(i)+"@naver.com", "유저"+String.valueOf(i+1), "1234", 20, Gender.MALE);
+                Member member = createUser(String.valueOf(i)+"@naver.com", "유저"+String.valueOf(i+1)
+                        , pe.encode("1234"), 20, Gender.MALE);
+
                 em.persist(member);
                 members.add(member);
             }

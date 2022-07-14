@@ -6,8 +6,11 @@ import GoGetters.GoGetter.domain.Sender;
 import GoGetters.GoGetter.domain.Member;
 import GoGetters.GoGetter.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,9 +21,13 @@ import java.util.List;
 public class MemberService {
     private final MemberRepository memberRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
     public Long join(Member member) {
         validateDuplicateUser(member);
+        String encodedPassword = passwordEncoder.encode(member.getPassword());
+        member.encodePassword(encodedPassword);
         Long saveId = memberRepository.save(member);
         return saveId;
     }
@@ -59,10 +66,10 @@ public class MemberService {
     }
 
     private Boolean isPasswordSame(Member member, String password) {
-
-
-//        if(!user.getPassword().equals(password))
-//            return false;
+        if (!passwordEncoder.matches(password, member.getPassword())) {
+            System.out.println("비밀번호가 일치하지 않습니다");
+            return false;
+        }
         return true;
     }
     public Member findUser(Long userId) {

@@ -90,6 +90,10 @@ public class Member
                 ", updateAt=" + updateAt +
                 '}';
     }
+
+    public void encodePassword(String enCodedPassword) {
+        this.password=enCodedPassword;
+    }
 //
 //
 //    @Override
