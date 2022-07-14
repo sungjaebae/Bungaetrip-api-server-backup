@@ -11,15 +11,12 @@ import javax.persistence.Enumerated;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUserRequest {
-    private String email;
-    private String password;
+public class CreateUserFirebaseRequest {
     private String nickname;
 
+    private Integer age;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
-    private Integer age;
-
 
 }

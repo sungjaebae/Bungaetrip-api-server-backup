@@ -31,25 +31,25 @@ public class InitDb {
     static class InitService{
         private final EntityManager em;
 
-        private List<User> users=new ArrayList<>();
+        private List<Member> members =new ArrayList<>();
         private List<Article> articles=new ArrayList<>();
         private List<Message> messages=new ArrayList<>();
         private Random random = new Random();
 
         public void dbInitUser(){
             for(int i=0;i<10;i++){
-                User user = createUser(String.valueOf(i)+"@naver.com", "유저"+String.valueOf(i+1), "1234", 20, Gender.MALE);
-                em.persist(user);
-                users.add(user);
+                Member member = createUser(String.valueOf(i)+"@naver.com", "유저"+String.valueOf(i+1), "1234", 20, Gender.MALE);
+                em.persist(member);
+                members.add(member);
             }
             System.out.println("userInit");
-            System.out.println(users.get(0).getId());
+            System.out.println(members.get(0).getId());
 
         }
         public void dbInitArticle(){
             System.out.println("article db");
             for(int i=0;i<100;i++){
-                Article article=createArticle(users.get(random.nextInt(10)),"출발지"+String.valueOf(i),
+                Article article=createArticle(members.get(random.nextInt(10)),"출발지"+String.valueOf(i),
                         "도착지"+String.valueOf(i),LocalDate.of(2022,9,1)
                         ,LocalTime.of(10,20), 4/(random.nextInt(4)+1),
                         "제목"+String.valueOf(i),"내용" +String.valueOf(i)  );
@@ -62,10 +62,10 @@ public class InitDb {
             List<Receiver> receivers=new ArrayList<>();
             System.out.println("message start");
             for(int i=0;i<10;i++){
-                User user=users.get(i);
-                System.out.println(user.getId());
-                Sender sender=new Sender(user);
-                Receiver receiver=new Receiver(user);
+                Member member = members.get(i);
+                System.out.println(member.getId());
+                Sender sender=new Sender(member);
+                Receiver receiver=new Receiver(member);
                 em.persist(sender);
                 em.persist(receiver);
                 senders.add(sender);
@@ -75,20 +75,20 @@ public class InitDb {
             for(int i=0;i<100;i++){
                 Message message=new Message("내용 "+String.valueOf(i));
                 int sendIndex=random.nextInt(10 );
-                message.setUsers(senders.get(sendIndex), receivers.get(9 - sendIndex));
+                message.setMembers(senders.get(sendIndex), receivers.get(9 - sendIndex));
                 em.persist(message);
                 messages.add(message);
             }
         }
-        private User createUser(String email, String nickName, String pw, Integer age, Gender gender) {
-            return new User(email, nickName, pw, age, gender);
+        private Member createUser(String email, String nickName, String pw, Integer age, Gender gender) {
+            return new Member(email, pw, nickName, age, gender);
         }
 
-        private Article createArticle(User user, String dep, String des, LocalDate date, LocalTime time,
+        private Article createArticle(Member member, String dep, String des, LocalDate date, LocalTime time,
                                       Integer current,
 //                                      Integer total,
                                       String title, String content) {
-            return new Article(user,dep,des,date,time,current,title,content);
+            return new Article(member,dep,des,date,time,current,title,content);
         }
 
 

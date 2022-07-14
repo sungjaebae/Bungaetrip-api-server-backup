@@ -3,27 +3,22 @@ package GoGetters.GoGetter.repository;
 import GoGetters.GoGetter.domain.Article;
 import GoGetters.GoGetter.domain.ArticleStatus;
 import GoGetters.GoGetter.domain.Gender;
-import GoGetters.GoGetter.domain.User;
-import GoGetters.GoGetter.dto.ArticleDto;
+import GoGetters.GoGetter.domain.Member;
 import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
-import java.lang.reflect.Member;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class ArticleRepositoryTest {
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
     @Autowired
     ArticleRepository articleRepository;
@@ -32,11 +27,11 @@ class ArticleRepositoryTest {
     @Transactional
     public void  writeArticle() throws Exception{
         //given
-        User user = new User("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
-        userRepository.save(user);
+        Member member = new Member("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
+        memberRepository.save(member);
 
         //when
-        Article article=new Article(user,"애월시","협재시", LocalDate.of(2022,12,20),
+        Article article=new Article(member,"애월시","협재시", LocalDate.of(2022,12,20),
                 LocalTime.of(10,10),2,"동행구합니다","애월-> 협재 동행 구해요"  );
         Long saveId = articleRepository.save(article);
         Article article1 = articleRepository.findArticle(saveId);
@@ -49,9 +44,9 @@ class ArticleRepositoryTest {
     @Transactional
     public void 글수정() throws Exception{
         //given
-        User user = new User("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
-        userRepository.save(user);
-        Article article=new Article(user,"애월시","협재시", LocalDate.of(2022,12,20),
+        Member member = new Member("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
+        memberRepository.save(member);
+        Article article=new Article(member,"애월시","협재시", LocalDate.of(2022,12,20),
                 LocalTime.of(10,10),2,"동행구합니다","애월-> 협재 동행 구해요"  );
         Long saveId = articleRepository.save(article);
         //when
@@ -68,13 +63,13 @@ class ArticleRepositoryTest {
     @Test
     public void 글목록조회 () throws Exception{
         //given
-        User user = new User("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
-        userRepository.save(user);
+        Member member = new Member("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
+        memberRepository.save(member);
 
 
         //when
         for(int i=0;i<10;i++){
-            Article article=new Article(user,"애월시","협재시", LocalDate.of(2022,12,20),
+            Article article=new Article(member,"애월시","협재시", LocalDate.of(2022,12,20),
                     LocalTime.of(10,10),2,"동행구합니다","애월-> 협재 동행 구해요"  );
             articleRepository.save(article);
 
@@ -89,12 +84,12 @@ class ArticleRepositoryTest {
     @Transactional
     public void 글삭제 () throws Exception{
         //given
-        User user = new User("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
-        userRepository.save(user);
-        User user1 = new User("rlagudtn@naver.com", "호로로","1234", 21, Gender.MALE);
-        userRepository.save(user1);
+        Member member = new Member("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
+        memberRepository.save(member);
+        Member member1 = new Member("rlagudtn@naver.com", "호로로","1234", 21, Gender.MALE);
+        memberRepository.save(member1);
         for(int i=0;i<10;i++){
-            Article article=new Article(user,"애월시","협재시"
+            Article article=new Article(member,"애월시","협재시"
                     , LocalDate.of(2022,12,20),
                     LocalTime.of(10,10),2,"동행구합니다","애월-> 협재 동행 구해요"  );
 

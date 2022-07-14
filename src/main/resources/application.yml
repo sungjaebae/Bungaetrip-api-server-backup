@@ -1,4 +1,10 @@
 spring:
+  redis:
+    host: localhost
+    port: 6379
+  #jwt
+  jwt:
+    secret: kimdonggeunkimdonggeunkimdonggeunkimdonggeunkimdonggeunkimdonggeunkimdonggeunkimdonggeun
   # DB 연결
   datasource:
     # 설치된 H2 DB와 연결 URL
@@ -27,8 +33,8 @@ spring:
 #    database: mysql
     database: h2
     hibernate:
-      ddl-auto: update
-#      ddl-auto: create
+#      ddl-auto: update
+      ddl-auto: create
   # 콘솔 확인 을 위한 always
   mvc:
     pathmatch:

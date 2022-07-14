@@ -3,14 +3,12 @@ package GoGetters.GoGetter.api;
 import GoGetters.GoGetter.domain.Message;
 import GoGetters.GoGetter.domain.Receiver;
 import GoGetters.GoGetter.domain.Sender;
-import GoGetters.GoGetter.domain.User;
 import GoGetters.GoGetter.dto.MessageDto;
 import GoGetters.GoGetter.dto.MessageRequest;
 import GoGetters.GoGetter.dto.Result;
 import GoGetters.GoGetter.service.MessageService;
-import GoGetters.GoGetter.service.UserService;
+import GoGetters.GoGetter.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,14 +20,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MessageApiController {
     private final MessageService messageService;
-    private final UserService userService;
+    private final MemberService memberService;
 
     @GetMapping(value = "/messages")
     public Result listAllMessages(){
         System.out.println("messages all");
         List<Message> messages= messageService.findAllMessages();
         List<MessageDto> collect = messages.stream().map(m ->
-                new MessageDto(m.getId(), m.getSender().getUser().getNickName()
+                new MessageDto(m.getId(), m.getSender().getMember().getNickName()
                         , m.getContent(), m.getCreated())).collect(Collectors.toList());
         return new Result(collect);
     }
@@ -39,7 +37,7 @@ public class MessageApiController {
         System.out.println("sender&receiver");
         List<Message> messages=messageService.findAllMessages(senderId,receiverId);
         List<MessageDto> collect = messages.stream().map(m ->
-                new MessageDto(m.getId(),m.getSender().getUser().getNickName(), m.getContent(),
+                new MessageDto(m.getId(),m.getSender().getMember().getNickName(), m.getContent(),
                 m.getCreated())).collect(Collectors.toList());
 
         return new Result(collect);
@@ -50,8 +48,8 @@ public class MessageApiController {
     public Result createMessage(@RequestBody MessageRequest messageRequest){
         System.out.println(messageRequest.getContent());
         //senderId, receiverId를 통해 sender,receiver 찾기
-        Sender sender=userService.findSender(messageRequest.getSenderId());
-        Receiver receiver=userService.findReceiver(messageRequest.getReceiverId().get(0));
+        Sender sender= memberService.findSender(messageRequest.getSenderId());
+        Receiver receiver= memberService.findReceiver(messageRequest.getReceiverId().get(0));
 
         //메시지 작성
         Message message=new Message(messageRequest.getContent());
@@ -66,7 +64,7 @@ public class MessageApiController {
     @GetMapping(value = "/messages/{messageId}")
     public Result readMessage(@PathVariable("messageId")Long messageId){
         Message message = messageService.findMessage(messageId);
-        MessageDto messageDto=new MessageDto(message.getId(),message.getSender().getUser().getNickName(),
+        MessageDto messageDto=new MessageDto(message.getId(),message.getSender().getMember().getNickName(),
                 message.getContent(),message.getCreated());
 
         return new Result(messageDto);

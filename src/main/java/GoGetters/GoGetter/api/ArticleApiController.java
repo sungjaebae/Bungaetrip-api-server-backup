@@ -1,23 +1,16 @@
 package GoGetters.GoGetter.api;
 
 import GoGetters.GoGetter.domain.Article;
-import GoGetters.GoGetter.domain.User;
+import GoGetters.GoGetter.domain.Member;
 import GoGetters.GoGetter.dto.ArticleDto;
 import GoGetters.GoGetter.dto.ArticleRequest;
 import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
 import GoGetters.GoGetter.dto.Result;
-import GoGetters.GoGetter.dto.TempDTO;
 import GoGetters.GoGetter.service.ArticleService;
-import GoGetters.GoGetter.service.UserService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import GoGetters.GoGetter.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ArticleApiController {
     private final ArticleService articleService;
-    private final UserService userService;
+    private final MemberService memberService;
     //모든 글 조회
     @GetMapping(value = "/articles")
     public Result listArticle(){
@@ -57,8 +50,8 @@ public class ArticleApiController {
     //글 작성
     @PostMapping("/articles")
     public Result createArticle(@RequestBody ArticleRequest createArticleRequest) {
-        User user = userService.findUser(createArticleRequest.getUserId());
-        Article article = new Article(user,createArticleRequest.getDeparture(), createArticleRequest.getDestination(),
+        Member member = memberService.findUser(createArticleRequest.getUserId());
+        Article article = new Article(member,createArticleRequest.getDeparture(), createArticleRequest.getDestination(),
                 createArticleRequest.getDate(),createArticleRequest.getTime(),
                 createArticleRequest.getCurrentParticipants(),
                 createArticleRequest.getTitle(), createArticleRequest.getContent());
