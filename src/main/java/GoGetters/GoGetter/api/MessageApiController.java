@@ -48,6 +48,8 @@ public class MessageApiController {
     public Result createMessage(@RequestBody MessageRequest messageRequest){
         System.out.println(messageRequest.getContent());
         //senderId, receiverId를 통해 sender,receiver 찾기
+        System.out.println(messageRequest.getSenderId());
+        System.out.println(messageRequest.getReceiverId().get(0));
         Sender sender= memberService.findSender(messageRequest.getSenderId());
         Receiver receiver= memberService.findReceiver(messageRequest.getReceiverId().get(0));
 

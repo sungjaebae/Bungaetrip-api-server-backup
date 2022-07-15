@@ -77,6 +77,8 @@ public class MemberService {
     }
 
     public Sender findSender(Long userId) {
+        System.out.println("sender--------");
+        System.out.println(userId);
         return memberRepository.findSender(userId);
     }
     public Receiver findReceiver(Long userId){

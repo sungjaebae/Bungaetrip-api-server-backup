@@ -40,7 +40,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         Collection<GrantedAuthority> authorities = member.getAuthorities();
 
         if(hasRole(authorities, UserRole.ROLE_NOT_PERMITTED.name())){
-            ret.put("messagge","인증을 받지 못했씁니다");
+            ret.put("messagge","인증을 받지 못했습니다");
         }
 
         PrintWriter out = httpServletResponse.getWriter();

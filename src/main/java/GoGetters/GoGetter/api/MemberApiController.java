@@ -80,7 +80,8 @@ public class MemberApiController {
     @PostMapping("/signup")
     public Result signUpUser(@RequestBody CreateUserRequest request){
         System.out.println("signup");
-        Member member = new Member(request.getEmail(),request.getPassword(), request.getNickname(), request.getAge(), request.getGender());
+        Member member = new Member(request.getUsername(),request.getEmail(),request.getPassword(),
+                request.getNickname(), request.getAge(), request.getGender());
         try{
             memberService.join(member);
             System.out.println("회원가입을 성공적으로 완료했습니다.");
@@ -99,9 +100,9 @@ public class MemberApiController {
         try {
             final Member member = memberService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
             final String token = jwtUtil.generateToken(member);
-            final String refreshJwt = jwtUtil.generateRefreshToken(member);
+//            final String refreshJwt = jwtUtil.generateRefreshToken(member);
             Cookie accessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, token);
-            Cookie refreshToken = cookieUtil.createCookie(JwtUtil.REFRESH_TOKEN_NAME, refreshJwt);
+//            Cookie refreshToken = cookieUtil.createCookie(JwtUtil.REFRESH_TOKEN_NAME, refreshJwt);
 //            redisUtil.setDataExpire(refreshJwt, member.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
             response.addCookie(accessToken);
 //            response.addCookie(refreshToken);

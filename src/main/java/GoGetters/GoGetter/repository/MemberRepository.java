@@ -41,12 +41,12 @@ public class MemberRepository {
     public Sender findSender(Long memberId) {
         String query="select s from Sender s join fetch s.member m where m.id=:memberId";
         return em.createQuery(query,Sender.class)
-                .setParameter("member",memberId)
+                .setParameter("memberId",memberId)
                 .getSingleResult();
     }
 
     public Receiver findReceiver(Long memberId) {
-        String query="select r from Receiver r join fetch r.member u where u.id=:memberId";
+        String query="select r from Receiver r join fetch r.member m where m.id=:memberId";
         return em.createQuery(query,Receiver.class)
                 .setParameter("memberId",memberId)
                 .getSingleResult();

@@ -85,7 +85,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig {
 
@@ -95,13 +95,13 @@ public class SecurityConfig {
 
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
-    public SecurityConfig(@Lazy JwtRequestFilter jwtRequestFilter, CustomAccessDeniedHandler customAccessDeniedHandler,
-                          CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
-        this.jwtRequestFilter=jwtRequestFilter;
-        this.customAccessDeniedHandler=customAccessDeniedHandler;
-        this.customAuthenticationEntryPoint=customAuthenticationEntryPoint;
-
-    }
+//    public SecurityConfig(@Lazy JwtRequestFilter jwtRequestFilter, CustomAccessDeniedHandler customAccessDeniedHandler,
+//                          CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
+//        this.jwtRequestFilter=jwtRequestFilter;
+//        this.customAccessDeniedHandler=customAccessDeniedHandler;
+//        this.customAuthenticationEntryPoint=customAuthenticationEntryPoint;
+//
+//    }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -121,10 +121,11 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/users/signup").permitAll()
                 .antMatchers("/users/login").permitAll()
+                .antMatchers("/messages/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
 //                .antMatchers("/user/verify/**").permitAll()
 //                .antMatchers("/oauth/**").permitAll()
-                .antMatchers("/articles").hasRole("USER")
+                .antMatchers("/articles/**").hasRole("USER")
 //                .antMatchers("/test/admin").hasRole("ADMIN")
                 .anyRequest().authenticated();
 

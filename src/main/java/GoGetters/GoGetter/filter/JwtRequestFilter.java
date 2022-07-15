@@ -2,6 +2,7 @@ package GoGetters.GoGetter.filter;
 
 
 import GoGetters.GoGetter.domain.Member;
+import GoGetters.GoGetter.domain.UserRole;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.CookieUtil;
 import GoGetters.GoGetter.util.JwtUtil;
@@ -28,15 +29,20 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
-    @Lazy
+
     private final MemberService memberService;
 
 
     private final JwtUtil jwtUtil;
 
     private final CookieUtil cookieUtil;
+
+    public JwtRequestFilter(@Lazy MemberService memberService, JwtUtil jwtUtil, CookieUtil cookieUtil) {
+        this.memberService=memberService;
+        this.jwtUtil=jwtUtil;
+        this.cookieUtil=cookieUtil;
+    }
 
 //    private final RedisUtil redisUtil;
 
@@ -47,20 +53,34 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final Cookie jwtToken = cookieUtil.getCookie(httpServletRequest,JwtUtil.ACCESS_TOKEN_NAME);
 
         String username = null;
+        String role=null;
         String jwt = null;
-//        String refreshJwt = null;
-//        String refreshUname = null;
-
+        String refreshJwt = null;
+        String refreshUname = null;
         try{
             if(jwtToken != null){
-                jwt = jwtToken.getValue();
-                username = jwtUtil.getUsername(jwt);
-            }
-            if(username!=null){
-                UserDetails userDetails = memberService.findUserByEmail(username);
 
-                if(jwtUtil.validateToken(jwt,userDetails)){
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+                jwt = jwtToken.getValue();
+                System.out.println(jwt);
+                username = jwtUtil.getUsername(jwt);
+                System.out.println(username);
+
+                role = jwtUtil.getUserRole(jwt);
+                System.out.println("role");
+                System.out.println(role);
+            }
+            if(username!=null &role!=null){
+                UserDetails userDetails = memberService.findByUsername(username);
+                System.out.println("authorities");
+                System.out.println(userDetails.getAuthorities());
+                Boolean valid = jwtUtil.validateToken(jwt, userDetails);
+                System.out.println(valid);
+                System.out.println(role);
+
+                if(valid&&role.equals(UserRole.ROLE_USER.toString())){
+                    System.out.println("jwt validate");
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                            new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
                     usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
@@ -95,7 +115,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 //        }catch(ExpiredJwtException e){
 //
 //        }
-
+        System.out.println("do filter done");
         filterChain.doFilter(httpServletRequest,httpServletResponse);
     }
 }

@@ -5,11 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Entity
 @Table(name = "Member")
@@ -17,7 +20,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member
-//        implements UserDetails
+        implements UserDetails
 {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
@@ -37,7 +40,7 @@ public class Member
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
-    private UserRole role=UserRole.ROLE_NOT_PERMITTED;
+    private UserRole role=UserRole.ROLE_USER;
 
 
     @CreationTimestamp
@@ -46,6 +49,10 @@ public class Member
     @UpdateTimestamp
     private LocalDateTime updateAt;
 
+    public Member(String username, String email, String password, String nickName, Integer age, Gender gender) {
+        this(email, password, nickName, age, gender);
+        this.username=username;
+    }
 
     public Member(String email, String password, String nickName, Integer age, Gender gender, String uid) {
 
@@ -94,35 +101,30 @@ public class Member
     public void encodePassword(String enCodedPassword) {
         this.password=enCodedPassword;
     }
-//
-//
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return null;
-//    }
-//
-//    @Override
-//    public String getUsername() {
-//        return email;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return false;
-//    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+///
 }
