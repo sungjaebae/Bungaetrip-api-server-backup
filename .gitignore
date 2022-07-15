@@ -42,3 +42,6 @@ src/main/resources/aws.yml
 
 #jwt
 src/main/resources/firebase.json
+
+#test
+src/test

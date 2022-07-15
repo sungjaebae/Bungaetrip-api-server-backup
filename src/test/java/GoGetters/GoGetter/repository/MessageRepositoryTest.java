@@ -26,7 +26,6 @@ class MessageRepositoryTest {
 
     @Test
     @Transactional
-    @Rollback(value = false)
     public void 쪽지작성 () throws Exception{
         //given
         Member member1 = new Member("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
@@ -50,7 +49,6 @@ class MessageRepositoryTest {
 
     @Test
     @Transactional
-    @Rollback(value = false)
     public void 쪽지목록조회 () throws Exception{
         //given
         Member member1 = new Member("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
@@ -85,7 +83,6 @@ class MessageRepositoryTest {
 
     @Test
     @Transactional
-    @Rollback(value = false)
     public void 특정쪽지조회 () throws Exception{
         //given
         Member member1 = new Member("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);

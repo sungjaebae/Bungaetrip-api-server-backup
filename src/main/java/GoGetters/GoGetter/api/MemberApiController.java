@@ -8,7 +8,6 @@ import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.CookieUtil;
 import GoGetters.GoGetter.util.JwtUtil;
 import GoGetters.GoGetter.util.RedisUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.auth.FirebaseAuth;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -87,7 +84,7 @@ public class MemberApiController {
             System.out.println("회원가입을 성공적으로 완료했습니다.");
         }
         catch(Exception e){
-            System.out.println("회원가입을 하는 도중 오류가 발생했습니다.");
+            throw new IllegalStateException("회원가입을 하는 중 오류가 발생했습니다.", e);
         }
 
         return new Result(null);

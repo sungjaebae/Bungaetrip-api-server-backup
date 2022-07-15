@@ -1,21 +1,16 @@
 package GoGetters.GoGetter.filter;
 
 
-import GoGetters.GoGetter.domain.Member;
 import GoGetters.GoGetter.domain.UserRole;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.CookieUtil;
 import GoGetters.GoGetter.util.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;

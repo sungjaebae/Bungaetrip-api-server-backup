@@ -69,12 +69,7 @@ public class Member
         this.gender = gender;
         this.password = password;
     }
-    public Member(String email, String nickName, Integer age, Gender gender, String uid) {
-        this(email, uid);
-        this.nickName=nickName;
-        this.age=age;
-        this.gender=gender;
-    }
+
 
     public Member(String email, String uid) {
         this.email = email;

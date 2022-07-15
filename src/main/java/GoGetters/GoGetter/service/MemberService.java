@@ -24,7 +24,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public Long join(Member member) {
+    public Long join(Member member) throws InterruptedException {
         validateDuplicateUser(member);
         String encodedPassword = passwordEncoder.encode(member.getPassword());
         member.encodePassword(encodedPassword);
@@ -32,10 +32,10 @@ public class MemberService {
         return saveId;
     }
 
-    private void validateDuplicateUser(Member member) {
+    private void validateDuplicateUser(Member member) throws InterruptedException {
         List<Member> findMembers = memberRepository.findUserByEmail(member.getEmail());
         if(!findMembers.isEmpty()){
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
+            throw new InterruptedException("이미 존재하는 회원입니다.");
         }
     }
 

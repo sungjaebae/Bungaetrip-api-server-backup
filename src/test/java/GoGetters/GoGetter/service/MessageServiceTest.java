@@ -21,7 +21,6 @@ class MessageServiceTest {
     @Autowired
     MemberService memberService;
     @Test
-    @Rollback(value = false)
     public void  메시지전송() throws Exception{
         //given
         Member member = new Member("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
@@ -45,7 +44,6 @@ class MessageServiceTest {
     }
     
     @Test
-    @Rollback(value = false)
     public void 받은메시지조회 () throws Exception{
         //given
 
@@ -55,7 +53,6 @@ class MessageServiceTest {
         memberService.join(member1);
         Member memberA = memberService.findUser(1L);
         Member memberB = memberService.findUser(2L);
-        Member memberC = memberService.findUser(8L);
 
         Sender sender=new Sender(memberA);
         Sender sender1=new Sender(memberB);
@@ -84,6 +81,7 @@ class MessageServiceTest {
     }
     
     @Test
+    @Rollback(value = true)
     public void 메시지내용보기 () throws Exception{
         //given
 
@@ -93,21 +91,25 @@ class MessageServiceTest {
         memberService.join(member1);
         Member memberA = memberService.findUser(1L);
         Member memberB = memberService.findUser(2L);
-        Member memberC = memberService.findUser(8L);
 
         Sender sender=new Sender(memberA);
         Sender sender1=new Sender(memberB);
         List<Sender> senders = new ArrayList<>();
         senders.add(sender);
         senders.add(sender1);
+
         Receiver receiver=new Receiver(memberB);
         Receiver receiver1=new Receiver(memberA);
         List<Receiver> receivers = new ArrayList<>();
         receivers.add(receiver);
         receivers.add(receiver1);
+
         for(int i=0;i<10;i++){
             Message message=new Message("메시지 내용"+i);
             messageService.send(senders.get(i%2),receivers.get(i%2),message);
+            System.out.println(senders.get(i%2).getId());
+            System.out.println(receivers.get(i%2).getId());
+
         }
 
         //when

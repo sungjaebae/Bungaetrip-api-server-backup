@@ -42,7 +42,12 @@ public class ArticleApiController {
     public Result readArticle(@PathVariable(value = "id") Long articleId){
         System.out.println("특정 글 조회");
         System.out.println(articleId);
-        Article article = articleService.findArticle(articleId);
+        Article article = null;
+        try {
+            article = articleService.findArticle(articleId);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("삭제된 게시글입니다",e);
+        }
         ArticleDto articleDto=new ArticleDto(article);
         return new Result(articleDto);
     }
@@ -57,7 +62,12 @@ public class ArticleApiController {
                 createArticleRequest.getTitle(), createArticleRequest.getContent());
 
         Long writeId=articleService.writeArticle(article);
-        Article findArticle=articleService.findArticle(writeId);
+        Article findArticle= null;
+        try {
+            findArticle = articleService.findArticle(writeId);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("삭제된 게시글입니다",e);
+        }
 
         Map<String,Long> ret=new HashMap<>();
         ret.put("articleId", findArticle.getId());
@@ -71,7 +81,12 @@ public class ArticleApiController {
         System.out.println("articleId");
         System.out.println(articleRequest.getDeparture());
         System.out.println(articleRequest.getArticleId());
-        Long updatedId=articleService.updateArticleRequest(articleRequest);
+        Long updatedId= null;
+        try {
+            updatedId = articleService.updateArticleRequest(articleRequest);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("삭제된 게시글입니다",e);
+        }
 
         Map<String, Long> ret = new HashMap<>();
         ret.put("articleId",updatedId);
@@ -82,7 +97,12 @@ public class ArticleApiController {
     //글 삭제
     @DeleteMapping("/articles/{id}")
     public Result deleteArticle(@PathVariable("id") Long articleId){
-        Long deleteId=articleService.deleteArticle(articleId);
+        Long deleteId= null;
+        try {
+            deleteId = articleService.deleteArticle(articleId);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("삭제된 게시글입니다",e);
+        }
 
         Map<String, Long> ret = new HashMap<>();
         ret.put("articleId", deleteId);

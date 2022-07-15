@@ -20,5 +20,6 @@ public class Sender {
 
     public Sender(Member member){
         this.member = member;
+
     }
 }

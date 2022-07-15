@@ -19,12 +19,12 @@ import java.util.Random;
 public class InitDb {
     private final InitService initService;
 //
-    @PostConstruct
-    public void init(){
-        initService.dbInitUser();
-        initService.dbInitArticle();
-        initService.dbInitMessage();
-    }
+//    @PostConstruct
+//    public void init(){
+//        initService.dbInitUser();
+//        initService.dbInitArticle();
+//        initService.dbInitMessage();
+//    }
 
     @Component
     @Transactional
@@ -46,7 +46,6 @@ public class InitDb {
                 members.add(member);
             }
             System.out.println("userInit");
-            System.out.println(members.get(0).getId());
 
         }
         public void dbInitArticle(){
