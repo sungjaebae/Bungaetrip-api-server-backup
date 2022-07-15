@@ -8,15 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
-import java.lang.reflect.Member;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class MessageRepositoryTest {
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
     @Autowired
     MessageRepository messageRepository;
@@ -29,16 +26,15 @@ class MessageRepositoryTest {
 
     @Test
     @Transactional
-    @Rollback(value = false)
     public void 쪽지작성 () throws Exception{
         //given
-        User user1 = new User("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
-        userRepository.save(user1);
-        User user2 = new User("rlagudtn@naver.com", "호로로","1234", 21, Gender.MALE);
-        userRepository.save(user2);
+        Member member1 = new Member("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
+        memberRepository.save(member1);
+        Member member2 = new Member("rlagudtn@naver.com", "호로로","1234", 21, Gender.MALE);
+        memberRepository.save(member2);
 
-        Sender sender = new Sender(user1);
-        Receiver receiver=new Receiver(user2);
+        Sender sender = new Sender(member1);
+        Receiver receiver=new Receiver(member2);
 
         senderRepository.save(sender);
         receiverRepository.save(receiver);
@@ -53,16 +49,15 @@ class MessageRepositoryTest {
 
     @Test
     @Transactional
-    @Rollback(value = false)
     public void 쪽지목록조회 () throws Exception{
         //given
-        User user1 = new User("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
-        userRepository.save(user1);
-        User user2 = new User("rlagudtn@naver.com", "호로로","1234", 21, Gender.MALE);
-        userRepository.save(user2);
+        Member member1 = new Member("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
+        memberRepository.save(member1);
+        Member member2 = new Member("rlagudtn@naver.com", "호로로","1234", 21, Gender.MALE);
+        memberRepository.save(member2);
 
-        Sender sender = new Sender(user1);
-        Receiver receiver=new Receiver(user2);
+        Sender sender = new Sender(member1);
+        Receiver receiver=new Receiver(member2);
 
         senderRepository.save(sender);
         receiverRepository.save(receiver);
@@ -72,8 +67,8 @@ class MessageRepositoryTest {
             messageRepository.save(message);
         }
 
-        Sender sender1=new Sender(user2);
-        Receiver receiver1=new Receiver(user1);
+        Sender sender1=new Sender(member2);
+        Receiver receiver1=new Receiver(member1);
         senderRepository.save(sender1);
         receiverRepository.save(receiver1);
         for(int i=0;i<10;i++){
@@ -88,16 +83,15 @@ class MessageRepositoryTest {
 
     @Test
     @Transactional
-    @Rollback(value = false)
     public void 특정쪽지조회 () throws Exception{
         //given
-        User user1 = new User("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
-        userRepository.save(user1);
-        User user2 = new User("rlagudtn@naver.com", "호로로","1234", 21, Gender.MALE);
-        userRepository.save(user2);
+        Member member1 = new Member("rlagudtn4510@naver.com", "호로로","1234", 20, Gender.MALE);
+        memberRepository.save(member1);
+        Member member2 = new Member("rlagudtn@naver.com", "호로로","1234", 21, Gender.MALE);
+        memberRepository.save(member2);
 
-        Sender sender = new Sender(user1);
-        Receiver receiver=new Receiver(user2);
+        Sender sender = new Sender(member1);
+        Receiver receiver=new Receiver(member2);
 
         senderRepository.save(sender);
         receiverRepository.save(receiver);

@@ -27,9 +27,9 @@ public class MessageRepository {
     public List<Message> findMessagesByReceiverId(Long receiverId){
         String query="select m from Message m " +
                 "join fetch m.receiver r " +
-                "join fetch r.user u where u.id=:userId order by m.created desc";
+                "join fetch r.member rm where rm.id=:memberId order by m.created desc";
         return em.createQuery(query,Message.class)
-                .setParameter("userId",receiverId).getResultList();
+                .setParameter("memberId",receiverId).getResultList();
     }
 
     public List<Message> findAllMessages() {
@@ -39,10 +39,10 @@ public class MessageRepository {
     public List<Message> findMessagesBySenderAndReceiverId(Long senderId, Long receiverId) {
         String query="select m from Message m " +
                 "join fetch m.sender s " +
-                "join fetch s.user su "+
+                "join fetch s.member sm "+
                 "join fetch m.receiver r " +
-                "join fetch r.user ru "+
-                "where su.id=:senderId and ru.id=:receiverId";
+                "join fetch r.member rm "+
+                "where sm.id=:senderId and rm.id=:receiverId";
         return em.createQuery(query).setParameter("senderId", senderId)
                 .setParameter("receiverId", receiverId)
                 .getResultList();

@@ -1,6 +1,5 @@
 package GoGetters.GoGetter.domain;
 
-import GoGetters.GoGetter.dto.ArticleDto;
 import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +17,8 @@ public class Article {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User writer;
+    @JoinColumn(name = "member_id")
+    private Member writer;
 
     private String departure;
 
@@ -41,12 +40,12 @@ public class Article {
 
     @Enumerated(EnumType.STRING)
     private ArticleStatus status;
-    public Article(User user,String departure,String destination,LocalDate date,LocalTime time,
+    public Article(Member member, String departure, String destination, LocalDate date, LocalTime time,
                    Integer currentParticipants,
 //                   Integer totalParticipants,
-                   String title,String content){
+                   String title, String content){
         this(departure,destination,date,time,currentParticipants, title,content);
-        this.setWriter(user);
+        this.setWriter(member);
     }
     public Article(String departure,String destination,LocalDate date,LocalTime time,
                    Integer currentParticipants,
@@ -82,7 +81,7 @@ public class Article {
 
 
     //연관관계 메서드
-    public void setWriter(User user){
-        this.writer=user;
+    public void setWriter(Member member){
+        this.writer= member;
     }
 }

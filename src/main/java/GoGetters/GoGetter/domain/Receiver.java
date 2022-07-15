@@ -16,14 +16,14 @@ public class Receiver {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     public List<Message> messages=new ArrayList<>();
 
-    public Receiver(User user) {
-        this.user=user;
+    public Receiver(Member member) {
+        this.member = member;
     }
 
 

@@ -2,9 +2,7 @@ package GoGetters.GoGetter.service;
 
 import GoGetters.GoGetter.domain.Article;
 import GoGetters.GoGetter.domain.Gender;
-import GoGetters.GoGetter.domain.User;
-import GoGetters.GoGetter.dto.ArticleDto;
-import GoGetters.GoGetter.dto.ArticleRequest;
+import GoGetters.GoGetter.domain.Member;
 import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,34 +23,34 @@ class ArticleServiceTest {
     @Autowired
     private ArticleService articleService;
     @Autowired
-    private UserService userService;
+    private MemberService memberService;
 
     @Test
     public void 글작성하기 () throws Exception{
         //given
-        User user = new User("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
-        userService.join(user);
+        Member member = new Member("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
+        memberService.join(member);
 
         //when
-        Article article=new Article(user,"애월","협재", LocalDate.of(2022,10,10),
+        Article article=new Article(member,"애월","협재", LocalDate.of(2022,10,10),
                 LocalTime.of(10,10),2,"동행구해요","애월->협재");
         Long saveId=articleService.save(article);
 
         //then
         Article findArticle = articleService.findArticle(saveId);
         assertEquals(findArticle.getId(),article.getId());
-        assertEquals(findArticle.getWriter().getId(), user.getId());
+        assertEquals(findArticle.getWriter().getId(), member.getId());
     }
 
     @Test
     public void 글수정하기 () throws Exception{
         //given
-        User user = new User("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
-        userService.join(user);
+        Member member = new Member("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
+        memberService.join(member);
 
         //when
         for(int i=0;i<10;i++){
-            Article article=new Article(user,"애월"+i,"협재", LocalDate.of(2022,10,10),
+            Article article=new Article(member,"애월"+i,"협재", LocalDate.of(2022,10,10),
                     LocalTime.of(10,10),2,"동행구해요","애월->협재");
             articleService.save(article);
         }
@@ -78,12 +76,12 @@ class ArticleServiceTest {
     @Rollback(value = false)
     public void 글삭제하기 () throws Exception{
         //given
-        User user = new User("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
-        userService.join(user);
+        Member member = new Member("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
+        memberService.join(member);
 
         //when
         for(int i=0;i<10;i++){
-            Article article=new Article(user,"애월"+i,"협재", LocalDate.of(2022,10,10),
+            Article article=new Article(member,"애월"+i,"협재", LocalDate.of(2022,10,10),
                     LocalTime.of(10,10),2,"동행구해요","애월->협재");
             articleService.save(article);
         }
@@ -99,12 +97,12 @@ class ArticleServiceTest {
     @Test
     public void 글목록조회하기 () throws Exception{
         //given
-        User user = new User("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
-        userService.join(user);
+        Member member = new Member("rlagudtn4510@naver.com","호로로", "1234", 20, Gender.MALE);
+        memberService.join(member);
 
         //when
         for(int i=0;i<10;i++){
-            Article article=new Article(user,"애월"+i,"협재", LocalDate.of(2022,10,10),
+            Article article=new Article(member,"애월"+i,"협재", LocalDate.of(2022,10,10),
                     LocalTime.of(10,10),2,"동행구해요","애월->협재");
             articleService.save(article);
         }

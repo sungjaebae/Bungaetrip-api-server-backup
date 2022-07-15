@@ -21,7 +21,7 @@ public class ArticleService {
         return articleRepository.findCreateArticles();
     }
 
-    public Article findArticle(Long articleId) {
+    public Article findArticle(Long articleId) throws InterruptedException {
         return articleRepository.findArticle(articleId);
     }
 
@@ -31,15 +31,15 @@ public class ArticleService {
     }
 
     @Transactional
-    public Long updateArticleRequest(UpdateArticleRequest article) {
+    public Long updateArticleRequest(UpdateArticleRequest article) throws InterruptedException {
         return articleRepository.modifyArticle(article);
 
     }
 
     @Transactional
-    public Long deleteArticle(Long articleId) {
+    public Long deleteArticle(Long articleId) throws InterruptedException {
 
-        return articleRepository.deleteArticleState(articleId);
+        return articleRepository.deleteArticle(articleId);
     }
 
     public Long save(Article article) {

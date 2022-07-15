@@ -26,7 +26,7 @@ public class MessageService {
     public Long send(Sender sender, Receiver receiver, Message message) {
         senderRepository.save(sender);
         receiverRepository.save(receiver);
-        message.setUsers(sender, receiver);
+        message.setMembers(sender, receiver);
         return messageRepository.save(message);
     }
     public Message findMessage(Long messageId) {

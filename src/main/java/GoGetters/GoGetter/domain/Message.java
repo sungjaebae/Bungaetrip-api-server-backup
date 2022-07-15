@@ -37,7 +37,7 @@ public class Message {
         this.receiver.getMessages().add(this);
     }
 
-    public void setUsers(Sender sender,Receiver receiver){
+    public void setMembers(Sender sender,Receiver receiver){
         this.sender=sender;
         this.receiver=receiver;
     }

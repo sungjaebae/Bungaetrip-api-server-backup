@@ -15,10 +15,11 @@ public class Sender {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    public Sender(User user){
-        this.user=user;
+    public Sender(Member member){
+        this.member = member;
+
     }
 }
