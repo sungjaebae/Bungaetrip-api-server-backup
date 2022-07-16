@@ -126,6 +126,7 @@ public class SecurityConfig {
 //                .antMatchers("/user/verify/**").permitAll()
 //                .antMatchers("/oauth/**").permitAll()
                 .antMatchers("/articles/**").hasRole("USER")
+                .antMatchers("/messages/**").hasRole("USER")
 //                .antMatchers("/test/admin").hasRole("ADMIN")
                 .anyRequest().authenticated();
 

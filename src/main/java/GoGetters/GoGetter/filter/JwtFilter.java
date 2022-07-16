@@ -31,7 +31,8 @@
 //    }
 //
 //    @Override
-//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response
+//            , FilterChain filterChain)
 //            throws ServletException, IOException {
 //
 //        // get the token from the request

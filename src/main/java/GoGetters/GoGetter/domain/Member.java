@@ -71,9 +71,9 @@ public class Member
     }
 
 
-    public Member(String email, String uid) {
+    public Member(String email, String username) {
         this.email = email;
-        this.uid = uid;
+        this.username = username;
     }
 
     public Member(String username) {
