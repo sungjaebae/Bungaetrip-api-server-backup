@@ -17,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -62,11 +63,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         //자체 jwt 부분
 
 
-        //구글 로그인을 할 때 설정
-        SetUpFirebaseAdmin(httpServletRequest,httpServletResponse);
+        //firebase 토큰 확인 및 처리
+//        SetUpFirebaseAdmin(httpServletRequest,httpServletResponse);
 
         //로그인을 한 후 jwt 발급하기 위한 설정
-        setJwtRequest(httpServletRequest,httpServletResponse);
+        try {
+            validateJwt(httpServletRequest,httpServletResponse);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("토큰이 유효하지 않습닌다.",e);
+        }
 
         System.out.println("do filter done");
         filterChain.doFilter(httpServletRequest, httpServletResponse);
@@ -99,74 +104,88 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
     }
 
-    private void setJwtRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        String username = null;
-        String role = null;
-        String jwt = null;
-        String refreshJwt = null;
-        String refreshUname = null;
-        final Cookie jwtToken = cookieUtil.getCookie(httpServletRequest, JwtUtil.ACCESS_TOKEN_NAME);
-        System.out.println(jwtToken);
-        try {
-            if (jwtToken != null) {
-
-                jwt = jwtToken.getValue();
-                System.out.println(jwt);
-                username = jwtUtil.getUsername(jwt);
-                System.out.println(username);
-
-                role = jwtUtil.getUserRole(jwt);
-                System.out.println("role");
-                System.out.println(role);
-            }
-            if (username != null & role != null) {
+    private void validateJwt(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
+            throws InterruptedException {
+        String header = httpServletRequest.getHeader("Authorization");
+        if (header != null && header.startsWith("Bearer ")) {
+            String token = header.substring(7);
+            String username = jwtUtil.getUsername(token);
+//
                 UserDetails userDetails = memberService.findByUsername(username);
-                System.out.println("authorities");
-                System.out.println(userDetails.getAuthorities());
-                Boolean valid = jwtUtil.validateToken(jwt, userDetails);
-                System.out.println(valid);
-                System.out.println(role);
-
-                if (valid && role.equals(UserRole.ROLE_USER.toString())) {
-                    System.out.println("jwt validate");
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                }
-            }
-        } catch (ExpiredJwtException e) {
-            //refresh token 재발급 코드 부분
-
-//            Cookie refreshToken = cookieUtil.getCookie(httpServletRequest,JwtUtil.REFRESH_TOKEN_NAME);
-//            if(refreshToken!=null){
-//                refreshJwt = refreshToken.getValue();
-//            }
-        } catch (Exception e) {
+//
+//                //토큰 검증 부분
+                jwtUtil.validateToken(token, userDetails);
 
         }
-
-//        try{
-//            if(refreshJwt != null){
-//                refreshUname = redisUtil.getData(refreshJwt);
+    }
+//    private void setJwtRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+//        String username = null;
+//        String role = null;
+//        String jwt = null;
+//        String refreshJwt = null;
+//        String refreshUname = null;
+//        final Cookie jwtToken = cookieUtil.getCookie(httpServletRequest, JwtUtil.ACCESS_TOKEN_NAME);
+//        System.out.println(jwtToken);
+//        try {
+//            if (jwtToken != null) {
 //
-//                if(refreshUname.equals(jwtUtil.getUsername(refreshJwt))){
-//                    UserDetails userDetails = memberService.loadUserByUsername(refreshUname);
-//                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+//                jwt = jwtToken.getValue();
+//                System.out.println(jwt);
+//                username = jwtUtil.getUsername(jwt);
+//                System.out.println(username);
+//
+//                role = jwtUtil.getUserRole(jwt);
+//                System.out.println("role");
+//                System.out.println(role);
+//            }
+//            if (username != null & role != null) {
+//                UserDetails userDetails = memberService.findByUsername(username);
+//                System.out.println("authorities");
+//                System.out.println(userDetails.getAuthorities());
+//                Boolean valid = jwtUtil.validateToken(jwt, userDetails);
+//                System.out.println(valid);
+//                System.out.println(role);
+//
+//                if (valid && role.equals(UserRole.ROLE_USER.toString())) {
+//                    System.out.println("jwt validate");
+//                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+//                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 //                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
 //                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-//
-//                    Member member = new Member(refreshUname);
-//                    String newToken =jwtUtil.generateToken(member);
-//
-//                    Cookie newAccessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME,newToken);
-//                    httpServletResponse.addCookie(newAccessToken);
 //                }
 //            }
-//        }catch(ExpiredJwtException e){
+//        } catch (ExpiredJwtException e) {
+//            //refresh token 재발급 코드 부분
+//
+////            Cookie refreshToken = cookieUtil.getCookie(httpServletRequest,JwtUtil.REFRESH_TOKEN_NAME);
+////            if(refreshToken!=null){
+////                refreshJwt = refreshToken.getValue();
+////            }
+//        } catch (Exception e) {
 //
 //        }
-    }
+//
+////        try{
+////            if(refreshJwt != null){
+////                refreshUname = redisUtil.getData(refreshJwt);
+////
+////                if(refreshUname.equals(jwtUtil.getUsername(refreshJwt))){
+////                    UserDetails userDetails = memberService.loadUserByUsername(refreshUname);
+////                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+////                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+////                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+////
+////                    Member member = new Member(refreshUname);
+////                    String newToken =jwtUtil.generateToken(member);
+////
+////                    Cookie newAccessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME,newToken);
+////                    httpServletResponse.addCookie(newAccessToken);
+////                }
+////            }
+////        }catch(ExpiredJwtException e){
+////
+////        }
+//    }
     private void setUnauthorizedResponse(HttpServletResponse response, String code) throws IOException {
         response.setStatus(HttpStatus.SC_UNAUTHORIZED);
         response.setContentType("application/json");

@@ -98,12 +98,14 @@ public class JwtUtil {
         return jwt;
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public void validateToken(String token, UserDetails userDetails) throws InterruptedException {
         final String username = getUsername(token);
         System.out.println("valid tokennn");
         System.out.println(username);
         System.out.println(getUsername(token));
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+
+        if(username.equals(userDetails.getUsername())||isTokenExpired(token))
+            throw new InterruptedException("INVALID_TOKEN");
     }
 
 }
