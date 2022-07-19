@@ -7,11 +7,9 @@ import lombok.Data;
 public class UserResponse {
     private String email;
     private String nickname;
-    private String uid;
 
     public UserResponse(Member member) {
-        this.uid = member.getUid();
         this.email = member.getEmail();
-        this.nickname = member.getNickName();
+        this.nickname = member.getNickname();
     }
 }

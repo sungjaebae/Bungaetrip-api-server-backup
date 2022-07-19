@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleRequest {
-    private Long userId;
+    private Long memberId;
     private String departure;
 
     private String destination;

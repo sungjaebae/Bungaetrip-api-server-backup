@@ -82,8 +82,8 @@ public class InitDb {
                 messages.add(message);
             }
         }
-        private Member createUser(String email, String nickName, String pw, Integer age, Gender gender) {
-            return new Member(email,email, pw, nickName, age, gender);
+        private Member createUser(String email, String nickname, String pw, Integer age, Gender gender) {
+            return new Member(email,email, pw, nickname, age, gender);
         }
 
         private Article createArticle(Member member, String dep, String des, LocalDate date, LocalTime time,

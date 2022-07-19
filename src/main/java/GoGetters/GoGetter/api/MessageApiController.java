@@ -5,10 +5,14 @@ import GoGetters.GoGetter.domain.Receiver;
 import GoGetters.GoGetter.domain.Sender;
 import GoGetters.GoGetter.dto.MessageDto;
 import GoGetters.GoGetter.dto.MessageRequest;
-import GoGetters.GoGetter.dto.Result;
+import GoGetters.GoGetter.dto.ResponseDto.Success;
+import GoGetters.GoGetter.dto.returnDto.MemberReturnDto;
 import GoGetters.GoGetter.service.MessageService;
 import GoGetters.GoGetter.service.MemberService;
+import GoGetters.GoGetter.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,36 +26,35 @@ public class MessageApiController {
     private final MessageService messageService;
     private final MemberService memberService;
 
-    @GetMapping(value = "/messages")
-    public Result listAllMessages(){
-        System.out.println("messages all");
-        List<Message> messages= messageService.findAllMessages();
-        List<MessageDto> collect = messages.stream().map(m ->
-                new MessageDto(m.getId(), m.getSender().getMember().getNickName()
-                        , m.getContent(), m.getCreated())).collect(Collectors.toList());
-        return new Result(collect);
-    }
+//    @GetMapping(value = "/messages")
+//    public ResponseEntity listAllMessages(){
+//        List<Message> messages= messageService.findAllMessages();
+//        List<MessageDto> collect = messages.stream().map(m ->
+//                new MessageDto(m.getId(), m.getSender().getMember().getNickname()
+//                        , m.getContent(), m.getCreated())).collect(Collectors.toList());
+//        return ResponseUtil.successResponse(HttpStatus.OK, collect);
+//    }
     //receiver_id 를 통해 message 목록 조회 api
-    @GetMapping(value="/messages/{senderId}/{receiverId}")
-    public Result listMessage(@PathVariable("senderId")Long senderId, @PathVariable("receiverId") Long receiverId) {
+    @GetMapping(value="/messages",params = "receiverId")
+    public ResponseEntity listMessage(
+                                      @RequestParam("receiverId") Long receiverId) {
         System.out.println("sender&receiver");
-        List<Message> messages=messageService.findAllMessages(senderId,receiverId);
+        List<Message> messages=messageService.findAllMessages(receiverId);
         List<MessageDto> collect = messages.stream().map(m ->
-                new MessageDto(m.getId(),m.getSender().getMember().getNickName(), m.getContent(),
+                new MessageDto(m.getId(),new MemberReturnDto(m.getSender().getMember()), m.getContent(),
                 m.getCreated())).collect(Collectors.toList());
 
-        return new Result(collect);
+        return ResponseUtil.successResponse(HttpStatus.OK, collect);
+
     }
 
     //메시지 작성 api
     @PostMapping("/messages")
-    public Result createMessage(@RequestBody MessageRequest messageRequest){
-        System.out.println(messageRequest.getContent());
+    public ResponseEntity createMessage(@RequestBody MessageRequest messageRequest){
         //senderId, receiverId를 통해 sender,receiver 찾기
-        System.out.println(messageRequest.getSenderId());
-        System.out.println(messageRequest.getReceiverId().get(0));
+        System.out.println(messageRequest.getReceiverId());
         Sender sender= memberService.findSender(messageRequest.getSenderId());
-        Receiver receiver= memberService.findReceiver(messageRequest.getReceiverId().get(0));
+        Receiver receiver= memberService.findReceiver(messageRequest.getReceiverId());
 
         //메시지 작성
         Message message=new Message(messageRequest.getContent());
@@ -59,17 +62,19 @@ public class MessageApiController {
 
         Map<String,Long> ret=new HashMap<>();
         ret.put("messageId",messageId);
-        return new Result(ret);
+        return ResponseUtil.successResponse(HttpStatus.OK, ret);
+
     }
 
     //message 내용 조회 api
-    @GetMapping(value = "/messages/{messageId}")
-    public Result readMessage(@PathVariable("messageId")Long messageId){
+    @GetMapping(value = "/messages",params = "messageId")
+    public ResponseEntity readMessage(@RequestParam("messageId")Long messageId){
         Message message = messageService.findMessage(messageId);
-        MessageDto messageDto=new MessageDto(message.getId(),message.getSender().getMember().getNickName(),
+        Sender sender=message.getSender();
+        MessageDto messageDto=new MessageDto(message.getId(),new MemberReturnDto(sender.getMember()),
                 message.getContent(),message.getCreated());
 
-        return new Result(messageDto);
+        return ResponseUtil.successResponse(HttpStatus.OK, messageDto);
     }
 
 }

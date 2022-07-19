@@ -2,7 +2,6 @@ package GoGetters.GoGetter.config;
 
 import GoGetters.GoGetter.domain.SecurityMember;
 import GoGetters.GoGetter.domain.UserRole;
-import GoGetters.GoGetter.dto.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;

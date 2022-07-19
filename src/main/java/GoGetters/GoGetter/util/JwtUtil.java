@@ -74,35 +74,19 @@ public class JwtUtil {
         Claims claims  =Jwts.claims();
         claims.put("username", username);
         claims.put("role",userRole);
-        System.out.println("username put");
-        System.out.println(username);
-        System.out.println(claims.get("username",String.class));
         String jwt = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expireTime))
                 .signWith(getSigningKey(SECRET_KEY), SignatureAlgorithm.HS256)
                 .compact();
-        System.out.println(jwt);
-        System.out.println("do Ex : ");
-        System.out.println(extractAllClaims(jwt));
-        System.out.println("do Ex username");
         username=extractAllClaims(jwt).get("username", String.class);
-        System.out.println(username);
-        System.out.println("do get username");
         username = getUsername(jwt);
-        System.out.println(username);
-        System.out.println("do get role");
-        System.out.println(getUserRole(jwt));
-        System.out.println("done generate token========");
         return jwt;
     }
 
     public void validateToken(String token, UserDetails userDetails) throws InterruptedException {
         final String username = getUsername(token);
-        System.out.println("valid tokennn");
-        System.out.println(username);
-        System.out.println(getUsername(token));
 
         if(username.equals(userDetails.getUsername())||isTokenExpired(token))
             throw new InterruptedException("INVALID_TOKEN");

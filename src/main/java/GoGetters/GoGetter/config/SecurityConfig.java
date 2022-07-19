@@ -122,11 +122,12 @@ public class SecurityConfig {
                 .antMatchers("/users/signup").permitAll()
                 .antMatchers("/users/login").permitAll()
                 .antMatchers("/messages/**").permitAll()
+                .antMatchers("/articles/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
 //                .antMatchers("/user/verify/**").permitAll()
 //                .antMatchers("/oauth/**").permitAll()
-                .antMatchers("/articles/**").hasRole("USER")
-                .antMatchers("/messages/**").hasRole("USER")
+//                .antMatchers("/articles/**").hasRole("USER")
+//                .antMatchers("/messages/**").hasRole("USER")
 //                .antMatchers("/test/admin").hasRole("ADMIN")
                 .anyRequest().authenticated();
 

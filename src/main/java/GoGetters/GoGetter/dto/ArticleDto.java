@@ -1,7 +1,9 @@
 package GoGetters.GoGetter.dto;
 
 import GoGetters.GoGetter.domain.Article;
+import GoGetters.GoGetter.domain.Member;
 import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
+import GoGetters.GoGetter.dto.returnDto.MemberReturnDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +34,7 @@ public class ArticleDto {
 
     private String content;
 
+    private MemberReturnDto member;
     public ArticleDto(Article article){
         this.articleId=article.getId();
         this.departure=article.getDeparture();
@@ -42,6 +45,8 @@ public class ArticleDto {
 //        this.totalParticipants=article.getTotalParticipants();
         this.title=article.getTitle();
         this.content=article.getContent();
+        Member writer=article.getWriter();
+        this.member = new MemberReturnDto(writer.getId(), writer.getEmail(), writer.getNickname(), writer.getUsername());
     }
 
     public ArticleDto(ArticleRequest articleRequest, LocalDate date, LocalTime time) {

@@ -25,6 +25,8 @@ public class ArticleService {
         return articleRepository.findArticle(articleId);
     }
 
+
+
     @Transactional
     public Long writeArticle(Article article) {
         return articleRepository.save(article);

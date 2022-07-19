@@ -72,17 +72,17 @@ public class MemberService {
         }
         return true;
     }
-    public Member findUser(Long userId) {
-        return memberRepository.findOne(userId);
+    public Member findUser(Long memberId) {
+        return memberRepository.findOne(memberId);
     }
 
-    public Sender findSender(Long userId) {
+    public Sender findSender(Long memberId) {
         System.out.println("sender--------");
-        System.out.println(userId);
-        return memberRepository.findSender(userId);
+        System.out.println(memberId);
+        return memberRepository.findSender(memberId);
     }
-    public Receiver findReceiver(Long userId){
-        return memberRepository.findReceiver(userId);
+    public Receiver findReceiver(Long memberId){
+        return memberRepository.findReceiver(memberId);
     }
 
 }

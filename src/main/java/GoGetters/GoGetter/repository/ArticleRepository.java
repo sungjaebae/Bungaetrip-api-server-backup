@@ -22,7 +22,12 @@ public class ArticleRepository {
     }
 
     public Article findArticle(Long articleId) throws InterruptedException {
-        Article article= em.find(Article.class,articleId);
+        String query = "select a from Article a " +
+//                "join fetch a.writer w " +
+                "where a.id=:articleId";
+        Article article=em.createQuery(query,Article.class)
+                .setParameter("articleId",articleId).getSingleResult();
+//        Article article= em.find(Article.class,articleId);
         if (article.getStatus() == ArticleStatus.DELETE) {
             throw new InterruptedException("해당 글은 삭제되었습니다.");
         }
@@ -30,11 +35,15 @@ public class ArticleRepository {
     }
 
     public List<Article> findAllArticles(){
-        return em.createQuery("select a from Article a",Article.class).getResultList();
+        return em.createQuery("select a from Article a " +
+                "join fetch a.writer",Article.class).getResultList();
     }
 
     public List<Article> findCreateArticles(){
-        String query="select a from Article a where a.status=:status";
+        String query="select a from Article a"
+                +" join fetch a.writer"
+                +" where a.status=:status";
+
         return em.createQuery(query,Article.class)
                 .setParameter("status",ArticleStatus.CREATE)
                 .getResultList();

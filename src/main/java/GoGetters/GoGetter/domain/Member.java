@@ -28,12 +28,11 @@ public class Member
 
     @Column(unique = true)
     private String username;
-    private String uid;
     private String email;
 
-    private String nickName;
+    private String nickname;
     private String password;
-
+ 
     private Integer age;
 
     @Enumerated(EnumType.STRING)
@@ -49,22 +48,22 @@ public class Member
     @UpdateTimestamp
     private LocalDateTime updateAt;
 
-    public Member(String username, String email, String password, String nickName, Integer age, Gender gender) {
-        this(email, password, nickName, age, gender);
+    public Member(String username, String email, String password, String nickname, Integer age, Gender gender) {
+        this(email, password, nickname, age, gender);
         this.username=username;
     }
 
-    public Member(String email, String password, String nickName, Integer age, Gender gender, String uid) {
+    public Member(String email, String password, String nickname, Integer age, Gender gender, String uid) {
 
         this(email, uid);
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.age = age;
         this.gender = gender;
         this.password = password;
     }
-    public Member(String email, String password, String nickName, Integer age, Gender gender) {
+    public Member(String email, String password, String nickname, Integer age, Gender gender) {
         this.email=email;
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.age = age;
         this.gender = gender;
         this.password = password;
@@ -86,7 +85,7 @@ public class Member
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", nickname='" + nickName + '\'' +
+                ", nickname='" + nickname + '\'' +
                 ", role=" + role +
                 ", createAt=" + createAt +
                 ", updateAt=" + updateAt +

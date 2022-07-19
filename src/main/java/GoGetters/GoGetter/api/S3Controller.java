@@ -19,7 +19,7 @@
 //
 //    @PostMapping("/user/profile/image")
 //    public String createProfileImage(
-////            @RequestParam("userId")Long userId,
+////            @RequestParam("memberId")Long memberId,
 //            @RequestParam("image") MultipartFile multipartFile) throws IOException {
 //        s3Uploader.upload(multipartFile, "static");
 //        return "test";

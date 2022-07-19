@@ -1,5 +1,7 @@
 package GoGetters.GoGetter.dto;
 
+import GoGetters.GoGetter.domain.Sender;
+import GoGetters.GoGetter.dto.returnDto.MemberReturnDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -10,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MessageDto {
     private Long messageId;
-    private String senderNickName;
+    private MemberReturnDto sender;
     private String content;
     private LocalDateTime created;
 

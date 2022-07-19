@@ -41,18 +41,20 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final CookieUtil cookieUtil;
 
-    private final FirebaseAuth firebaseAuth;
+//    private final FirebaseAuth firebaseAuth;
     private final UserDetailsService userDetailsService;
 
     public JwtRequestFilter(@Lazy MemberService memberService
             , @Lazy UserDetailsService userDetailsService
             , JwtUtil jwtUtil
-            , CookieUtil cookieUtil, FirebaseAuth firebaseAuth) {
+            , CookieUtil cookieUtil
+//            , FirebaseAuth firebaseAuth
+    ) {
         this.memberService = memberService;
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
         this.cookieUtil = cookieUtil;
-        this.firebaseAuth = firebaseAuth;
+//        this.firebaseAuth = firebaseAuth;
     }
 
 //    private final RedisUtil redisUtil;
@@ -77,32 +79,32 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
-    private void SetUpFirebaseAdmin(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-        FirebaseToken decodedToken;
-        String header = httpServletRequest.getHeader("Authorization");
-
-        if (header != null && header.startsWith("Bearer ")) {
-            String token = header.substring(7);
-            try {
-                System.out.println("start decodedToken");
-                decodedToken = firebaseAuth.verifyIdToken(token);
-                System.out.println(decodedToken);
-            } catch (FirebaseAuthException e) {
-                setUnauthorizedResponse(httpServletResponse, "INVALID_TOKEN");
-                return;
-            }
-
-            try {
-                UserDetails user = userDetailsService.loadUserByUsername(decodedToken.getUid());
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        user, null, user.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (NoSuchElementException e) {
-                setUnauthorizedResponse(httpServletResponse, "USER_NOT_FOUND");
-                return;
-            }
-        }
-    }
+//    private void SetUpFirebaseAdmin(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+//        FirebaseToken decodedToken;
+//        String header = httpServletRequest.getHeader("Authorization");
+//
+//        if (header != null && header.startsWith("Bearer ")) {
+//            String token = header.substring(7);
+//            try {
+//                System.out.println("start decodedToken");
+//                decodedToken = firebaseAuth.verifyIdToken(token);
+//                System.out.println(decodedToken);
+//            } catch (FirebaseAuthException e) {
+//                setUnauthorizedResponse(httpServletResponse, "INVALID_TOKEN");
+//                return;
+//            }
+//
+//            try {
+//                UserDetails user = userDetailsService.loadUserByUsername(decodedToken.getUid());
+//                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+//                        user, null, user.getAuthorities());
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//            } catch (NoSuchElementException e) {
+//                setUnauthorizedResponse(httpServletResponse, "USER_NOT_FOUND");
+//                return;
+//            }
+//        }
+//    }
 
     private void validateJwt(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws InterruptedException {

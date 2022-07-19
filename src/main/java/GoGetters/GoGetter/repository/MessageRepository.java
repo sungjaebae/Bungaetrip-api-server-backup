@@ -36,15 +36,13 @@ public class MessageRepository {
         return em.createQuery("select m from Message m").getResultList();
     }
 
-    public List<Message> findMessagesBySenderAndReceiverId(Long senderId, Long receiverId) {
-        String query="select m from Message m " +
-                "join fetch m.sender s " +
-                "join fetch s.member sm "+
-                "join fetch m.receiver r " +
-                "join fetch r.member rm "+
-                "where sm.id=:senderId and rm.id=:receiverId";
-        return em.createQuery(query).setParameter("senderId", senderId)
-                .setParameter("receiverId", receiverId)
-                .getResultList();
-    }
+//    public List<Message> findMessagesByReceiverId(Long receiverId) {
+//        String query="select m from Message m " +
+//                "join fetch m.receiver r " +
+//                "join fetch r.member rm "+
+//                "where rm.id=:receiverId";
+//        return em.createQuery(query)
+//                .setParameter("receiverId", receiverId)
+//                .getResultList();
+//    }
 }

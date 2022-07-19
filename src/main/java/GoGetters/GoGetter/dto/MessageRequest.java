@@ -14,5 +14,5 @@ public class MessageRequest {
 
     private Long senderId;
 
-    private List<Long> receiverId;
+    private Long receiverId;
 }

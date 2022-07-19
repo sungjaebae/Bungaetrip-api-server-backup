@@ -71,7 +71,7 @@ class MessageServiceTest {
 
 
         //when
-        List<Message> findUserBReceived = messageService.findAllMessages(1L,2L);
+        List<Message> findUserBReceived = messageService.findAllMessages(2L);
 
         //then
         assertEquals(findUserBReceived.size(),5);

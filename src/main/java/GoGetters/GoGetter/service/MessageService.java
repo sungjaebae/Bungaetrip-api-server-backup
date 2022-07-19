@@ -40,8 +40,6 @@ public class MessageService {
         return messageRepository.findMessagesByReceiverId(receiverId);
     }
 
-    public List<Message> findAllMessages(Long senderId, Long receiverId) {
-        return messageRepository.findMessagesBySenderAndReceiverId(senderId,receiverId);
-    }
+
 
 }
