@@ -1,0 +1,24 @@
+spring:
+  # DB 연결
+  datasource:
+    url: jdbc:mariadb://database-1.choj938t9lhu.ap-northeast-2.rds.amazonaws.com/GoGetter
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: rlagudtn4510
+  jpa:
+    show-sql: true
+    database: mysql
+    hibernate:
+      ddl-auto: update
+  # 콘솔 확인 을 위한 always
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+  output:
+    ansi:
+      enabled: always
+
+# 파라미터 확인을 위한 trace
+logging:
+  level:
+    org.hibernate.type: debug
