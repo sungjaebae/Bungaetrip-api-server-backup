@@ -103,4 +103,74 @@ public class ArticleRepositoryTest {
 
 
 
+    @Test
+    @Transactional
+    public void 출발지로글찾기 () throws Exception{
+        //given
+        generateEntity.createMembers();
+        generateEntity.createArticles();
+
+        //when
+        List<Article> articles = articleRepository.findArticlesByKeyword("출");
+
+        //then
+        Assertions.assertEquals(100,articles.size());
+    }
+
+    @Test
+    @Transactional
+    public void 도착지로글찾기 () throws Exception{
+        //given
+        generateEntity.createMembers();
+        generateEntity.createArticles();
+
+        //when
+        List<Article> articles = articleRepository.findArticlesByKeyword("도착");
+
+        //then
+        Assertions.assertEquals(100,articles.size());
+    }
+
+    @Test
+    @Transactional
+    public void 제목으로글찾기 () throws Exception{
+        //given
+        generateEntity.createMembers();
+        generateEntity.createArticles();
+
+        //when
+        List<Article> articles = articleRepository.findArticlesByKeyword("제");
+
+        //then
+        Assertions.assertEquals(100,articles.size());
+    }
+
+    @Test
+    @Transactional
+    public void 내용으로글찾기 () throws Exception{
+        //given
+        generateEntity.createMembers();
+        generateEntity.createArticles();
+
+        //when
+        List<Article> articles = articleRepository.findArticlesByKeyword("용");
+
+        //then
+        Assertions.assertEquals(100,articles.size());
+    }
+
+    @Test
+    @Transactional
+    public void 임의로글찾기 () throws Exception{
+        //given
+        generateEntity.createMembers();
+        generateEntity.createArticles();
+
+        //when
+        List<Article> articles = articleRepository.findArticlesByKeyword("입니다");
+
+        //then
+        Assertions.assertEquals(100,articles.size());
+    }
+
 }

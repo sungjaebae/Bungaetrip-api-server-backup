@@ -33,7 +33,8 @@ public class MessageRepository {
     }
 
     public List<Message> findAllMessages() {
-        return em.createQuery("select m from Message m").getResultList();
+        String query = "select m from Message m order by m.created desc";
+        return em.createQuery(query).getResultList();
     }
 
 //    public List<Message> findMessagesByReceiverId(Long receiverId) {

@@ -35,14 +35,15 @@ public class ArticleRepository {
     }
 
     public List<Article> findAllArticles(){
-        return em.createQuery("select a from Article a " +
-                "join fetch a.writer",Article.class).getResultList();
+        String query="select a from Article a " +
+                "join fetch a.writer order by a.createdTime desc";
+        return em.createQuery(query,Article.class).getResultList();
     }
 
     public List<Article> findCreateArticles(){
         String query="select a from Article a"
                 +" join fetch a.writer"
-                +" where a.status=:status";
+                +" where a.status=:status order by a.createdTime desc";
 
         return em.createQuery(query,Article.class)
                 .setParameter("status",ArticleStatus.CREATE)
@@ -66,8 +67,14 @@ public class ArticleRepository {
 
     //글 검색
     public List<Article> findArticlesByKeyword(String keyword){
-        String query="select a from Article a where a.title like %:"+keyword+"%";
-        return em.createQuery(query, Article.class).setParameter("keyword", keyword).getResultList();
+        String likeVariable="'%"+keyword+"%'";
+        String query="select a from Article a where a.title like "+likeVariable
+                +" or a.content like "+likeVariable
+                +" or a.departure like "+likeVariable
+                +" or a.destination like "+likeVariable
+                +" order by a.createdTime desc";
+        System.out.println(query);
+        return em.createQuery(query, Article.class).getResultList();
     }
 
 

@@ -34,19 +34,19 @@ public class ArticleApiController {
     private final ArticleService articleService;
     private final MemberService memberService;
     //모든 글 조회
-//    @GetMapping(value = "/articles")
-//    public ResponseEntity listArticle(){
-//        //모든 글 가져오기
-//        List<Article> findArticles=articleService.findArticles();
-//
-//        //DTO 리스트로 변환
-//
-//        List<ArticleDto> collect = findArticles.stream()
-//                .map(a -> new ArticleDto(a)).collect(Collectors.toList());
-//
-//
-//        return ResponseUtil.successResponse(HttpStatus.OK,collect);
-//    }
+    @GetMapping(value = "/articles")
+    public ResponseEntity listArticle(){
+        //모든 글 가져오기
+        List<Article> findArticles=articleService.findArticles();
+
+        //DTO 리스트로 변환
+
+        List<ArticleDto> collect = findArticles.stream()
+                .map(a -> new ArticleDto(a)).collect(Collectors.toList());
+
+
+        return ResponseUtil.successResponse(HttpStatus.OK,collect);
+    }
     @Data
     @AllArgsConstructor
     public class ReturnObject{
@@ -70,26 +70,34 @@ public class ArticleApiController {
 
     }
 
+    @GetMapping(value = "/articles", params = "searchKeyword")
+    public ResponseEntity readArticlesByKeyword(@RequestParam("searchKeyword") String searchKeyword) {
+        List<Article> findArticles = articleService.findArticlesBySearchKeyword(searchKeyword);
+        List<ArticleDto> collect = findArticles.stream()
+                .map(a -> new ArticleDto(a)).collect(Collectors.toList());
+        return ResponseUtil.successResponse(HttpStatus.OK,collect);
+    }
     //글 작성
     @PostMapping("/articles")
     public ResponseEntity createArticle(@RequestBody ArticleRequest createArticleRequest) {
+
         Member member = memberService.findUser(createArticleRequest.getMemberId());
-        Article article = new Article(member,createArticleRequest.getDeparture(), createArticleRequest.getDestination(),
-                createArticleRequest.getDate(),createArticleRequest.getTime(),
+        Article article = new Article(member, createArticleRequest.getDeparture(), createArticleRequest.getDestination(),
+                createArticleRequest.getDate(), createArticleRequest.getTime(),
                 createArticleRequest.getCurrentParticipants(),
                 createArticleRequest.getTitle(), createArticleRequest.getContent());
 
-        Long writeId=articleService.writeArticle(article);
-        Article findArticle= null;
+        Long writeId = articleService.writeArticle(article);
+        Article findArticle = null;
         try {
             findArticle = articleService.findArticle(writeId);
         } catch (InterruptedException e) {
             return ResponseUtil.errorResponse("삭제된 게시글입니다", HttpStatus.NOT_FOUND);
         }
 
-        Map<String,Long> ret=new HashMap<>();
+        Map<String, Long> ret = new HashMap<>();
         ret.put("articleId", findArticle.getId());
-        return ResponseUtil.successResponse(HttpStatus.CREATED,ret);
+        return ResponseUtil.successResponse(HttpStatus.CREATED, ret);
     }
 
     //글 수정

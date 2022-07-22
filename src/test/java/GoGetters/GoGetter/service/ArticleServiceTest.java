@@ -4,6 +4,8 @@ import GoGetters.GoGetter.domain.Article;
 import GoGetters.GoGetter.domain.Gender;
 import GoGetters.GoGetter.domain.Member;
 import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
+import GoGetters.GoGetter.repository.GenerateMock;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +27,7 @@ class ArticleServiceTest {
     @Autowired
     private MemberService memberService;
 
+    @Autowired GenerateMock generateMock;
     @Test
     public void 글작성하기 () throws Exception{
         //given
@@ -117,6 +120,17 @@ class ArticleServiceTest {
         assertEquals(articles.get(9).getDeparture(),"애월9");
     }
 
+    @Test
+    public void 검색하기 () throws Exception{
+        //given
+        List<Member> members = generateMock.createMembers();
+        List<Article> articles = generateMock.createArticles();
 
+        //when
+        List<Article> findArticles = articleService.findArticlesBySearchKeyword("입니다");
+
+        //then
+        Assertions.assertEquals(100,articles.size());
+    }
 
 }

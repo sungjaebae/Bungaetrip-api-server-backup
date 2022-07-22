@@ -47,4 +47,9 @@ public class ArticleService {
     public Long save(Article article) {
         return articleRepository.save(article);
     }
+
+    public List<Article> findArticlesBySearchKeyword(String searchKeyword) {
+
+        return articleRepository.findArticlesByKeyword(searchKeyword);
+    }
 }
