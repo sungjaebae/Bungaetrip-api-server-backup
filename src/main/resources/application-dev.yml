@@ -21,4 +21,4 @@ spring:
 # 파라미터 확인을 위한 trace
 logging:
   level:
-    org.hibernate.type: debug
+    root: debug

@@ -18,7 +18,7 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class InitDb {
     private final InitService initService;
-//
+
 //    @PostConstruct
 //    public void init(){
 //        initService.dbInitUser();

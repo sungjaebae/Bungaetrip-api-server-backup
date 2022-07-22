@@ -5,11 +5,18 @@ spring:
   #jwt
   jwt:
     secret: kimdonggeunkimdonggeunkimdonggeunkimdonggeunkimdonggeunkimdonggeunkimdonggeunkimdonggeun
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    com.zaxxer.hikari.pool.HikariPool: info
+  config: classpath:logback-${spring.profiles.active}.xml
 ---
 # 운영 서버
 spring:
   profiles:
     active: prod
+
 
 ---
 # 개발 서버

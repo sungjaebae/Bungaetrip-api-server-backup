@@ -18,8 +18,3 @@ spring:
   output:
     ansi:
       enabled: always
-
-
-logging:
-  level:
-    org.hibernate.type: info
