@@ -1,5 +1,6 @@
 package GoGetters.GoGetter.api;
 
+import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.Article;
 import GoGetters.GoGetter.domain.Member;
 import GoGetters.GoGetter.dto.ArticleDto;
@@ -18,6 +19,7 @@ import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class ArticleApiController {
     private final ArticleService articleService;
     private final MemberService memberService;
@@ -44,7 +47,7 @@ public class ArticleApiController {
         List<ArticleDto> collect = findArticles.stream()
                 .map(a -> new ArticleDto(a)).collect(Collectors.toList());
 
-
+        log.info("List article | response data : {}",collect);
         return ResponseUtil.successResponse(HttpStatus.OK,collect);
     }
     @Data
@@ -57,16 +60,18 @@ public class ArticleApiController {
     //특정 게시글 조회
     @GetMapping(value = "/articles/{id}")
     public ResponseEntity readArticle(@PathVariable(value = "id") Long articleId){
-        System.out.println("특정 글 조회");
-        System.out.println(articleId);
         Article article ;
+
         try {
             article = articleService.findArticle(articleId);
         } catch (InterruptedException e) {
-            return ResponseUtil.errorResponse("삭제된 게시글입니다", HttpStatus.NOT_FOUND);
+            log.error(MessageResource.alreadyDeleted);
+            return ResponseUtil.errorResponse(MessageResource.alreadyDeleted, HttpStatus.NOT_FOUND);
         }
+        ArticleDto ret = new ArticleDto(article);
+        log.info("Read article | response data : {}",ret);
 
-        return ResponseUtil.successResponse(HttpStatus.OK,new ArticleDto(article));
+        return ResponseUtil.successResponse(HttpStatus.OK,ret);
 
     }
 
@@ -75,6 +80,8 @@ public class ArticleApiController {
         List<Article> findArticles = articleService.findArticlesBySearchKeyword(searchKeyword);
         List<ArticleDto> collect = findArticles.stream()
                 .map(a -> new ArticleDto(a)).collect(Collectors.toList());
+        log.info("Read article by searchKeyword | response data : {}",collect);
+
         return ResponseUtil.successResponse(HttpStatus.OK,collect);
     }
     //글 작성
@@ -92,11 +99,15 @@ public class ArticleApiController {
         try {
             findArticle = articleService.findArticle(writeId);
         } catch (InterruptedException e) {
-            return ResponseUtil.errorResponse("삭제된 게시글입니다", HttpStatus.NOT_FOUND);
+            log.error(MessageResource.alreadyDeleted);
+            return ResponseUtil.errorResponse(MessageResource.alreadyDeleted, HttpStatus.NOT_FOUND);
+
         }
 
         Map<String, Long> ret = new HashMap<>();
         ret.put("articleId", findArticle.getId());
+
+        log.info("Create article | response data : {}",ret);
         return ResponseUtil.successResponse(HttpStatus.CREATED, ret);
     }
 
@@ -104,16 +115,19 @@ public class ArticleApiController {
 
     @PutMapping("/articles")
     public ResponseEntity updateArticle(@RequestBody UpdateArticleRequest articleRequest){
+
         Long updatedId= null;
         try {
             updatedId = articleService.updateArticleRequest(articleRequest);
         } catch (InterruptedException e) {
-            return ResponseUtil.errorResponse("삭제된 게시글입니다", HttpStatus.NOT_FOUND);
+            log.error(MessageResource.alreadyDeleted);
+            return ResponseUtil.errorResponse(MessageResource.alreadyDeleted, HttpStatus.NOT_FOUND);
 
         }
 
         Map<String, Long> ret = new HashMap<>();
         ret.put("articleId",updatedId);
+        log.info("Update article | response data : {}",ret);
         return ResponseUtil.successResponse(HttpStatus.OK,ret);
 
     }
@@ -126,12 +140,13 @@ public class ArticleApiController {
         try {
             deleteId = articleService.deleteArticle(articleId);
         } catch (InterruptedException e) {
-            return ResponseUtil.errorResponse("삭제된 게시글입니다", HttpStatus.NOT_FOUND);
-
+            log.error(MessageResource.alreadyDeleted);
+            return ResponseUtil.errorResponse(MessageResource.alreadyDeleted, HttpStatus.NOT_FOUND);
         }
 
         Map<String, Long> ret = new HashMap<>();
         ret.put("articleId", deleteId);
+        log.info("Delete article | response data : {}",ret);
         return ResponseUtil.successResponse(HttpStatus.OK,ret);
 
 
