@@ -1,6 +1,7 @@
 package GoGetters.GoGetter.filter;
 
 
+import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.UserRole;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.CookieUtil;
@@ -72,10 +73,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         try {
             validateJwt(httpServletRequest,httpServletResponse);
         } catch (InterruptedException e) {
-            throw new RuntimeException("토큰이 유효하지 않습닌다.",e);
+            log.error(MessageResource.notValidToken);
+            throw new RuntimeException(MessageResource.notValidToken,e);
         }
 
-        System.out.println("do filter done");
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
@@ -109,16 +110,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private void validateJwt(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws InterruptedException {
         String header = httpServletRequest.getHeader("Authorization");
-        if (header != null && header.startsWith("Bearer ")) {
-            String token = header.substring(7);
-            String username = jwtUtil.getUsername(token);
+        if (header == null || !header.startsWith("Bearer "))
+            throw new InterruptedException(MessageResource.notValidToken);
+
+        String token = header.substring(7);
+        String username = jwtUtil.getUsername(token);
 //
-                UserDetails userDetails = memberService.findByUsername(username);
+        UserDetails userDetails = memberService.findByUsername(username);
 //
 //                //토큰 검증 부분
-                jwtUtil.validateToken(token, userDetails);
+        jwtUtil.validateToken(token, userDetails);
 
-        }
+
     }
 //    private void setJwtRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 //        String username = null;

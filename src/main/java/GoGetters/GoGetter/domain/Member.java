@@ -11,7 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collection;
 
 @Entity
@@ -43,11 +45,9 @@ public class Member
 
 
     @CreationTimestamp
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
-    @UpdateTimestamp
-    private LocalDateTime updateAt;
-
+    private LocalDateTime deletedAt;
     public Member(String username, String email, String password, String nickname, Integer age, Gender gender) {
         this(email, password, nickname, age, gender);
         this.username=username;
@@ -73,6 +73,8 @@ public class Member
     public Member(String email, String username) {
         this.email = email;
         this.username = username;
+        this.createdAt=LocalDateTime.now();
+        this.deletedAt=null;
     }
 
     public Member(String username) {
@@ -87,8 +89,7 @@ public class Member
                 ", password='" + password + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", role=" + role +
-                ", createAt=" + createAt +
-                ", updateAt=" + updateAt +
+                ", createdAt=" + createdAt +
                 '}';
     }
 
