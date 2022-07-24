@@ -22,4 +22,5 @@ public class Sender {
         this.member = member;
 
     }
+
 }

@@ -47,7 +47,7 @@ public class ArticleApiController {
         List<ArticleDto> collect = findArticles.stream()
                 .map(a -> new ArticleDto(a)).collect(Collectors.toList());
 
-        log.info("List article | response data : {}",collect);
+        log.info("Log ArticleController | get | /articles | response data : {}",collect);
         return ResponseUtil.successResponse(HttpStatus.OK,collect);
     }
     @Data
@@ -61,15 +61,15 @@ public class ArticleApiController {
     @GetMapping(value = "/articles/{id}")
     public ResponseEntity readArticle(@PathVariable(value = "id") Long articleId){
         Article article ;
-
         try {
             article = articleService.findArticle(articleId);
         } catch (InterruptedException e) {
-            log.error(MessageResource.alreadyDeleted);
+            log.error(MessageResource.alreadyDeleted,e);
             return ResponseUtil.errorResponse(MessageResource.alreadyDeleted, HttpStatus.NOT_FOUND);
         }
+
         ArticleDto ret = new ArticleDto(article);
-        log.info("Read article | response data : {}",ret);
+        log.info("Log ArticleController | get | /articles/{id} | request: {} | response data: {}",articleId,ret);
 
         return ResponseUtil.successResponse(HttpStatus.OK,ret);
 
@@ -80,7 +80,7 @@ public class ArticleApiController {
         List<Article> findArticles = articleService.findArticlesBySearchKeyword(searchKeyword);
         List<ArticleDto> collect = findArticles.stream()
                 .map(a -> new ArticleDto(a)).collect(Collectors.toList());
-        log.info("Read article by searchKeyword | response data : {}",collect);
+        log.info("Log ArticleController | get | /articles?searchKeyword | request: {} | response data: {}",searchKeyword,collect);
 
         return ResponseUtil.successResponse(HttpStatus.OK,collect);
     }
@@ -107,7 +107,7 @@ public class ArticleApiController {
         Map<String, Long> ret = new HashMap<>();
         ret.put("articleId", findArticle.getId());
 
-        log.info("Create article | response data : {}",ret);
+        log.info("Log ArticleController | post | /articles | request: {} | response data: {}",createArticleRequest,ret);
         return ResponseUtil.successResponse(HttpStatus.CREATED, ret);
     }
 
@@ -127,7 +127,7 @@ public class ArticleApiController {
 
         Map<String, Long> ret = new HashMap<>();
         ret.put("articleId",updatedId);
-        log.info("Update article | response data : {}",ret);
+        log.info("Log ArticleController | put | /articles | request: {} | response data : {}",articleRequest,ret);
         return ResponseUtil.successResponse(HttpStatus.OK,ret);
 
     }
@@ -146,7 +146,7 @@ public class ArticleApiController {
 
         Map<String, Long> ret = new HashMap<>();
         ret.put("articleId", deleteId);
-        log.info("Delete article | response data : {}",ret);
+        log.info("Log ArticleController | delete | /articles | request: {} | response data: {}",articleId,ret);
         return ResponseUtil.successResponse(HttpStatus.OK,ret);
 
 
