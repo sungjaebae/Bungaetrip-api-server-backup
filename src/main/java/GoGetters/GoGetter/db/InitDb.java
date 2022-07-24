@@ -38,9 +38,10 @@ public class InitDb {
         private Random random = new Random();
 
         public void dbInitUser(){
+            String description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum";
             for(int i=0;i<10;i++){
                 Member member = createUser(String.valueOf(i)+"@naver.com", "유저"+String.valueOf(i+1)
-                        , pe.encode("1234"), 20, Gender.MALE);
+                        , pe.encode("1234"), 20, Gender.MALE,i+" "+description);
 
                 em.persist(member);
                 members.add(member);
@@ -82,8 +83,8 @@ public class InitDb {
                 messages.add(message);
             }
         }
-        private Member createUser(String email, String nickname, String pw, Integer age, Gender gender) {
-            return new Member(email,email, pw, nickname, age, gender);
+        private Member createUser(String email, String nickname, String pw, Integer age, Gender gender,String description) {
+            return new Member(email,email, pw, nickname, age, gender,description);
         }
 
         private Article createArticle(Member member, String dep, String des, LocalDate date, LocalTime time,

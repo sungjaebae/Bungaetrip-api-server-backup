@@ -12,6 +12,7 @@ public class MemberReturnDto {
     private String nickname;
     private String username;
 
+
     public MemberReturnDto(Member member) {
         this.memberId = member.getId();
         this.email = member.getEmail();

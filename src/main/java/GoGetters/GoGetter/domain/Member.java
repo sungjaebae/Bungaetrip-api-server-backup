@@ -43,11 +43,18 @@ public class Member
     @Enumerated(EnumType.STRING)
     private UserRole role=UserRole.ROLE_USER;
 
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     private LocalDateTime deletedAt;
+
+    public Member(String username, String email, String password, String nickname, Integer age, Gender gender, String description) {
+        this(username,email, password, nickname, age, gender);
+        this.description=description;
+    }
     public Member(String username, String email, String password, String nickname, Integer age, Gender gender) {
         this(email, password, nickname, age, gender);
         this.username=username;
