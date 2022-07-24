@@ -52,4 +52,9 @@ public class ArticleService {
 
         return articleRepository.findArticlesByKeyword(searchKeyword);
     }
+
+    public List<Article> findArticlesByMemberId(Long memberId) {
+        List<Article> articles = articleRepository.findArticlesByMemberId(memberId);
+        return articles;
+    }
 }
