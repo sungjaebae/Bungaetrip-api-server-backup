@@ -3,6 +3,7 @@ package GoGetters.GoGetter.domain;
 import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;

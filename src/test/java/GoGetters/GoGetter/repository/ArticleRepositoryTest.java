@@ -173,4 +173,28 @@ public class ArticleRepositoryTest {
         Assertions.assertEquals(100,articles.size());
     }
 
+    @Test
+    public void memberId로_글찾기 () throws Exception{
+        //given
+        List<Member> members = generateEntity.createMembers();
+        List<Article> articles = generateEntity.createArticles();
+        //when
+        List<Article> articlesByMemberId = articleRepository.findArticlesByMemberId(3L);
+        //then
+        Assertions.assertEquals(articlesByMemberId.size(),10);
+    }
+    @Test
+    public void memberId로_글찾기_지워진거 () throws Exception{
+        //given
+        List<Member> members = generateEntity.createMembers();
+        List<Article> articles = generateEntity.createArticles();
+
+        //when
+        List<Article> articlesByMemberId = articleRepository.findArticlesByMemberId(3L);
+        articleRepository.deleteArticle(articlesByMemberId.get(0).getId());
+        List<Article> findArticleByMemberId = articleRepository.findArticlesByMemberId(3L);
+
+        //then
+        Assertions.assertEquals(findArticleByMemberId.size(),9);
+    }
 }

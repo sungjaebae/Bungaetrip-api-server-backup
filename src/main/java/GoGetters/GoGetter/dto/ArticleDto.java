@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data
@@ -29,6 +30,7 @@ public class ArticleDto {
 
     private Integer currentParticipants;
 
+    private LocalDateTime createdAt;
 //    private Integer totalParticipants;
     private String title;
 
@@ -45,6 +47,7 @@ public class ArticleDto {
 //        this.totalParticipants=article.getTotalParticipants();
         this.title=article.getTitle();
         this.content=article.getContent();
+        this.createdAt=article.getCreatedAt();
         Member writer=article.getWriter();
         this.member = new MemberReturnDto(writer.getId(), writer.getEmail(), writer.getNickname(), writer.getUsername());
     }
