@@ -42,7 +42,7 @@ public class MessageApiController {
         List<Message> messages=messageService.findAllMessages(receiverId);
         List<MessageDto> collect = messages.stream().map(m ->
                 new MessageDto(m.getId(),new MemberReturnDto(m.getSender().getMember()), m.getContent(),
-                m.getCreated())).collect(Collectors.toList());
+                m.getCreatedAt())).collect(Collectors.toList());
 
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
 
@@ -72,7 +72,7 @@ public class MessageApiController {
         Message message = messageService.findMessage(messageId);
         Sender sender=message.getSender();
         MessageDto messageDto=new MessageDto(message.getId(),new MemberReturnDto(sender.getMember()),
-                message.getContent(),message.getCreated());
+                message.getContent(),message.getCreatedAt());
 
         return ResponseUtil.successResponse(HttpStatus.OK, messageDto);
     }

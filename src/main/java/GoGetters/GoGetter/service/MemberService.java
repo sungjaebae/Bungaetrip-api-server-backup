@@ -46,8 +46,8 @@ public class MemberService {
         return new SecurityMember(members.get(0));
     }
 
-    public User findByUsername(String username) {
-        List<Member> members= memberRepository.findByUsername(username);
+    public User loadUserbyUsername(String username) {
+        List<Member> members= memberRepository.loadUserbyUsername(username);
         if(members.isEmpty())
             throw new UsernameNotFoundException(username + " : 사용자 존재하지 않음");
         return new SecurityMember(members.get(0));

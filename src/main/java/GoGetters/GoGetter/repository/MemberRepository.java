@@ -33,7 +33,7 @@ public class MemberRepository {
         return em.createQuery(query, Member.class).setParameter("email",email).getResultList();
     }
 
-    public List<Member> findByUsername(String username) {
+    public List<Member> loadUserbyUsername(String username) {
         return em.createQuery("select m from Member m where m.username=:username",Member.class)
                 .setParameter("username", username).getResultList();
     }

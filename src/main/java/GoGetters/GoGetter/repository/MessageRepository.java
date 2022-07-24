@@ -27,13 +27,13 @@ public class MessageRepository {
     public List<Message> findMessagesByReceiverId(Long receiverId){
         String query="select m from Message m " +
                 "join fetch m.receiver r " +
-                "join fetch r.member rm where rm.id=:memberId order by m.created desc";
+                "join fetch r.member rm where rm.id=:memberId order by m.createdAt desc";
         return em.createQuery(query,Message.class)
                 .setParameter("memberId",receiverId).getResultList();
     }
 
     public List<Message> findAllMessages() {
-        String query = "select m from Message m order by m.created desc";
+        String query = "select m from Message m order by m.createdAt desc";
         return em.createQuery(query).getResultList();
     }
 

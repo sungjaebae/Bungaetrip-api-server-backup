@@ -121,8 +121,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/users/signup").permitAll()
                 .antMatchers("/users/login").permitAll()
-                .antMatchers("/messages/**").permitAll()
-                .antMatchers("/articles/**").permitAll()
+                .antMatchers("/messages/**").hasRole("USER")
+                .antMatchers("/articles/**").hasRole("USER")
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/test/**").permitAll()
 

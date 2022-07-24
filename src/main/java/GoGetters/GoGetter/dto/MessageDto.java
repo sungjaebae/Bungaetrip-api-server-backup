@@ -14,6 +14,6 @@ public class MessageDto {
     private Long messageId;
     private MemberReturnDto sender;
     private String content;
-    private LocalDateTime created;
+    private LocalDateTime createdAt;
 
 }

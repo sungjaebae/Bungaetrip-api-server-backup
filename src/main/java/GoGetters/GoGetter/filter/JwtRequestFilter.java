@@ -68,14 +68,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         //firebase 토큰 확인 및 처리
 //        SetUpFirebaseAdmin(httpServletRequest,httpServletResponse);
-
+        log.debug("Init jwt request filter");
         //로그인을 한 후 jwt 발급하기 위한 설정
-        try {
-            validateJwt(httpServletRequest,httpServletResponse);
-        } catch (InterruptedException e) {
-            log.error(MessageResource.notValidToken);
-            throw new RuntimeException(MessageResource.notValidToken,e);
+        String header = httpServletRequest.getHeader("Authorization");
+        log.debug("Header authorization value : {}",header);
+        if (header != null && header.startsWith("Bearer ")){
+            try {
+                validateJwt(httpServletRequest,header);
+            } catch (InterruptedException e) {
+                log.error(MessageResource.invalidToken);
+                throw new RuntimeException(MessageResource.invalidToken,e);
+            }
         }
+
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
@@ -107,20 +112,23 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 //        }
 //    }
 
-    private void validateJwt(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
+    private void validateJwt(HttpServletRequest httpServletRequest,String header)
             throws InterruptedException {
-        String header = httpServletRequest.getHeader("Authorization");
-        if (header == null || !header.startsWith("Bearer "))
-            throw new InterruptedException(MessageResource.notValidToken);
 
-        String token = header.substring(7);
+
+        String token = header.substring("Bearer".length());
+        log.debug("JWT token content : {}", token);
         String username = jwtUtil.getUsername(token);
-//
-        UserDetails userDetails = memberService.findByUsername(username);
+        log.debug("JWT token claim username : {}",username);
+
+        UserDetails userDetails = memberService.loadUserbyUsername(username);
 //
 //                //토큰 검증 부분
-        jwtUtil.validateToken(token, userDetails);
-
+        if (jwtUtil.validateToken(token, userDetails)) {
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+            usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+        }
 
     }
 //    private void setJwtRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
@@ -144,7 +152,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 //                System.out.println(role);
 //            }
 //            if (username != null & role != null) {
-//                UserDetails userDetails = memberService.findByUsername(username);
+//                UserDetails userDetails = memberService.loadUserbyUsername(username);
 //                System.out.println("authorities");
 //                System.out.println(userDetails.getAuthorities());
 //                Boolean valid = jwtUtil.validateToken(jwt, userDetails);

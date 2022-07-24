@@ -36,14 +36,14 @@ public class ArticleRepository {
 
     public List<Article> findAllArticles(){
         String query="select a from Article a " +
-                "join fetch a.writer order by a.createdTime desc";
+                "join fetch a.writer order by a.createdAt desc";
         return em.createQuery(query,Article.class).getResultList();
     }
 
     public List<Article> findCreateArticles(){
         String query="select a from Article a"
                 +" join fetch a.writer"
-                +" where a.status=:status order by a.createdTime desc";
+                +" where a.status=:status order by a.createdAt desc";
 
         return em.createQuery(query,Article.class)
                 .setParameter("status",ArticleStatus.CREATE)
@@ -72,7 +72,7 @@ public class ArticleRepository {
                 +" or a.content like "+likeVariable
                 +" or a.departure like "+likeVariable
                 +" or a.destination like "+likeVariable
-                +" order by a.createdTime desc";
+                +" order by a.createdAt desc";
         System.out.println(query);
         return em.createQuery(query, Article.class).getResultList();
     }

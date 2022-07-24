@@ -24,11 +24,11 @@ public class Message {
     @JoinColumn(name = "receiver_id")
     private Receiver receiver;
 
-    private LocalDateTime created;
+    private LocalDateTime createdAt;
 
     public Message(String content) {
         this.content=content;
-        this.created=LocalDateTime.now();
+        this.createdAt=LocalDateTime.now();
     }
     public Message(Sender sender,Receiver receiver,String content){
         this(content);

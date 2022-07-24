@@ -32,7 +32,7 @@ public class Article {
 
 //    private Integer totalParticipants;
 
-    private LocalDateTime createdTime;
+    private LocalDateTime createdAt;
 
     private String title;
 
@@ -60,7 +60,7 @@ public class Article {
         this.title=title;
         this.content=content;
 
-        this.createdTime=LocalDateTime.now();
+        this.createdAt=LocalDateTime.now();
         this.status=ArticleStatus.CREATE;
     }
 
