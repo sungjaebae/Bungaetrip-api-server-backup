@@ -84,11 +84,12 @@ public class ArticleRepository {
     public List<Article> findArticlesByMemberId(Long memberId) {
         String query="select a from Article a join fetch a.writer w " +
                 "where w.id=:memberId " +
-                "and a.status=:status";
+                "and a.status=:status order by a.createdAt desc";
         log.debug("Log findArticle query: {}", query);
 
-        return new ArrayList<>();
-
-
+        return em.createQuery(query, Article.class)
+                .setParameter("memberId", memberId)
+                .setParameter("status", ArticleStatus.CREATE)
+                .getResultList();
     }
 }
