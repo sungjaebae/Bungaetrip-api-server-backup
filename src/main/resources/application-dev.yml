@@ -1,10 +1,10 @@
 spring:
   # DB 연결
   datasource:
-    url: jdbc:mariadb://database-1.choj938t9lhu.ap-northeast-2.rds.amazonaws.com/GoGetter
-    driver-class-name: org.mariadb.jdbc.Driver
-    username: root
-    password: rlagudtn4510
+    url: jdbc:mysql://146.56.182.42/gogetters
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: admin
+    password: PiI4I65otC04Ut
   jpa:
     show-sql: true
     database: mysql
