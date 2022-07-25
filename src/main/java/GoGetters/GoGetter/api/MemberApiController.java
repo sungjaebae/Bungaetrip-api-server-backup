@@ -106,7 +106,10 @@ public class MemberApiController {
             this.username=member.getUsername();
             this.email=member.getEmail();
             this.nickname=member.getNickname();
-            this.gender=member.getGender().toString();
+
+            this.gender=null;
+            if(member.getGender()!=null)
+                this.gender=member.getGender().toString();
             this.description=member.getDescription();
         }
     }
