@@ -21,13 +21,13 @@ import java.util.Random;
 public class InitDb {
     private final InitService initService;
 
-    @PostConstruct
-    public void init(){
-//        initService.dbInitUser();
-        initService.getMembersFromDB();
-        initService.dbInitArticle();
-        initService.dbInitMessage();
-    }
+//    @PostConstruct
+//    public void init(){
+////        initService.dbInitUser();
+//        initService.getMembersFromDB();
+//        initService.dbInitArticle();
+//        initService.dbInitMessage();
+//    }
 
     @Component
     @Transactional

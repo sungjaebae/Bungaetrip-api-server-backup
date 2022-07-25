@@ -98,6 +98,8 @@ public class MemberApiController {
         private String username;
         private String email;
         private String nickname;
+        private Integer age;
+
         private String gender;
         private String description;
 
@@ -106,11 +108,14 @@ public class MemberApiController {
             this.username=member.getUsername();
             this.email=member.getEmail();
             this.nickname=member.getNickname();
+            this.age= member.getAge();
+
 
             this.gender=null;
             if(member.getGender()!=null)
                 this.gender=member.getGender().toString();
             this.description=member.getDescription();
+
         }
     }
     @Data
