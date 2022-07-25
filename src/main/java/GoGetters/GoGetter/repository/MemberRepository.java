@@ -3,6 +3,7 @@ package GoGetters.GoGetter.repository;
 import GoGetters.GoGetter.domain.Receiver;
 import GoGetters.GoGetter.domain.Sender;
 import GoGetters.GoGetter.domain.Member;
+import GoGetters.GoGetter.dto.RequestDto.MemberInfoRequest;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -55,5 +56,11 @@ public class MemberRepository {
     public List<Member> findMembersByUsername(String username) {
         String query = "select m from Member m where m.username=:username";
         return em.createQuery(query, Member.class).setParameter("username", username).getResultList();
+    }
+
+    public Long updateMemberInfo(MemberInfoRequest memberInfoDto) {
+        Member member = em.find(Member.class, memberInfoDto.getMemberId());
+        member.updateMyInfo(memberInfoDto);
+        return member.getId();
     }
 }

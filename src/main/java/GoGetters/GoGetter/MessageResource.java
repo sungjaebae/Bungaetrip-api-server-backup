@@ -7,4 +7,6 @@ public class MessageResource {
     public static String invalidTokenHeader = "토큰의 헤더값이 형식에 맞지 않습니다.";
     public static String userNotExist = "유저가 존재하지 않습니다";
 
+    public static String invalidMemberInfo = "유저 정보가 제대로 입력되지 않았습니다";
+
 }

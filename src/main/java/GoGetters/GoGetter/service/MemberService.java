@@ -4,6 +4,7 @@ import GoGetters.GoGetter.domain.Receiver;
 import GoGetters.GoGetter.domain.SecurityMember;
 import GoGetters.GoGetter.domain.Sender;
 import GoGetters.GoGetter.domain.Member;
+import GoGetters.GoGetter.dto.RequestDto.MemberInfoRequest;
 import GoGetters.GoGetter.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -91,5 +92,10 @@ public class MemberService {
 
     public List<Member> findMemberByEmail(String email) {
         return memberRepository.findUserByEmail(email);
+    }
+
+    @Transactional
+    public Long updateMyInfo(MemberInfoRequest memberInfoDto) {
+        return memberRepository.updateMemberInfo(memberInfoDto);
     }
 }
