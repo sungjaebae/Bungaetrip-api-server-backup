@@ -124,7 +124,7 @@ public class SecurityConfig {
                 .antMatchers("/articles/**").permitAll()
                 .antMatchers("/messages/**").permitAll()
                 .antMatchers("/myInfo/**").permitAll()
-
+                .antMatchers("/member/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/test/**").permitAll()
 

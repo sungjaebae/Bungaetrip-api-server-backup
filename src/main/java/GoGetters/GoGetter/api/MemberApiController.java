@@ -1,5 +1,7 @@
 package GoGetters.GoGetter.api;
 
+import GoGetters.GoGetter.MessageResource;
+import GoGetters.GoGetter.domain.Gender;
 import GoGetters.GoGetter.domain.Member;
 import GoGetters.GoGetter.dto.RequestDto.LoginRequest;
 import GoGetters.GoGetter.dto.ResponseDto.UserResponse;
@@ -8,24 +10,29 @@ import GoGetters.GoGetter.util.CookieUtil;
 import GoGetters.GoGetter.util.JwtUtil;
 import GoGetters.GoGetter.util.RedisUtil;
 //import com.google.firebase.auth.FirebaseAuth;
+import GoGetters.GoGetter.util.ResponseUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 //import org.springframework.security.core.Authentication;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
-@RequestMapping("/users")
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/member")
 public class MemberApiController {
 //    final FirebaseAuth firebaseAuth;
 
@@ -35,6 +42,69 @@ public class MemberApiController {
 
     private final RedisUtil redisUtil;
 
+    @GetMapping(value = "/username")
+    public ResponseEntity validateUsername(@RequestParam("username") String username) {
+        log.debug("Log /member/username");
+        List<Member> membersByUsername= memberService.findMemberByUsername(username);
+        log.debug("Log /member/username size : {}",membersByUsername.size());
+        Boolean isAvailable=true;
+        if (membersByUsername.size() != 0)
+            isAvailable=false;
+        return ResponseUtil.successResponse(HttpStatus.OK,new IsValidate(username,isAvailable));
+    }
+
+    @GetMapping(value = "/email")
+    public ResponseEntity validateEmail(@RequestParam("email") String email) {
+        log.debug("Log /member/email");
+        List<Member> membersByEmail= memberService.findMemberByEmail(email);
+        log.debug("Log /member/email size : {}",membersByEmail.size());
+        Boolean isAvailable=true;
+        if (membersByEmail.size() != 0)
+            isAvailable=false;
+        return ResponseUtil.successResponse(HttpStatus.OK,new IsValidate(email,isAvailable));
+    }
+
+    @GetMapping(value = "")
+    public ResponseEntity readMember(
+            @RequestHeader("Authorization") String authorization) {
+        log.debug("JWT authorization : {}",authorization);
+        String token = authorization.substring("Bearer".length());
+        log.debug("JWT token content : {}", token);
+        String username = jwtUtil.getUsername(token);
+        log.debug("JWT token claim username : {}",username);
+        List<Member> memberByUsername = memberService.findMemberByUsername(username);
+        if(memberByUsername.size()==0)
+            return ResponseUtil.errorResponse(MessageResource.userNotExist, HttpStatus.NOT_FOUND);
+
+        Member member = memberByUsername.get(0);
+        return ResponseUtil.successResponse(HttpStatus.OK, new MemberInfoReturn(member));
+
+    }
+    @Data
+    @AllArgsConstructor
+    class MemberInfoReturn{
+        private Long memberId;
+        private String username;
+        private String email;
+        private String nickname;
+        private String gender;
+        private String description;
+
+        public MemberInfoReturn(Member member) {
+            this.memberId=member.getId();
+            this.username=member.getUsername();
+            this.email=member.getEmail();
+            this.nickname=member.getNickname();
+            this.gender=member.getGender().toString();
+            this.description=member.getDescription();
+        }
+    }
+    @Data
+    @AllArgsConstructor
+    class IsValidate {
+        private String userInput;
+        private Boolean IsAvailable;
+    }
 //    @PostMapping("")
 //    public Long register(
 //            @RequestHeader("Authorization") String authorization,
@@ -76,11 +146,11 @@ public class MemberApiController {
 //        return saved;
 //    }
 
-    @GetMapping("/me")
-    public UserResponse getUserMe(Authentication authentication) {
-        Member customMember = ((Member) authentication.getPrincipal());
-        return new UserResponse(customMember);
-    }
+//    @GetMapping("/me")
+//    public UserResponse getUserMe(Authentication authentication) {
+//        Member customMember = ((Member) authentication.getPrincipal());
+//        return new UserResponse(customMember);
+//    }
 
 //    @PostMapping("/signup")
 //    public Result signUpUser(@RequestBody CreateUserRequest request) {

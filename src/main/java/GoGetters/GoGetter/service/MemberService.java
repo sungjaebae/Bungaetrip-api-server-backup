@@ -85,4 +85,11 @@ public class MemberService {
         return memberRepository.findReceiver(memberId);
     }
 
+    public List<Member> findMemberByUsername(String username) {
+        return memberRepository.findMembersByUsername(username);
+    }
+
+    public List<Member> findMemberByEmail(String email) {
+        return memberRepository.findUserByEmail(email);
+    }
 }

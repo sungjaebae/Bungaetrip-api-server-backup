@@ -2,6 +2,7 @@ package GoGetters.GoGetter.db;
 
 import GoGetters.GoGetter.domain.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -16,15 +17,17 @@ import java.util.Random;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class InitDb {
     private final InitService initService;
 //
-//    @PostConstruct
-//    public void init(){
+    @PostConstruct
+    public void init(){
 //        initService.dbInitUser();
-//        initService.dbInitArticle();
-//        initService.dbInitMessage();
-//    }
+        initService.getMembersFromDB();
+        initService.dbInitArticle();
+        initService.dbInitMessage();
+    }
 
     @Component
     @Transactional
@@ -37,6 +40,17 @@ public class InitDb {
         private List<Message> messages=new ArrayList<>();
         private Random random = new Random();
 
+        public void getMembersFromDB() {
+            for (int i = 1; i <= 10; i++) {
+
+                Member member = em.find(Member.class,Long.valueOf(i));
+                log.debug("member id : {}",member.getId());
+
+                members.add(member);
+            }
+
+            log.debug("members size: {}",members.size());
+        }
         public void dbInitUser(){
             String description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum";
             for(int i=0;i<10;i++){

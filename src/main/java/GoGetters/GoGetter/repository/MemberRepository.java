@@ -52,4 +52,8 @@ public class MemberRepository {
                 .getSingleResult();
     }
 
+    public List<Member> findMembersByUsername(String username) {
+        String query = "select m from Member m where m.username=:username";
+        return em.createQuery(query, Member.class).setParameter("username", username).getResultList();
+    }
 }
