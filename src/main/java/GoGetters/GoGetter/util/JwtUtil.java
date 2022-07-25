@@ -8,6 +8,7 @@ package GoGetters.GoGetter.util;
         import io.jsonwebtoken.Jwts;
         import io.jsonwebtoken.SignatureAlgorithm;
         import io.jsonwebtoken.security.Keys;
+        import lombok.extern.slf4j.Slf4j;
         import org.springframework.beans.factory.annotation.Value;
         import org.springframework.security.core.userdetails.UserDetails;
         import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ package GoGetters.GoGetter.util;
         import java.util.Date;
 
 @Component
+@Slf4j
 public class JwtUtil {
 
     public final static long TOKEN_VALIDATION_SECOND = 1000L * 60 * 24 * 2;

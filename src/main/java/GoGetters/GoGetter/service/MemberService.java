@@ -6,6 +6,7 @@ import GoGetters.GoGetter.domain.Sender;
 import GoGetters.GoGetter.domain.Member;
 import GoGetters.GoGetter.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberService {
     private final MemberRepository memberRepository;
 
@@ -47,7 +49,9 @@ public class MemberService {
     }
 
     public User loadUserbyUsername(String username) {
+        log.debug("load username :{}",username);
         List<Member> members= memberRepository.loadUserbyUsername(username);
+        log.debug("load user by username :{}",members.size());
         if(members.isEmpty())
             throw new UsernameNotFoundException(username + " : 사용자 존재하지 않음");
         return new SecurityMember(members.get(0));

@@ -116,15 +116,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws InterruptedException {
 
 
-        String token = header.substring("Bearer".length());
-        log.debug("JWT token content : {}", token);
+        String token = header.substring("Bearer ".length());
+        log.debug("JWT token content :{}", token);
         String username = jwtUtil.getUsername(token);
         log.debug("JWT token claim username : {}",username);
 
         UserDetails userDetails = memberService.loadUserbyUsername(username);
-//
+        log.info("jwt load user :{}",userDetails.getUsername());
 //                //토큰 검증 부분
-        if (jwtUtil.validateToken(token, userDetails)) {
+        Boolean ret=jwtUtil.validateToken(token, userDetails);
+        if (ret) {
+            log.debug("jwt debug token ret:{}",ret);
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
             usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

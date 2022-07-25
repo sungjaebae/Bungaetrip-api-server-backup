@@ -4,7 +4,8 @@ spring:
     port: 6379
   #jwt
   jwt:
-    secret: kimdonggeunkimdonggeunkimdonggeunkimdonggeunkimdonggeunkimdonggeunkimdonggeunkimdonggeun
+    secret: _3SjJfvYUyRtNkMBQUVJQrjRaH9ioihgB0H9LueZkHQEpTtD8Kmgdyo2UjVpTDbyhwC6wQpzkeXuH4BdCznH3kd34pMMH1Yl3R13imu_vtG_XQZhmTij6lnDdBg0UBPBdpQBgRMQOM
+
 
 logging:
   level:

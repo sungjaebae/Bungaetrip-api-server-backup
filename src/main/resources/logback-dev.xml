@@ -13,7 +13,7 @@
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="CONSOLE"/>
     </root>
     <!-- log 레벨 설정 (org.springframework.web=debug)-->
