@@ -4,6 +4,7 @@ import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.Gender;
 import GoGetters.GoGetter.domain.Member;
 import GoGetters.GoGetter.dto.RequestDto.LoginRequest;
+import GoGetters.GoGetter.dto.RequestDto.MemberInfoRequest;
 import GoGetters.GoGetter.dto.ResponseDto.UserResponse;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.CookieUtil;
@@ -41,7 +42,17 @@ public class MemberApiController {
     private final MemberService memberService;
 
     private final RedisUtil redisUtil;
+    @PatchMapping(value = "/myInfo")
+    public ResponseEntity createMemberInfo(@RequestBody MemberInfoRequest memberInfoDto) {
+        log.debug("Log | patch | memberRequest : {}", memberInfoDto);
+        if (!memberInfoDto.getGender().equals("MALE") && !memberInfoDto.getGender().equals("FEMALE")) {
+            log.error("Log | patch | member gender {}", memberInfoDto.getGender());
+            return ResponseUtil.errorResponse(MessageResource.invalidMemberInfo, HttpStatus.FORBIDDEN);
+        }
+        Long updatedId=memberService.updateMyInfo(memberInfoDto);
 
+        return ResponseUtil.successResponse(HttpStatus.OK, updatedId);
+    }
     @GetMapping(value = "/username")
     public ResponseEntity validateUsername(@RequestParam("username") String username) {
         log.debug("Log /member/username");

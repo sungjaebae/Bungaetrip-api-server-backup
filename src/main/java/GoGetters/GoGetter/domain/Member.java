@@ -1,5 +1,6 @@
 package GoGetters.GoGetter.domain;
 
+import GoGetters.GoGetter.dto.RequestDto.MemberInfoRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -98,6 +99,12 @@ public class Member
                 '}';
     }
 
+    public void updateMyInfo(MemberInfoRequest memberInfoRequest) {
+        this.nickname= memberInfoRequest.getNickname();
+        this.age= memberInfoRequest.getAge();
+        this.gender=Gender.valueOf(memberInfoRequest.getGender()) ;
+        this.description= memberInfoRequest.getDescription();
+    }
     public void encodePassword(String enCodedPassword) {
         this.password=enCodedPassword;
     }

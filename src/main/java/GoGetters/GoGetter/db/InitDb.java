@@ -20,7 +20,7 @@ import java.util.Random;
 @Slf4j
 public class InitDb {
     private final InitService initService;
-//
+
 //    @PostConstruct
 //    public void init(){
 ////        initService.dbInitUser();
