@@ -92,4 +92,14 @@ public class ArticleRepository {
                 .setParameter("status", ArticleStatus.CREATE)
                 .getResultList();
     }
+
+    public List<Article> sortByMeetingDate() {
+        String query = "select a from Article a " +
+                "where a.status=:status " +
+                "order by a.date desc, a.time desc";
+        log.debug("Article Repo sort query:{}",query);
+        return em.createQuery(query, Article.class)
+                .setParameter("status", ArticleStatus.CREATE)
+                .getResultList();
+    }
 }

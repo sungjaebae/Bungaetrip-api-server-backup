@@ -1,10 +1,12 @@
 package GoGetters.GoGetter.service;
 
 import GoGetters.GoGetter.domain.Article;
+import GoGetters.GoGetter.domain.ArticleSortType;
 import GoGetters.GoGetter.dto.ArticleDto;
 import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
 import GoGetters.GoGetter.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ArticleService {
     private final ArticleRepository articleRepository;
 
@@ -56,5 +59,17 @@ public class ArticleService {
     public List<Article> findArticlesByMemberId(Long memberId) {
         List<Article> articles = articleRepository.findArticlesByMemberId(memberId);
         return articles;
+    }
+
+    public List<Article> sortArticles(ArticleSortType sortType) {
+        List<Article> sortedList=new ArrayList<>();
+        switch (sortType) {
+            case MEETING_DATE:
+                sortedList=articleRepository.sortByMeetingDate();
+                log.debug("Article Service sortedList:{}",sortedList);
+
+        }
+        return sortedList;
+
     }
 }

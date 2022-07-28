@@ -2,6 +2,7 @@ package GoGetters.GoGetter.api;
 
 import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.Article;
+import GoGetters.GoGetter.domain.ArticleSortType;
 import GoGetters.GoGetter.domain.Member;
 import GoGetters.GoGetter.dto.ArticleDto;
 import GoGetters.GoGetter.dto.ArticleRequest;
@@ -152,5 +153,17 @@ public class ArticleApiController {
 
     }
 
+    @GetMapping(value = "/articles/sort",params = "sortType")
+    public ResponseEntity sortedArticleList(@RequestParam("sortType") String sortType) {
+        log.debug("Article Controller sort init | request:{}",sortType);
+
+    ArticleSortType type=ArticleSortType.valueOf(sortType);
+        List<Article> sortedArticles = articleService.sortArticles(type);
+        List<ArticleDto> collect = sortedArticles.stream()
+                .map(a -> new ArticleDto(a)).collect(Collectors.toList());
+
+        log.info("Article Controller sortedList:{}",collect);
+        return ResponseUtil.successResponse(HttpStatus.OK,collect);
+    }
 
 }

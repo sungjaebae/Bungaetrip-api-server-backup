@@ -67,8 +67,8 @@ public class InitDb {
             System.out.println("article db");
             for(int i=0;i<100;i++){
                 Article article=createArticle(members.get(random.nextInt(10)),"출발지"+String.valueOf(i),
-                        "도착지"+String.valueOf(i),LocalDate.of(2022,9,1)
-                        ,LocalTime.of(10,20), 4/(random.nextInt(4)+1),
+                        "도착지"+String.valueOf(i),LocalDate.of(2020+i%5,i%12+1,i%28+1)
+                        ,LocalTime.of(i%23+1,i%60), 4/(random.nextInt(4)+1),
                         "제목"+String.valueOf(i),"내용" +String.valueOf(i)  );
                 em.persist(article);
                 articles.add(article);
