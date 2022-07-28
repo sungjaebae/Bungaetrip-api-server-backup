@@ -49,6 +49,10 @@ public class ArticleDto {
         this.content=article.getContent();
         this.createdAt=article.getCreatedAt();
         Member writer=article.getWriter();
+        writer.getId();
+        writer.getEmail();
+        writer.getNickname();
+        writer.getUsername();
         this.member = new MemberReturnDto(writer.getId(), writer.getEmail(), writer.getNickname(), writer.getUsername());
     }
 
