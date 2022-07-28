@@ -119,6 +119,7 @@ public class SecurityConfig {
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/**").permitAll()
                 .antMatchers("/users/signup").permitAll()
                 .antMatchers("/users/login").permitAll()
                 .antMatchers("/articles/**").permitAll()
@@ -145,7 +146,7 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
 
             return (web) -> web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
-                "/swagger-ui.html", "/webjars/**", "/swagger/**");
+                "/swagger-ui/index.html", "/webjars/**", "/swagger/**");
     }
 
 //    @Bean

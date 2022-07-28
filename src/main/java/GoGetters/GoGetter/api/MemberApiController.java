@@ -9,7 +9,7 @@ import GoGetters.GoGetter.dto.ResponseDto.UserResponse;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.CookieUtil;
 import GoGetters.GoGetter.util.JwtUtil;
-import GoGetters.GoGetter.util.RedisUtil;
+//import GoGetters.GoGetter.util.RedisUtil;
 //import com.google.firebase.auth.FirebaseAuth;
 import GoGetters.GoGetter.util.ResponseUtil;
 import lombok.AllArgsConstructor;
@@ -41,7 +41,7 @@ public class MemberApiController {
     private final CookieUtil cookieUtil;
     private final MemberService memberService;
 
-    private final RedisUtil redisUtil;
+//    private final RedisUtil redisUtil;
     @PatchMapping(value = "/myInfo")
     public ResponseEntity createMemberInfo(@RequestBody MemberInfoRequest memberInfoDto) {
         log.debug("Log | patch | memberRequest : {}", memberInfoDto);
