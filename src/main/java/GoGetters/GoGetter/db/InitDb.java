@@ -23,10 +23,10 @@ public class InitDb {
 
 //    @PostConstruct
 //    public void init(){
-////        initService.dbInitUser();
-//        initService.getMembersFromDB();
-//        initService.dbInitArticle();
-//        initService.dbInitMessage();
+//        initService.dbInitUser();
+////        initService.getMembersFromDB();
+////        initService.dbInitArticle();
+////        initService.dbInitMessage();
 //    }
 
     @Component

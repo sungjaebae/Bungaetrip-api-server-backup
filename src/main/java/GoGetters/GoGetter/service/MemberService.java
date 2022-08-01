@@ -6,6 +6,8 @@ import GoGetters.GoGetter.domain.Sender;
 import GoGetters.GoGetter.domain.Member;
 import GoGetters.GoGetter.dto.RequestDto.MemberInfoRequest;
 import GoGetters.GoGetter.repository.MemberRepository;
+import GoGetters.GoGetter.repository.ReceiverRepository;
+import GoGetters.GoGetter.repository.SenderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +25,8 @@ import java.util.List;
 @Slf4j
 public class MemberService {
     private final MemberRepository memberRepository;
-
+    private final SenderRepository senderRepository;
+    private final ReceiverRepository receiverRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -81,13 +84,36 @@ public class MemberService {
         return memberRepository.findOne(memberId);
     }
 
-    public Sender findSender(Long memberId) {
-        System.out.println("sender--------");
-        System.out.println(memberId);
-        return memberRepository.findSender(memberId);
+    @Transactional
+    public Sender sender(Long memberId) {
+        List<Sender> senders = memberRepository.findSender(memberId);
+        log.info("Log message service | sender id :{}",senders.size());
+        Sender sender;
+        if (senders.isEmpty()) {
+            Member findMember = memberRepository.findOne(memberId);
+            sender=new Sender(findMember);
+            senderRepository.save(sender);
+        }
+        else {
+            sender=senders.get(0);
+        }
+        return sender;
     }
-    public Receiver findReceiver(Long memberId){
-        return memberRepository.findReceiver(memberId);
+    @Transactional
+    public Receiver receiver(Long memberId){
+
+        List<Receiver> receivers= memberRepository.findReceiver(memberId);
+        log.info("Log message service | sender id :{}",receivers.size());
+        Receiver receiver;
+        if (receivers.isEmpty()) {
+            Member findMember = memberRepository.findOne(memberId);
+            receiver=new Receiver(findMember);
+            receiverRepository.save(receiver);
+        }
+        else {
+            receiver=receivers.get(0);
+        }
+        return receiver;
     }
 
     public List<Member> findMemberByUsername(String username) {

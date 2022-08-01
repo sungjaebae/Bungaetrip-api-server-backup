@@ -67,8 +67,8 @@ public class MessageApiController {
     @PostMapping("/messages")
     public ResponseEntity createMessage(@RequestBody MessageRequest messageRequest){
         //senderId, receiverId를 통해 sender,receiver 찾기
-        Sender sender= memberService.findSender(messageRequest.getSenderId());
-        Receiver receiver= memberService.findReceiver(messageRequest.getReceiverId());
+        Sender sender= memberService.sender(messageRequest.getSenderId());
+        Receiver receiver= memberService.receiver(messageRequest.getReceiverId());
         log.debug("Log MessageController | get | /messages?receiverId | request: {}",messageRequest);
         log.debug("Log MessageController | get | /messages?receiverId | senderId: {}, receiverId: {}", sender.getId(),receiver.getId());
 

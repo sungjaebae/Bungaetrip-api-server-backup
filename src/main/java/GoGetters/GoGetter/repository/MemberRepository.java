@@ -39,18 +39,18 @@ public class MemberRepository {
                 .setParameter("username", username).getResultList();
     }
 
-    public Sender findSender(Long memberId) {
+    public List<Sender> findSender(Long memberId) {
         String query="select s from Sender s join fetch s.member m where m.id=:memberId";
         return em.createQuery(query,Sender.class)
                 .setParameter("memberId",memberId)
-                .getSingleResult();
+                .getResultList();
     }
 
-    public Receiver findReceiver(Long memberId) {
+    public List<Receiver> findReceiver(Long memberId) {
         String query="select r from Receiver r join fetch r.member m where m.id=:memberId";
         return em.createQuery(query,Receiver.class)
                 .setParameter("memberId",memberId)
-                .getSingleResult();
+                .getResultList();
     }
 
     public List<Member> findMembersByUsername(String username) {
