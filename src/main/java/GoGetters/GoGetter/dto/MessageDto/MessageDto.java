@@ -1,5 +1,6 @@
-package GoGetters.GoGetter.dto;
+package GoGetters.GoGetter.dto.MessageDto;
 
+import GoGetters.GoGetter.domain.Message;
 import GoGetters.GoGetter.domain.Sender;
 import GoGetters.GoGetter.dto.returnDto.MemberReturnDto;
 import lombok.AllArgsConstructor;
@@ -16,4 +17,10 @@ public class MessageDto {
     private String content;
     private LocalDateTime createdAt;
 
+    public MessageDto(Message message) {
+        this.messageId=message.getId();
+        this.sender = new MemberReturnDto(message.getSender().getMember());
+        this.content=message.getContent();
+        this.createdAt=message.getCreatedAt();
+    }
 }

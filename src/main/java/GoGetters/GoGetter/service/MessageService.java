@@ -32,14 +32,16 @@ public class MessageService {
     public Message findMessage(Long messageId) {
         return messageRepository.findMessage(messageId);
     }
-    public List<Message> findAllMessages(){
-        return messageRepository.findAllMessages();
+    public List<Message> findReceivedMessages(){
+        return messageRepository.findReceivedMessages();
     }
 
-    public List<Message> findAllMessages(Long receiverId) {
+    public List<Message> findReceivedMessages(Long receiverId) {
         return messageRepository.findMessagesByReceiverId(receiverId);
     }
 
 
-
+    public List<Message> findSentMessages(Long memberId) {
+        return messageRepository.findSentMessagesByMemberId(memberId);
+    }
 }

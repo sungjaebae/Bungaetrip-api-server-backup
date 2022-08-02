@@ -3,9 +3,10 @@ package GoGetters.GoGetter.api;
 import GoGetters.GoGetter.domain.Message;
 import GoGetters.GoGetter.domain.Receiver;
 import GoGetters.GoGetter.domain.Sender;
-import GoGetters.GoGetter.dto.MessageDto;
+import GoGetters.GoGetter.dto.MessageDto.MessageDto;
+import GoGetters.GoGetter.dto.MessageDto.ReceivedMessageDto;
+import GoGetters.GoGetter.dto.MessageDto.SentMessageDto;
 import GoGetters.GoGetter.dto.MessageRequest;
-import GoGetters.GoGetter.dto.ResponseDto.Success;
 import GoGetters.GoGetter.dto.returnDto.MemberReturnDto;
 import GoGetters.GoGetter.service.MessageService;
 import GoGetters.GoGetter.service.MemberService;
@@ -30,7 +31,7 @@ public class MessageApiController {
 
 //    @GetMapping(value = "/messages")
 //    public ResponseEntity listAllMessages(){
-//        List<Message> messages= messageService.findAllMessages();
+//        List<Message> messages= messageService.findReceivedMessages();
 //        List<MessageDto> collect = messages.stream().map(m ->
 //                new MessageDto(m.getId(), m.getSender().getMember().getNickname()
 //                        , m.getContent(), m.getCreated())).collect(Collectors.toList());
@@ -38,13 +39,12 @@ public class MessageApiController {
 //    }
     //receiver_id 를 통해 message 목록 조회 api
     @GetMapping(value="/messages",params = "receiverId")
-    public ResponseEntity listMessage(
+    public ResponseEntity listReceivedMessage(
                                       @RequestParam("receiverId") Long receiverId) {
-        List<Message> messages=messageService.findAllMessages(receiverId);
+        List<Message> messages=messageService.findReceivedMessages(receiverId);
         log.debug("Log MessageController | get | /messages?receiverId | request: {} | message data : {}",receiverId,messages);
-        List<MessageDto> collect = messages.stream().map(m ->
-                new MessageDto(m.getId(),new MemberReturnDto(m.getSender().getMember()), m.getContent(),
-                m.getCreatedAt())).collect(Collectors.toList());
+        List<ReceivedMessageDto> collect = messages.stream().map(m ->
+                new ReceivedMessageDto(m)).collect(Collectors.toList());
         log.info("Log MessageController | get | /messages?receiverId | request: {} | response data : {}",receiverId,collect);
 
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
@@ -87,6 +87,15 @@ public class MessageApiController {
 
     }
 
+    @GetMapping(value="/messages/sentMessages")
+    public ResponseEntity listSentMessages(@RequestParam("memberId") Long memberId) {
+        log.info("Long sentMessages {}",memberId);
+        List<Message> sentMessages= messageService.findSentMessages(memberId);
+        List<SentMessageDto> collect = sentMessages.stream()
+                .map(message -> new SentMessageDto(message))
+                .collect(Collectors.toList());
+        return ResponseUtil.successResponse(HttpStatus.OK, collect);
+    }
 
 
 }
