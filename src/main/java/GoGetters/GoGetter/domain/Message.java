@@ -1,5 +1,6 @@
 package GoGetters.GoGetter.domain;
 
+import GoGetters.GoGetter.util.DateTimeUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,7 +29,7 @@ public class Message {
 
     public Message(String content) {
         this.content=content;
-        this.createdAt=LocalDateTime.now();
+        this.createdAt= DateTimeUtils.nowFromZone();
     }
     public Message(Sender sender,Receiver receiver,String content){
         this(content);

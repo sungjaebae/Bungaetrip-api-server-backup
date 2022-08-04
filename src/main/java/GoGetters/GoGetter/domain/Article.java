@@ -1,6 +1,7 @@
 package GoGetters.GoGetter.domain;
 
 import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
+import GoGetters.GoGetter.util.DateTimeUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -61,7 +62,7 @@ public class Article {
         this.title=title;
         this.content=content;
 
-        this.createdAt=LocalDateTime.now();
+        this.createdAt= DateTimeUtils.nowFromZone();
         this.status=ArticleStatus.CREATE;
     }
 

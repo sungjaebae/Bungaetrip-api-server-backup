@@ -1,6 +1,7 @@
 package GoGetters.GoGetter.domain;
 
 import GoGetters.GoGetter.dto.RequestDto.MemberInfoRequest;
+import GoGetters.GoGetter.util.DateTimeUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -79,7 +80,7 @@ public class Member
     public Member(String email, String username) {
         this.email = email;
         this.username = username;
-        this.createdAt=LocalDateTime.now();
+        this.createdAt= DateTimeUtils.nowFromZone();
         this.deletedAt=null;
     }
 
