@@ -33,7 +33,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/member")
+@RequestMapping("/api/v1/member")
 public class MemberApiController {
 //    final FirebaseAuth firebaseAuth;
 
@@ -41,7 +41,12 @@ public class MemberApiController {
     private final CookieUtil cookieUtil;
     private final MemberService memberService;
 
-//    private final RedisUtil redisUtil;
+    @GetMapping(value = "/{memberId}")
+    public ResponseEntity readMemberById(@PathVariable("memberId") Long memberId) {
+        Member member = memberService.findMemberByMemberId(memberId);
+        MemberInfoReturn memberResponse=new MemberInfoReturn(member);
+        return ResponseUtil.successResponse(HttpStatus.OK,memberResponse);
+    }
     @PatchMapping(value = "/myInfo")
     public ResponseEntity createMemberInfo(@RequestBody MemberInfoRequest memberInfoDto) {
         log.debug("Log | patch | memberRequest : {}", memberInfoDto);
@@ -53,6 +58,7 @@ public class MemberApiController {
 
         return ResponseUtil.successResponse(HttpStatus.OK, updatedId);
     }
+
     @GetMapping(value = "/username")
     public ResponseEntity validateUsername(@RequestParam("username") String username) {
         log.debug("Log /member/username");

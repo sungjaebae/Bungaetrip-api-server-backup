@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping(value = "/api/v1")
 public class ArticleApiController {
     private final ArticleService articleService;
     private final MemberService memberService;
@@ -89,7 +90,7 @@ public class ArticleApiController {
     @PostMapping("/articles")
     public ResponseEntity createArticle(@RequestBody ArticleRequest createArticleRequest) {
 
-        Member member = memberService.findUser(createArticleRequest.getMemberId());
+        Member member = memberService.findMemberByMemberId(createArticleRequest.getMemberId());
         Article article = new Article(member, createArticleRequest.getDeparture(), createArticleRequest.getDestination(),
                 createArticleRequest.getDate(), createArticleRequest.getTime(),
                 createArticleRequest.getCurrentParticipants(),

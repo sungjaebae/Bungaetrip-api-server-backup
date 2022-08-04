@@ -80,7 +80,7 @@ public class MemberService {
         }
         return true;
     }
-    public Member findUser(Long memberId) {
+    public Member findMemberByMemberId(Long memberId) {
         return memberRepository.findOne(memberId);
     }
 
