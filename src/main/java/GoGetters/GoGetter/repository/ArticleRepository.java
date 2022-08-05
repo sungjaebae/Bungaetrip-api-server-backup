@@ -96,7 +96,7 @@ public class ArticleRepository {
     public List<Article> sortByMeetingDate() {
         String query = "select a from Article a join fetch a.writer " +
                 "where a.status=:status " +
-                "order by a.date desc, a.time desc";
+                "order by a.date, a.time";
         log.debug("Article Repo sort query:{}",query);
         return em.createQuery(query, Article.class)
                 .setParameter("status", ArticleStatus.CREATE)
