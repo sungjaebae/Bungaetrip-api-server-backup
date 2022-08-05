@@ -3,6 +3,8 @@ package GoGetters.GoGetter.db;
 import GoGetters.GoGetter.domain.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -21,13 +23,21 @@ import java.util.Random;
 public class InitDb {
     private final InitService initService;
 
-//    @PostConstruct
-//    public void init(){
-//        initService.dbInitUser();
-////        initService.getMembersFromDB();
-////        initService.dbInitArticle();
-////        initService.dbInitMessage();
-//    }
+    @Value("${spring.profiles.active:}") 
+    private String activeProfile;
+
+   @PostConstruct
+   public void init(){
+//       initService.dbInitUser();
+    log.info(activeProfile);
+    if (activeProfile.equals("Development"))
+    {
+        log.info("Db Initializer activated22");
+        initService.getMembersFromDB();
+        initService.dbInitArticle();
+        initService.dbInitMessage();
+    }
+   }
 
     @Component
     @Transactional
