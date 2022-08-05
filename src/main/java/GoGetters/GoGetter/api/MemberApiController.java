@@ -91,7 +91,7 @@ public class MemberApiController {
         log.debug("JWT token claim username : {}",username);
         List<Member> memberByUsername = memberService.findMemberByUsername(username);
         if(memberByUsername.size()==0)
-            return ResponseUtil.errorResponse(MessageResource.userNotExist, HttpStatus.NOT_FOUND);
+            return ResponseUtil.errorResponse(MessageResource.memberNotExist, HttpStatus.NOT_FOUND);
 
         Member member = memberByUsername.get(0);
         return ResponseUtil.successResponse(HttpStatus.OK, new MemberInfoReturn(member));

@@ -62,12 +62,7 @@ public class ArticleApiController {
     @GetMapping(value = "/articles/{id}")
     public ResponseEntity readArticle(@PathVariable(value = "id") Long articleId){
         Article article ;
-        try {
-            article = articleService.findArticle(articleId);
-        } catch (InterruptedException e) {
-            log.error(MessageResource.alreadyDeleted,e);
-            return ResponseUtil.errorResponse(MessageResource.alreadyDeleted, HttpStatus.NOT_FOUND);
-        }
+        article = articleService.findArticle(articleId);
 
         ArticleDto ret = new ArticleDto(article);
         log.info("Log ArticleController | get | /articles/{id} | request: {} | response data: {}",articleId,ret);
@@ -96,14 +91,7 @@ public class ArticleApiController {
                 createArticleRequest.getTitle(), createArticleRequest.getContent());
 
         Long writeId = articleService.writeArticle(article);
-        Article findArticle = null;
-        try {
-            findArticle = articleService.findArticle(writeId);
-        } catch (InterruptedException e) {
-            log.error(MessageResource.alreadyDeleted);
-            return ResponseUtil.errorResponse(MessageResource.alreadyDeleted, HttpStatus.NOT_FOUND);
-
-        }
+        Article findArticle =articleService.findArticle(writeId);
 
         Map<String, Long> ret = new HashMap<>();
         ret.put("articleId", findArticle.getId());
@@ -117,14 +105,7 @@ public class ArticleApiController {
     @PutMapping("/articles")
     public ResponseEntity updateArticle(@RequestBody UpdateArticleRequest articleRequest){
 
-        Long updatedId= null;
-        try {
-            updatedId = articleService.updateArticleRequest(articleRequest);
-        } catch (InterruptedException e) {
-            log.error(MessageResource.alreadyDeleted);
-            return ResponseUtil.errorResponse(MessageResource.alreadyDeleted, HttpStatus.NOT_FOUND);
-
-        }
+        Long updatedId= articleService.updateArticleRequest(articleRequest);
 
         Map<String, Long> ret = new HashMap<>();
         ret.put("articleId",updatedId);
@@ -137,13 +118,7 @@ public class ArticleApiController {
     //글 삭제
     @DeleteMapping("/articles/{id}")
     public ResponseEntity deleteArticle(@PathVariable("id") Long articleId){
-        Long deleteId= null;
-        try {
-            deleteId = articleService.deleteArticle(articleId);
-        } catch (InterruptedException e) {
-            log.error(MessageResource.alreadyDeleted);
-            return ResponseUtil.errorResponse(MessageResource.alreadyDeleted, HttpStatus.NOT_FOUND);
-        }
+        Long deleteId= articleService.deleteArticle(articleId);
 
         Map<String, Long> ret = new HashMap<>();
         ret.put("articleId", deleteId);

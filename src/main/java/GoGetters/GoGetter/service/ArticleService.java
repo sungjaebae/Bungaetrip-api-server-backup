@@ -1,9 +1,11 @@
 package GoGetters.GoGetter.service;
 
+import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.Article;
 import GoGetters.GoGetter.domain.ArticleSortType;
 import GoGetters.GoGetter.dto.ArticleDto;
 import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
+import GoGetters.GoGetter.exception.NoSuchArticleException;
 import GoGetters.GoGetter.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +26,11 @@ public class ArticleService {
         return articleRepository.findCreateArticles();
     }
 
-    public Article findArticle(Long articleId) throws InterruptedException {
-        return articleRepository.findArticle(articleId);
+    public Article findArticle(Long articleId) {
+        List<Article> article = articleRepository.findArticle(articleId);
+        if(article.isEmpty())
+            throw new NoSuchArticleException(MessageResource.articleNotExist);
+        return article.get(0);
     }
 
 
@@ -36,15 +41,21 @@ public class ArticleService {
     }
 
     @Transactional
-    public Long updateArticleRequest(UpdateArticleRequest article) throws InterruptedException {
-        return articleRepository.modifyArticle(article);
+    public Long updateArticleRequest(UpdateArticleRequest article) {
+        List<Article> findArticle = articleRepository.findArticle(article.getArticleId());
+        if (findArticle.isEmpty()) {
+            throw new NoSuchArticleException(MessageResource.articleNotExist);
+        }
+        return articleRepository.modifyArticle(findArticle.get(0),article);
 
     }
 
     @Transactional
-    public Long deleteArticle(Long articleId) throws InterruptedException {
-
-        return articleRepository.deleteArticle(articleId);
+    public Long deleteArticle(Long articleId){
+        List<Article> article = articleRepository.findArticle(articleId);
+        if(article.isEmpty())
+            throw new NoSuchArticleException(MessageResource.articleNotExist);
+        return articleRepository.deleteArticle(article.get(0));
     }
 
     public Long save(Article article) {
