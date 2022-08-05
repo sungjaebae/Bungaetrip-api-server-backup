@@ -26,7 +26,6 @@
 FROM hsm0156/gradle:v1
 COPY src src
 RUN ["./gradlew","bootJar"]
-COPY ./build/libs/*.jar gogetter.jar
 
 EXPOSE 8080
 
