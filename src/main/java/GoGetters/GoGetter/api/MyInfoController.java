@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping(value = "/api/v1")
 public class MyInfoController {
     private final ArticleService articleService;
 

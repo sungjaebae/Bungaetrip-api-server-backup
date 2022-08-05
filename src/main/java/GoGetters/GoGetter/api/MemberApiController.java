@@ -33,7 +33,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/member")
+@RequestMapping("/member")
 public class MemberApiController {
 //    final FirebaseAuth firebaseAuth;
 

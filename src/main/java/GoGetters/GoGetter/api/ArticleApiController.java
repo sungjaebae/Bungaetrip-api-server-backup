@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping(value = "/api/v1")
 public class ArticleApiController {
     private final ArticleService articleService;
     private final MemberService memberService;

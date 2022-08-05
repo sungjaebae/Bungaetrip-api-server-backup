@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping(value = "/api/v1")
 public class MessageApiController {
     private final MessageService messageService;
     private final MemberService memberService;
