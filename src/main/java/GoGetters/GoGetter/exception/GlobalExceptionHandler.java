@@ -1,6 +1,11 @@
 package GoGetters.GoGetter.exception;
 
 import GoGetters.GoGetter.MessageResource;
+import GoGetters.GoGetter.exception.Article.InvalidSortTypeException;
+import GoGetters.GoGetter.exception.Article.NoSuchArticleException;
+import GoGetters.GoGetter.exception.Member.MemberAlreadyExistException;
+import GoGetters.GoGetter.exception.Member.NoSuchMemberException;
+import GoGetters.GoGetter.exception.Message.NoSuchMessageException;
 import GoGetters.GoGetter.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,6 +23,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity handleNoArticleException(final NoSuchArticleException e) {
         log.error("Handle no article exception : {}", e.getMessage());
         return ResponseUtil.errorResponse(MessageResource.articleNotExist, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(InvalidSortTypeException.class)
+    public ResponseEntity handleInvalidArticleTypeException(final InvalidSortTypeException e) {
+        log.error("Handle  invalid article sort type exception : {}", e.getMessage());
+        return ResponseUtil.errorResponse(MessageResource.invalidArticleSortType, HttpStatus.BAD_REQUEST);
     }
 
 //  ===================== Message ====================

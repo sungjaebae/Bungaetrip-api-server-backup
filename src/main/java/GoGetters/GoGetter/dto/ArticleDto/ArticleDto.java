@@ -1,4 +1,4 @@
-package GoGetters.GoGetter.dto;
+package GoGetters.GoGetter.dto.ArticleDto;
 
 import GoGetters.GoGetter.domain.Article;
 import GoGetters.GoGetter.domain.Member;

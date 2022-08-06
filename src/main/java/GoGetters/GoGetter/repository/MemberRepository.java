@@ -21,8 +21,12 @@ public class MemberRepository {
         return member.getId();
     }
 
-    public Member findOne(Long memberId){
-        return em.find(Member.class,memberId);
+    public List<Member> findOne(Long memberId){
+        String query = "select m from Member m where m.id=:memberId";
+
+        return em.createQuery(query,Member.class)
+                .setParameter("memberId",memberId)
+                .getResultList();
     }
 
     public List<Member> findAllUsers(){
@@ -58,8 +62,7 @@ public class MemberRepository {
         return em.createQuery(query, Member.class).setParameter("username", username).getResultList();
     }
 
-    public Long updateMemberInfo(MemberInfoRequest memberInfoDto) {
-        Member member = em.find(Member.class, memberInfoDto.getMemberId());
+    public Long updateMemberInfo(Member member,MemberInfoRequest memberInfoDto) {
         member.updateMyInfo(memberInfoDto);
         return member.getId();
     }

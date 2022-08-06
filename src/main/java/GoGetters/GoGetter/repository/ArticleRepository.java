@@ -2,15 +2,12 @@ package GoGetters.GoGetter.repository;
 
 import GoGetters.GoGetter.domain.Article;
 import GoGetters.GoGetter.domain.ArticleStatus;
-import GoGetters.GoGetter.dto.ArticleDto;
 import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -27,17 +24,14 @@ public class ArticleRepository {
     public List<Article> findArticle(Long articleId){
         String query = "select a from Article a " +
 //                "join fetch a.writer w " +
-                "where a.id=:articleId";
+                "where a.id=:articleId " +
+                "and a.status=:status";
         return em.createQuery(query,Article.class)
-                .setParameter("articleId",articleId).getResultList();
+                .setParameter("articleId",articleId)
+                .setParameter("status",ArticleStatus.CREATE).getResultList();
 //
     }
 
-    public List<Article> findAllArticles(){
-        String query="select a from Article a " +
-                "join fetch a.writer order by a.createdAt desc";
-        return em.createQuery(query,Article.class).getResultList();
-    }
 
     public List<Article> findCreateArticles(){
         String query="select a from Article a"

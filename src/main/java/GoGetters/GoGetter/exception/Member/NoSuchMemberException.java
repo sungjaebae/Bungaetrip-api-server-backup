@@ -1,4 +1,4 @@
-package GoGetters.GoGetter.exception;
+package GoGetters.GoGetter.exception.Member;
 
 import lombok.NoArgsConstructor;
 

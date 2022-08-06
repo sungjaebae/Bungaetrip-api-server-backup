@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class MemberInfoRequest {
     private Long memberId;
     private String nickname;
-    private int age;
+    private Integer age;
     private String gender;
     private String description;
 

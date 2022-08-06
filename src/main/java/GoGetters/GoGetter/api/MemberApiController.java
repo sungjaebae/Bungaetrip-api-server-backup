@@ -6,6 +6,7 @@ import GoGetters.GoGetter.domain.Member;
 import GoGetters.GoGetter.dto.RequestDto.LoginRequest;
 import GoGetters.GoGetter.dto.RequestDto.MemberInfoRequest;
 import GoGetters.GoGetter.dto.ResponseDto.UserResponse;
+import GoGetters.GoGetter.exception.Member.InvalidUpdateMemberInfoException;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.CookieUtil;
 import GoGetters.GoGetter.util.JwtUtil;
@@ -38,21 +39,18 @@ public class MemberApiController {
 //    final FirebaseAuth firebaseAuth;
 
     private final JwtUtil jwtUtil;
-    private final CookieUtil cookieUtil;
     private final MemberService memberService;
 
     @GetMapping(value = "/{memberId}")
     public ResponseEntity readMemberById(@PathVariable("memberId") Long memberId) {
-        Member member = memberService.findMemberByMemberId(memberId);
+        Member member = memberService.findOne(memberId);
         MemberInfoReturn memberResponse=new MemberInfoReturn(member);
         return ResponseUtil.successResponse(HttpStatus.OK,memberResponse);
     }
     @PatchMapping(value = "/myInfo")
     public ResponseEntity createMemberInfo(@RequestBody MemberInfoRequest memberInfoDto) {
-        log.debug("Log | patch | memberRequest : {}", memberInfoDto);
         if (!memberInfoDto.getGender().equals("MALE") && !memberInfoDto.getGender().equals("FEMALE")) {
-            log.error("Log | patch | member gender {}", memberInfoDto.getGender());
-            return ResponseUtil.errorResponse(MessageResource.invalidMemberInfo, HttpStatus.FORBIDDEN);
+            throw new InvalidUpdateMemberInfoException(MessageResource.invalidMemberRequestForm);
         }
         Long updatedId=memberService.updateMyInfo(memberInfoDto);
 
@@ -192,31 +190,31 @@ public class MemberApiController {
 //        return new Result(null);
 //    }
 
-    @PostMapping("/login")
-    public Response login(
-//            @RequestHeader("Authorization") String authorization,
-            @RequestBody LoginRequest loginRequest,
-                        HttpServletRequest request,
-                        HttpServletResponse response) {
-        try {
-            log.debug("login api 들어왔습니다");
-            final Member member = memberService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
-            log.debug("member object {}",member);
-            final String token = jwtUtil.generateToken(member);
-            log.debug("토큰이 생성되었습니다. : {}",token);
-//            final String refreshJwt = jwtUtil.generateRefreshToken(member);
-            Cookie accessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, token);
-//            Cookie refreshToken = cookieUtil.createCookie(JwtUtil.REFRESH_TOKEN_NAME, refreshJwt);
-//            redisUtil.setDataExpire(refreshJwt, member.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
-            response.addCookie(accessToken);
-//            response.addCookie(refreshToken);
-
-            return new Response("success", "로그인에 성공했습니다", token);
-        } catch (Exception e) {
-            return (new Response("error", "로그인에 실패했습니다.", e.getMessage()));
-        }
-    }
-
+//    @PostMapping("/login")
+//    public Response login(
+////            @RequestHeader("Authorization") String authorization,
+//            @RequestBody LoginRequest loginRequest,
+//                        HttpServletRequest request,
+//                        HttpServletResponse response) {
+//        try {
+//            log.debug("login api 들어왔습니다");
+//            final Member member = memberService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
+//            log.debug("member object {}",member);
+//            final String token = jwtUtil.generateToken(member);
+//            log.debug("토큰이 생성되었습니다. : {}",token);
+////            final String refreshJwt = jwtUtil.generateRefreshToken(member);
+//            Cookie accessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, token);
+////            Cookie refreshToken = cookieUtil.createCookie(JwtUtil.REFRESH_TOKEN_NAME, refreshJwt);
+////            redisUtil.setDataExpire(refreshJwt, member.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
+//            response.addCookie(accessToken);
+////            response.addCookie(refreshToken);
+//
+//            return new Response("success", "로그인에 성공했습니다", token);
+//        } catch (Exception e) {
+//            return (new Response("error", "로그인에 실패했습니다.", e.getMessage()));
+//        }
+//    }
+//
 
     @Data
     @NoArgsConstructor
