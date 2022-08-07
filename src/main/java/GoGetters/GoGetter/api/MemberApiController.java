@@ -210,6 +210,5 @@ public class MemberApiController {
         private String message;
         private String token;
 
-
     }
 }
