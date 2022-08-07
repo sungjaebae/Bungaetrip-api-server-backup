@@ -133,31 +133,19 @@ public class MemberApiController {
 //            @RequestHeader("Authorization") String authorization,
 //            @RequestBody CreateUserFirebaseRequest request
 //    ) {
-//        System.out.println("google login controller init : ");
-//        System.out.println(authorization);
 //        // TOKEN을 가져온다.
 //        FirebaseToken decodedToken;
 //        try {
 //            String token = RequestUtil.getAuthorizationToken(authorization);
 ////            String token="";
-//            System.out.println("controller token : " + token);
 //
 //            decodedToken = firebaseAuth.verifyIdToken(token);
-//            System.out.println("controller decodedToken : " + decodedToken);
 //        } catch (IllegalArgumentException | FirebaseAuthException e) {
 //            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
 //                    "{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
 //        }
-//        System.out.println(decodedToken.getName());
-               //        System.out.println(decodedToken.getUid());
-//        System.out.println(decodedToken.getIssuer());
-//        System.out.println(decodedToken.getTenantId());
-////        System.out.println(request.getGender());
-////        System.out.println(request.getNickname());
-////        System.out.println(request.getAge());
 //
 //        JSONObject jsonObject = new JSONObject(decodedToken.getClaims());
-//        System.out.println(jsonObject);
 //        Member member = new Member(decodedToken.getEmail(), decodedToken.getUid());
 //        Long saved = null;
 //        try {
@@ -177,12 +165,10 @@ public class MemberApiController {
 
 //    @PostMapping("/signup")
 //    public Result signUpUser(@RequestBody CreateUserRequest request) {
-//        System.out.println("signup");
 //        Member member = new Member(request.getUsername(), request.getEmail(), request.getPassword(),
 //                request.getNickname(), request.getAge(), request.getGender());
 //        try {
 //            memberService.join(member);
-//            System.out.println("회원가입을 성공적으로 완료했습니다.");
 //        } catch (Exception e) {
 //            throw new IllegalStateException("회원가입을 하는 중 오류가 발생했습니다.", e);
 //        }

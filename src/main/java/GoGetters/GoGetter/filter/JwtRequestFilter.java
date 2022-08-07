@@ -92,9 +92,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 //        if (header != null && header.startsWith("Bearer ")) {
 //            String token = header.substring(7);
 //            try {
-//                System.out.println("start decodedToken");
 //                decodedToken = firebaseAuth.verifyIdToken(token);
-//                System.out.println(decodedToken);
 //            } catch (FirebaseAuthException e) {
 //                setUnauthorizedResponse(httpServletResponse, "INVALID_TOKEN");
 //                return;
@@ -122,8 +120,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         log.debug("JWT token claim username : {}",username);
 
         UserDetails userDetails = memberService.loadUserbyUsername(username);
-        log.info("jwt load user :{}",userDetails.getUsername());
-//                //토큰 검증 부분
+        log.info("jwt load username :{}",userDetails.getUsername());
+
+        log.info("jwt load username :{}",userDetails.getUsername());
+        //토큰 검증 부분
         Boolean ret=jwtUtil.validateToken(token, userDetails);
         if (ret) {
             log.debug("jwt debug token ret:{}",ret);
@@ -140,29 +140,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 //        String refreshJwt = null;
 //        String refreshUname = null;
 //        final Cookie jwtToken = cookieUtil.getCookie(httpServletRequest, JwtUtil.ACCESS_TOKEN_NAME);
-//        System.out.println(jwtToken);
 //        try {
 //            if (jwtToken != null) {
 //
 //                jwt = jwtToken.getValue();
-//                System.out.println(jwt);
 //                username = jwtUtil.getUsername(jwt);
-//                System.out.println(username);
 //
 //                role = jwtUtil.getUserRole(jwt);
-//                System.out.println("role");
-//                System.out.println(role);
 //            }
 //            if (username != null & role != null) {
 //                UserDetails userDetails = memberService.loadUserbyUsername(username);
-//                System.out.println("authorities");
-//                System.out.println(userDetails.getAuthorities());
 //                Boolean valid = jwtUtil.validateToken(jwt, userDetails);
-//                System.out.println(valid);
-//                System.out.println(role);
 //
 //                if (valid && role.equals(UserRole.ROLE_USER.toString())) {
-//                    System.out.println("jwt validate");
 //                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
 //                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 //                    usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));

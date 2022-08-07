@@ -35,7 +35,6 @@ package GoGetters.GoGetter.config;
 //
 //    @Bean
 //    public FirebaseAuth firebaseAuth() throws IOException {
-//        System.out.println("firebaseAuth");
 //        FileInputStream serviceAccount =
 //                new FileInputStream("serviceAccountKey.json");
 //

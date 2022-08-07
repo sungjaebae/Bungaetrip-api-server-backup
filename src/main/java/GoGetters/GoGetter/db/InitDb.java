@@ -60,11 +60,9 @@ public class InitDb {
                 em.persist(member);
                 members.add(member);
             }
-            System.out.println("userInit");
 
         }
         public void dbInitArticle(){
-            System.out.println("article db");
             for(int i=0;i<100;i++){
                 Article article=createArticle(members.get(random.nextInt(10)),"출발지"+String.valueOf(i),
                         "도착지"+String.valueOf(i),LocalDate.of(2020+i%5,i%12+1,i%28+1)
@@ -77,10 +75,8 @@ public class InitDb {
         public void dbInitMessage(){
             List<Sender> senders=new ArrayList<>();
             List<Receiver> receivers=new ArrayList<>();
-            System.out.println("message start");
             for(int i=0;i<10;i++){
                 Member member = members.get(i);
-                System.out.println(member.getId());
                 Sender sender=new Sender(member);
                 Receiver receiver=new Receiver(member);
                 em.persist(sender);

@@ -44,9 +44,7 @@
 //        }
 //        String token = header.substring(7);
 //        try{
-//            System.out.println("start decodedToken");
 //            decodedToken = firebaseAuth.verifyIdToken(token);
-//            System.out.println(decodedToken);
 //        } catch (FirebaseAuthException e) {
 //            setUnauthorizedResponse(response, "INVALID_TOKEN");
 //            return;
