@@ -70,6 +70,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -89,6 +90,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig {
 
+    private static final String[] PERMIT_URL_ARRAY = {
+            /* swagger v2 */
+            "/v2/api-docs",
+//            "/swagger-resources/**",
+//            "/configuration/security",
+//            "/swagger-ui/index.html",
+            "/webjars/**",
+            /* swagger v3 */
+//            "/v3/api-docs/**",
+            "/swagger*/**"
+    };
     private final JwtRequestFilter jwtRequestFilter;
 
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
@@ -119,13 +131,23 @@ public class SecurityConfig {
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .antMatchers("/users/signup").permitAll()
-                .antMatchers("/users/login").permitAll()
-                .antMatchers("/articles/**").permitAll()
-                .antMatchers("/messages/**").permitAll()
-                .antMatchers("/myInfo/**").permitAll()
-                .antMatchers("/member/**").permitAll()
+
+//                .antMatchers("/users/signup").permitAll()
+//                .antMatchers("/users/login").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/**").permitAll()
+                .antMatchers(PERMIT_URL_ARRAY).permitAll()
+
+                .antMatchers(HttpMethod.GET, "/articles").permitAll()
+                .antMatchers(HttpMethod.GET, "/articles/sort").permitAll()
+                .antMatchers("/articles/**").hasRole("USER")
+                .antMatchers("/messages/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET,"/member/username").permitAll()
+
+                .antMatchers(HttpMethod.GET,"/member/email").permitAll()
+                .antMatchers("/member").hasRole("USER")
+//                .antMatchers("/messages/**").permitAll()
+//                .antMatchers("/myInfo/**").permitAll()
+//                .antMatchers("/member/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/test/**").permitAll()
 
@@ -142,12 +164,14 @@ public class SecurityConfig {
     }
 
 
-    @Bean// ignore check swagger resource
-    public WebSecurityCustomizer webSecurityCustomizer() {
-
-            return (web) -> web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
-                "/swagger-ui/index.html", "/webjars/**", "/swagger/**");
-    }
+//    @Bean// ignore check swagger resource
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//
+//            return (web) -> web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**",
+//                    "/configuration/security",
+//                    "/swagger-ui/index.html", "/webjars/**", "/swagger/**");
+//
+//    }
 
 //    @Bean
 

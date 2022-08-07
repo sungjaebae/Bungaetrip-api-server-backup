@@ -19,8 +19,11 @@ public class MessageRepository {
     }
 
     //메시지 가져오기
-    public Message findMessage(Long message_id){
-        return em.find(Message.class, message_id);
+    public List<Message> findMessage(Long messageId){
+        String query = "select m from Message m where m.id=:messageId";
+        return em.createQuery(query, Message.class)
+                .setParameter("messageId", messageId)
+                .getResultList();
     }
 
     //받는 사람 아이디를 기준으로 쪽지를 가져오기
@@ -32,10 +35,6 @@ public class MessageRepository {
                 .setParameter("memberId",receiverId).getResultList();
     }
 
-    public List<Message> findReceivedMessages() {
-        String query = "select m from Message m order by m.createdAt desc";
-        return em.createQuery(query).getResultList();
-    }
 
     public List<Message> findSentMessagesByMemberId(Long memberId) {
         String query = "select m from Message m " +

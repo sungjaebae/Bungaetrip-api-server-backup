@@ -45,7 +45,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         PrintWriter out = httpServletResponse.getWriter();
         String jsonResponse = objectMapper.writeValueAsString(ret);
         out.print(jsonResponse);
-        System.out.println(jsonResponse);
 
     }
 

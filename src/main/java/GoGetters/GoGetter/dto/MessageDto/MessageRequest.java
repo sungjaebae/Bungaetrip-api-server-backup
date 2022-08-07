@@ -1,4 +1,4 @@
-package GoGetters.GoGetter.dto;
+package GoGetters.GoGetter.dto.MessageDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

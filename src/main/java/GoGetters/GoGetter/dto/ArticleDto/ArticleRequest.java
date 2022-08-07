@@ -1,4 +1,4 @@
-package GoGetters.GoGetter.dto;
+package GoGetters.GoGetter.dto.ArticleDto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

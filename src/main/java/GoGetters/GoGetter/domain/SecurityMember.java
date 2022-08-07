@@ -8,7 +8,7 @@ public class SecurityMember  extends User {
     private static final Long serialVersionNickname=1L;
 
     public SecurityMember(Member member) {
-        super(member.getEmail(),
+        super(member.getUsername(),
                 "{noop}"+ member.getPassword(), AuthorityUtils.createAuthorityList(member.getRole().toString()));
     }
 }
