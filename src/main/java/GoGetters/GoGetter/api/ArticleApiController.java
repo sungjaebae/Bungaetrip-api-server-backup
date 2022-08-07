@@ -11,6 +11,8 @@ import GoGetters.GoGetter.exception.Article.InvalidSortTypeException;
 import GoGetters.GoGetter.service.ArticleService;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.ResponseUtil;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -27,25 +29,37 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping(value = "articles")
 public class ArticleApiController {
     private final ArticleService articleService;
     private final MemberService memberService;
 
     //모든 글 조회
-    @GetMapping(value = "/articles")
-    public ResponseEntity listArticle() {
-        //모든 글 가져오기
-        List<Article> findArticles = articleService.findArticles();
 
-        //DTO 리스트로 변환
+        @GetMapping(value = "", params ={} )
+        public ResponseEntity listArticle() {
+            //모든 글 가져오기
+            List<Article> findArticles = articleService.findArticles();
 
+            //DTO 리스트로 변환
+
+            List<ArticleDto> collect = findArticles.stream()
+                    .map(a -> new ArticleDto(a)).collect(Collectors.toList());
+
+            log.info("Log ArticleController | get | /articles | response data : {}", collect);
+            return ResponseUtil.successResponse(HttpStatus.OK, collect);
+        }
+
+
+    @GetMapping(value = "", params = "searchKeyword")
+    public ResponseEntity readArticlesByKeyword(@RequestParam("searchKeyword") String searchKeyword) {
+        List<Article> findArticles = articleService.findArticlesBySearchKeyword(searchKeyword);
         List<ArticleDto> collect = findArticles.stream()
                 .map(a -> new ArticleDto(a)).collect(Collectors.toList());
+        log.info("Log ArticleController | get | /articles?searchKeyword | request: {} | response data: {}", searchKeyword, collect);
 
-        log.info("Log ArticleController | get | /articles | response data : {}", collect);
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
     }
-
     @Data
     @AllArgsConstructor
     public class ReturnObject {
@@ -55,7 +69,7 @@ public class ArticleApiController {
     }
 
     //특정 게시글 조회
-    @GetMapping(value = "/articles/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity readArticle(@PathVariable(value = "id") Long articleId) {
         Article article;
         article = articleService.findArticle(articleId);
@@ -67,18 +81,10 @@ public class ArticleApiController {
 
     }
 
-    @GetMapping(value = "/articles", params = "searchKeyword")
-    public ResponseEntity readArticlesByKeyword(@RequestParam("searchKeyword") String searchKeyword) {
-        List<Article> findArticles = articleService.findArticlesBySearchKeyword(searchKeyword);
-        List<ArticleDto> collect = findArticles.stream()
-                .map(a -> new ArticleDto(a)).collect(Collectors.toList());
-        log.info("Log ArticleController | get | /articles?searchKeyword | request: {} | response data: {}", searchKeyword, collect);
 
-        return ResponseUtil.successResponse(HttpStatus.OK, collect);
-    }
 
     //글 작성
-    @PostMapping("/articles")
+    @PostMapping("")
     public ResponseEntity createArticle(@RequestBody ArticleRequest createArticleRequest) {
 
         Member member = memberService.findOne(createArticleRequest.getMemberId());
@@ -99,7 +105,7 @@ public class ArticleApiController {
 
     //글 수정
 
-    @PutMapping("/articles")
+    @PutMapping("")
     public ResponseEntity updateArticle(@RequestBody UpdateArticleRequest articleRequest) {
 
         Long updatedId = articleService.updateArticleRequest(articleRequest);
@@ -113,7 +119,7 @@ public class ArticleApiController {
 
 
     //글 삭제
-    @DeleteMapping("/articles/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteArticle(@PathVariable("id") Long articleId) {
         Long deleteId = articleService.deleteArticle(articleId);
 
@@ -125,7 +131,7 @@ public class ArticleApiController {
 
     }
 
-    @GetMapping(value = "/articles/sort", params = "sortType")
+    @GetMapping(value = "/sort", params = "sortType")
     public ResponseEntity sortedArticleList(@RequestParam("sortType") String sortType) {
         checkSortType(sortType);
 
