@@ -1,6 +1,5 @@
 package GoGetters.GoGetter.domain;
 
-import com.azure.core.annotation.Get;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-public class ReportArticle {
+public class ReportedArticle {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "report_article_id")
     private Long id;
@@ -17,7 +16,7 @@ public class ReportArticle {
     private Long articleId;
     private String content;
 
-    public ReportArticle(Long articleId, String content) {
+    public ReportedArticle(Long articleId, String content) {
         this.articleId=articleId;
         this.content=content;
     }

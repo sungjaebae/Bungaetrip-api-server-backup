@@ -6,6 +6,7 @@ import GoGetters.GoGetter.exception.Article.NoSuchArticleException;
 import GoGetters.GoGetter.exception.Member.MemberAlreadyExistException;
 import GoGetters.GoGetter.exception.Member.NoSuchMemberException;
 import GoGetters.GoGetter.exception.Message.NoSuchMessageException;
+import GoGetters.GoGetter.exception.report.AlreadyReportException;
 import GoGetters.GoGetter.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,10 @@ public class GlobalExceptionHandler {
         log.error("Handle memberAlreadyExist exception",  e.getMessage());
         return ResponseUtil.errorResponse(MessageResource.alreadyMemberExist, HttpStatus.BAD_REQUEST);
     }
-
-
+//    ====================== Report -===================
+@ExceptionHandler(AlreadyReportException.class)
+public ResponseEntity handleAlreadyReportException(final AlreadyReportException e) {
+    log.error("Handle already report exception",  e.getMessage());
+    return ResponseUtil.errorResponse(MessageResource.alreadyReportedMemberExist, HttpStatus.BAD_REQUEST);
+}
 }

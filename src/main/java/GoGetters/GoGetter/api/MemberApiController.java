@@ -7,6 +7,7 @@ import GoGetters.GoGetter.dto.RequestDto.LoginRequest;
 import GoGetters.GoGetter.dto.RequestDto.MemberInfoRequest;
 import GoGetters.GoGetter.dto.ResponseDto.UserResponse;
 import GoGetters.GoGetter.exception.Member.InvalidUpdateMemberInfoException;
+import GoGetters.GoGetter.exception.Member.NoSuchMemberException;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.CookieUtil;
 import GoGetters.GoGetter.util.JwtUtil;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -83,13 +85,15 @@ public class MemberApiController {
     public ResponseEntity readMember(
             @RequestHeader("Authorization") String authorization) {
         log.debug("JWT authorization : {}",authorization);
-        String token = authorization.substring("Bearer".length());
+        String token = authorization.substring("Bearer ".length());
         log.debug("JWT token content : {}", token);
         String username = jwtUtil.getUsername(token);
         log.debug("JWT token claim username : {}",username);
         List<Member> memberByUsername = memberService.findMemberByUsername(username);
-        if(memberByUsername.size()==0)
-            return ResponseUtil.errorResponse(MessageResource.memberNotExist, HttpStatus.NOT_FOUND);
+        if (memberByUsername.size() == 0) {
+            throw new NoSuchMemberException(MessageResource.memberNotExist);
+        }
+
 
         Member member = memberByUsername.get(0);
         return ResponseUtil.successResponse(HttpStatus.OK, new MemberInfoReturn(member));
@@ -107,6 +111,7 @@ public class MemberApiController {
         private String gender;
         private String description;
 
+        private List<Long> blockedPeople;
         public MemberInfoReturn(Member member) {
             this.memberId=member.getId();
             this.username=member.getUsername();
@@ -120,6 +125,9 @@ public class MemberApiController {
                 this.gender=member.getGender().toString();
             this.description=member.getDescription();
 
+            this.blockedPeople= member.getBlockedPeople().stream()
+                    .map(blockedPeople -> blockedPeople.getReportedMemberId())
+                    .collect(Collectors.toList());
         }
     }
     @Data

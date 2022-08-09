@@ -45,13 +45,12 @@ public class JwtUtil {
     }
 
     public String getUsername(String token) {
-        log.info("LocalTime : {}", LocalDateTime.now());
-        log.debug("username-------------");
-        log.debug(token);
-        log.debug("{}",extractAllClaims(token));
         return extractAllClaims(token).get("username", String.class);
     }
+    public String getMemberId(String token) {
+        return extractAllClaims(token).get("id", String.class);
 
+    }
     public String getUserRole(String token){
         log.debug("role---------");
         Claims claims=extractAllClaims(token);
@@ -97,5 +96,6 @@ public class JwtUtil {
         log.debug("token expired {}", isTokenExpired(token));
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
 
 }

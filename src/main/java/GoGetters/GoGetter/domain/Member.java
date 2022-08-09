@@ -6,17 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "Member")
@@ -51,6 +49,9 @@ public class Member
 
     private LocalDateTime deletedAt;
 
+    @OneToMany(mappedBy = "reporter",cascade = CascadeType.ALL)
+    private List<ReportedMember> blockedPeople;
+    
     public Member(String username, String email, String password, String nickname, Integer age, Gender gender, String description) {
         this(username,email, password, nickname, age, gender);
         this.description=description;
@@ -110,6 +111,9 @@ public class Member
         this.password=enCodedPassword;
     }
 
+    public void addBlockedMember(ReportedMember reportedMember) {
+        this.blockedPeople.add(reportedMember);
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
