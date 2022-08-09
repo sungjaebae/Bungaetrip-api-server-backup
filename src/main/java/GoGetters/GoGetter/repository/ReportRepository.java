@@ -26,8 +26,8 @@ public class ReportRepository {
 
     public List<ReportedMember> findReportMember(Long reportedMemberId, Long reporterId) {
         String query="select rm from ReportedMember rm " +
-                "where rm.reportedMemberId=:reportedMemberId";
-//                "and rm.reporter.id=:reporterId";
+                "where rm.reportedMemberId=:reportedMemberId"+
+                "and rm.reporter.id=:reporterId";
         return em.createQuery(query,ReportedMember.class)
                 .setParameter("reportedMemberId",reportedMemberId)
 //                .setParameter("reporterId",reporterId)
