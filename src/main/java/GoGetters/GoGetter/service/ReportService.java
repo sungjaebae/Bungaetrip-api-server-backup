@@ -25,6 +25,8 @@ public class ReportService {
     public Long reportMember(Long reportedMemberId,String reportContent,Long reporterId) {
         validateDuplicatedReportedMember(reportedMemberId,reporterId);
         List<Member> member = memberRepository.findOne(reporterId);
+        log.info("reporterId {}",reporterId);
+        log.info("reportedMemberId {}",reportedMemberId);
         if (member.isEmpty()) {
             throw new NoSuchMemberException(MessageResource.memberNotExist);
         }

@@ -34,7 +34,7 @@ public class ReportApiController {
             String token = authorization.substring("Bearer ".length());
             log.debug("JWT token content : {}", token);
         Long reporterId = Long.parseLong(jwtUtil.getMemberId(token));
-        log.debug("JWT token memberId; {}",reporterId);
+        log.info("JWT token memberId; {}",reporterId);
 
         Long reportedMemberId = reportService
                 .reportMember(reportRequest.getMemberId(), reportRequest.getReportContent(), reporterId);
