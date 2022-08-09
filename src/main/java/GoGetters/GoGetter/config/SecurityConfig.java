@@ -141,6 +141,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/articles/sort").permitAll()
                 .antMatchers("/articles/**").hasRole("USER")
                 .antMatchers("/messages/**").hasRole("USER")
+                .antMatchers("/report/**").hasRole("USER")
                 .antMatchers(HttpMethod.GET,"/member/username").permitAll()
 
                 .antMatchers(HttpMethod.GET,"/member/email").permitAll()
