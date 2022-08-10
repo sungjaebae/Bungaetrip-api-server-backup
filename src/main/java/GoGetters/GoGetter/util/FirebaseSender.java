@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class FirebaseSender {
     private final RestTemplate restTemplate;
