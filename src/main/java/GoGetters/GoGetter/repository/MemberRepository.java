@@ -66,4 +66,6 @@ public class MemberRepository {
         member.updateMyInfo(memberInfoDto);
         return member.getId();
     }
+
+
 }
