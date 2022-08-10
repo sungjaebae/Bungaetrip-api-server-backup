@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -23,6 +24,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class FirebaseSender {
     private RestTemplate restTemplate=new RestTemplate();
 //    비공개 키
@@ -69,7 +71,7 @@ public class FirebaseSender {
         }
     }
 
-    private PushPayload getBody(String targetToken, String title, String body) {
+    private PushPayload makeMessageBody(String targetToken, String title, String body) {
         return PushPayload.builder()
                 .message(PushPayload.PushMessage.builder()
                         .token(targetToken)
@@ -83,19 +85,27 @@ public class FirebaseSender {
 
     public void pushBrowserSend(String token, String title, String body) throws IOException {
 //        발송 API 호출
+        log.info("Push message info token:{}, title:{},body:{}",token,title,body);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken());
-        final HttpEntity<Object> entity = new HttpEntity<>(getBody(token, title, body), headers);
+        PushPayload pushPayload=makeMessageBody(token,title,body);
+
+        final HttpEntity<Object> entity = new HttpEntity<>(pushPayload, headers);
         final ResponseEntity<String> response = restTemplate.exchange(SEND_URL, HttpMethod.POST, entity, String.class);
         final HttpStatus status = response.getStatusCode();
         final String responseBody = response.getBody();
+        log.info("Push browser send response body : {}", responseBody);
         if (status.equals(HttpStatus.OK)) {
 //            발송 API 호출 성공
         } else {
 //            발송 API 호출 실패
         }
+
+        //        Response response = client.newCall(request).execute();
+//
+//        System.out.println(response.body().string());
     }
 
 }
