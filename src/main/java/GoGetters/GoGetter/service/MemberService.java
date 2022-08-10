@@ -43,7 +43,18 @@ public class MemberService {
             throw new UsernameNotFoundException(username + " : 사용자 존재하지 않음");
         return new SecurityMember(members.get(0));
     }
+    @Transactional
+    public void enrollFcmToken(Member member,String fcmToken) {
 
+        member.enrollFcmToken(fcmToken);
+        log.debug("update fcm token {}");
+
+
+    }
+    @Transactional
+    public void updateFcmToken(Member member, String fcmToken) {
+        member.updateFcmToken(fcmToken);
+    }
     public List<Member> findMemberByUsername(String username) {
         return memberRepository.findMembersByUsername(username);
     }
@@ -55,7 +66,6 @@ public class MemberService {
     @Transactional
     public Long updateMyInfo(MemberInfoRequest memberInfoDto) {
         Member member = this.findOne(memberInfoDto.getMemberId());
-
         return memberRepository.updateMemberInfo(member,memberInfoDto);
     }
     @Transactional
@@ -88,6 +98,8 @@ public class MemberService {
         }
         return receiver;
     }
+
+
 
 //    @Transactional
 //    public Long join(Member member) throws InterruptedException {

@@ -44,6 +44,7 @@ public class Member
     @Column(columnDefinition = "TEXT")
     private String description;
 
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -51,7 +52,9 @@ public class Member
 
     @OneToMany(mappedBy = "reporter",cascade = CascadeType.ALL)
     private List<ReportedMember> blockedPeople;
-    
+
+    private String fcmToken;
+    private String profileUrl;
     public Member(String username, String email, String password, String nickname, Integer age, Gender gender, String description) {
         this(username,email, password, nickname, age, gender);
         this.description=description;
@@ -107,10 +110,13 @@ public class Member
         this.gender=Gender.valueOf(memberInfoRequest.getGender()) ;
         this.description= memberInfoRequest.getDescription();
     }
-    public void encodePassword(String enCodedPassword) {
-        this.password=enCodedPassword;
-    }
 
+    public void enrollFcmToken(String fcmToken) {
+        this.fcmToken=fcmToken;
+    }
+    public void updateFcmToken(String fcmToken) {
+        this.fcmToken=fcmToken;
+    }
     public void addBlockedMember(ReportedMember reportedMember) {
         this.blockedPeople.add(reportedMember);
     }
@@ -138,5 +144,7 @@ public class Member
     public boolean isEnabled() {
         return false;
     }
+
+
 ///
 }

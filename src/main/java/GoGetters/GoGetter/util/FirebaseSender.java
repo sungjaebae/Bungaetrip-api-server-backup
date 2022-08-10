@@ -21,10 +21,10 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-//@Component
+@Component
 @RequiredArgsConstructor
 public class FirebaseSender {
-    private final RestTemplate restTemplate;
+    private RestTemplate restTemplate=new RestTemplate();
 //    비공개 키
 //    경로
     private final String CONFIG_PATH = "firebase/firebase-key.json";
