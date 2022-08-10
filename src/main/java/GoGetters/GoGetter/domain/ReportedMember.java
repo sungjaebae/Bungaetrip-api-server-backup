@@ -23,9 +23,9 @@ public class ReportedMember {
     private Member reporter;
 
     public ReportedMember(Long reportedMemberId, String content, Member reporter) {
-        this.reportedMemberId=reportedMemberId;
-        this.content=content;
-        this.reporter=reporter;
+        this.reportedMemberId = reportedMemberId;
+        this.content = content;
+        this.reporter = reporter;
         this.reporter.addBlockedMember(this);
     }
 

@@ -55,3 +55,6 @@ src/test
 
 # 배성재 추가
 obj
+
+# fcm json
+firebase-key.json
