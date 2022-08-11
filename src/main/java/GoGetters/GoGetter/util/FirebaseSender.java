@@ -87,22 +87,7 @@ public class FirebaseSender {
     public void pushBrowserSend(String token, String title, String body) throws IOException {
 //        발송 API 호출
         log.info("Push message info token:{}, title:{},body:{}",token,title,body);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken());
-        PushPayload pushPayload=makeMessageBody(token,title,body);
 
-        final HttpEntity<Object> entity = new HttpEntity<>(pushPayload, headers);
-        final ResponseEntity<String> response = restTemplate.exchange(SEND_URL, HttpMethod.POST, entity, String.class);
-        final HttpStatus status = response.getStatusCode();
-        final String responseBody = response.getBody();
-        log.info("Push browser send response body : {}", responseBody);
-        if (status.equals(HttpStatus.OK)) {
-//            발송 API 호출 성공
-        } else {
-//            발송 API 호출 실패
-        }
         ObjectMapper objectMapper=new ObjectMapper();
         String message = objectMapper.writeValueAsString(makeMessageBody(token, title, body));
         log.info("message body json {}",message);
