@@ -65,13 +65,8 @@ public class MessageApiController {
         Long messageId= messageService.send(sender,receiver,message);
 
         ////////////////////////////
-        //1. 디바이스 정보 가져오기
-        String fcmToken = receiver.getMember().getFcmToken();
-        log.info("Fcm token {}",fcmToken);
-
-        //2. fcm 에 전송하기
-        String title = sender.getMember().getNickname() + "님에게서 쪽지가 도착했어요";
-        firebaseSender.pushBrowserSend(fcmToken,title,message.getContent());
+        //fcm 에 메시지 보내기
+        sendMessageToFCM(receiver,messageId);
         //////////////////////////////
 
         Map<String,Long> ret=new HashMap<>();
@@ -81,6 +76,16 @@ public class MessageApiController {
 
     }
 
+    private void sendMessageToFCM(Receiver receiver,Long messageId) throws IOException {
+        //1. 디바이스 정보 가져오기
+        String fcmToken = receiver.getMember().getFcmToken();
+        log.info("Fcm token {}",fcmToken);
+
+        //2. fcm 에 전송하기
+        String title = "알림";
+        String body = "새 메시지가 도착했습니다";
+        firebaseSender.pushBrowserSend(fcmToken,title,body,String.valueOf(messageId));
+    }
     @GetMapping(value="/messages/sentMessages")
     public ResponseEntity listSentMessages(@RequestParam("memberId") Long memberId) {
         memberService.findOne(memberId);

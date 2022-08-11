@@ -60,6 +60,7 @@ public class FirebaseSender {
         private static class PushMessage {
             private String token;
             private Notification notification;
+            private Data data;
         }
 
         @Getter
@@ -68,28 +69,38 @@ public class FirebaseSender {
         private static class Notification {
             private String title;
             private String body;
-            private String image;
+        }
+
+        @Getter
+        @Builder
+        @AllArgsConstructor
+        private static class Data{
+            private String type;
+            private String messageId;
         }
     }
 
-    private PushPayload makeMessageBody(String targetToken, String title, String body) {
+    private PushPayload makeMessageBody(String targetToken, String title, String body,String messageId) {
         return PushPayload.builder()
                 .message(PushPayload.PushMessage.builder()
                         .token(targetToken)
                         .notification(PushPayload.Notification.builder()
                                 .title(title)
                                 .body(body)
-                                .image(null)
+                                .build())
+                        .data(PushPayload.Data.builder()
+                                .type("receiveMessage")
+                                .messageId(messageId)
                                 .build())
                         .build()).validateOnly(false).build();
     }
 
-    public void pushBrowserSend(String token, String title, String body) throws IOException {
+    public void pushBrowserSend(String token, String title, String body,String messageId) throws IOException {
 //        발송 API 호출
         log.info("Push message info token:{}, title:{},body:{}",token,title,body);
 
         ObjectMapper objectMapper=new ObjectMapper();
-        String message = objectMapper.writeValueAsString(makeMessageBody(token, title, body));
+        String message = objectMapper.writeValueAsString(makeMessageBody(token, title, body,messageId));
         log.info("message body json {}",message);
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message,
