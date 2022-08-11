@@ -14,12 +14,14 @@ import java.time.LocalDateTime;
 public class MessageDto {
     private Long messageId;
     private MemberReturnDto sender;
+    private MemberReturnDto receiver;
     private String content;
     private LocalDateTime createdAt;
 
     public MessageDto(Message message) {
         this.messageId=message.getId();
         this.sender = new MemberReturnDto(message.getSender().getMember());
+        this.receiver = new MemberReturnDto(message.getReceiver().getMember());
         this.content=message.getContent();
         this.createdAt=message.getCreatedAt();
     }

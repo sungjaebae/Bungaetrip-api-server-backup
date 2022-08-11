@@ -49,7 +49,9 @@ public class MessageApiController {
     public ResponseEntity readMessage(@RequestParam("messageId")Long messageId){
         Message message = messageService.findMessage(messageId);
         Sender sender=message.getSender();
+        Receiver receiver=message.getReceiver();
         MessageDto messageDto=new MessageDto(message.getId(),new MemberReturnDto(sender.getMember()),
+                new MemberReturnDto(receiver.getMember()),
                 message.getContent(),message.getCreatedAt());
         return ResponseUtil.successResponse(HttpStatus.OK, messageDto);
     }

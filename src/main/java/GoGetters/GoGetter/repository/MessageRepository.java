@@ -20,7 +20,12 @@ public class MessageRepository {
 
     //메시지 가져오기
     public List<Message> findMessage(Long messageId){
-        String query = "select m from Message m where m.id=:messageId";
+        String query = "select m from Message m " +
+                "join fetch m.sender s " +
+                "join fetch s.member "+
+                "join fetch m.receiver r " +
+                "join fetch r.member " +
+                "where m.id=:messageId";
         return em.createQuery(query, Message.class)
                 .setParameter("messageId", messageId)
                 .getResultList();
