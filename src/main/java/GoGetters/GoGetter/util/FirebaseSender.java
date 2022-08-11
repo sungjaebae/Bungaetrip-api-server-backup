@@ -2,6 +2,7 @@ package GoGetters.GoGetter.util;
 
 import GoGetters.GoGetter.domain.FcmMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import io.lettuce.core.api.push.PushMessage;
 import lombok.AllArgsConstructor;
@@ -32,9 +33,9 @@ public class FirebaseSender {
     private final String CONFIG_PATH = "firebase/firebase-key.json";
 //    토큰 발급
 //    URL
-    private final String AUTH_URL = "https:www.googleapis.com/auth/cloud-platform";
+    private final String AUTH_URL = "https://www.googleapis.com/auth/cloud-platform";
 //    엔드포인트 URL
-    private final String SEND_URL = "https:fcm.googleapis.com/v1/projects/프로젝트ID/messages:send";
+    private final String SEND_URL = "https://fcm.googleapis.com/v1/projects/gogetter-project/messages:send";
 
     private String getAccessToken() throws IOException {
 //        토큰 발급
@@ -102,6 +103,38 @@ public class FirebaseSender {
         } else {
 //            발송 API 호출 실패
         }
+        ObjectMapper objectMapper=new ObjectMapper();
+        String message = objectMapper.writeValueAsString(makeMessageBody(token, title, body));
+        log.info("message body json {}",message);
+        OkHttpClient client = new OkHttpClient();
+        RequestBody requestBody = RequestBody.create(message,
+                okhttp3.MediaType.get("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(SEND_URL)
+                .post(requestBody)
+                .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
+                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
+                .build();
+
+        Response response = client.newCall(request).execute();
+
+        log.info("message response : {}",response.body().string());
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+//        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken());
+//        PushPayload pushPayload=makeMessageBody(token,title,body);
+//
+//        final HttpEntity<Object> entity = new HttpEntity<>(pushPayload, headers);
+//        final ResponseEntity<String> response = restTemplate.exchange(SEND_URL, HttpMethod.POST, entity, String.class);
+//        final HttpStatus status = response.getStatusCode();
+//        final String responseBody = response.getBody();
+//        log.info("Push browser send response body : {}", responseBody);
+//        if (status.equals(HttpStatus.OK)) {
+////            발송 API 호출 성공
+//        } else {
+////            발송 API 호출 실패
+//        }
 
         //        Response response = client.newCall(request).execute();
 //
