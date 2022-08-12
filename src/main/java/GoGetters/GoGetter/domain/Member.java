@@ -54,6 +54,7 @@ public class Member
     private List<ReportedMember> blockedPeople;
 
     private String fcmToken;
+    @Column(length = 1000)
     private String profileUrl;
     public Member(String username, String email, String password, String nickname, Integer age, Gender gender, String description) {
         this(username,email, password, nickname, age, gender);
@@ -109,6 +110,10 @@ public class Member
         this.age= memberInfoRequest.getAge();
         this.gender=Gender.valueOf(memberInfoRequest.getGender()) ;
         this.description= memberInfoRequest.getDescription();
+    }
+    public void updateMyInfo(MemberInfoRequest memberInfoRequest,String imageUrl) {
+        this.updateMyInfo(memberInfoRequest);
+        this.profileUrl=imageUrl;
     }
 
     public void enrollFcmToken(String fcmToken) {
