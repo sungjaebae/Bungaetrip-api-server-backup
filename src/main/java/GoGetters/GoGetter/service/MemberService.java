@@ -68,6 +68,12 @@ public class MemberService {
         Member member = this.findOne(memberInfoDto.getMemberId());
         return memberRepository.updateMemberInfo(member,memberInfoDto);
     }
+
+    @Transactional
+    public Long updateMyInfo(MemberInfoRequest memberInfoDto,String profileUrl) {
+        Member member = this.findOne(memberInfoDto.getMemberId());
+        return memberRepository.updateMemberInfo(member,memberInfoDto,profileUrl);
+    }
     @Transactional
     public Sender sender(Long memberId) {
         Member findMember = this.findOne(memberId);

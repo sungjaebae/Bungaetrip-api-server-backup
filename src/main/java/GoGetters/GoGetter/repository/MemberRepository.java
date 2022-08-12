@@ -68,4 +68,8 @@ public class MemberRepository {
     }
 
 
+    public Long updateMemberInfo(Member member, MemberInfoRequest memberInfoDto, String profileUrl) {
+        member.updateMyInfo(memberInfoDto,profileUrl);
+        return member.getId();
+    }
 }
