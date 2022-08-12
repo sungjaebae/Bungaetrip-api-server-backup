@@ -1,16 +1,12 @@
 package GoGetters.GoGetter.api;
 
 import GoGetters.GoGetter.MessageResource;
-import GoGetters.GoGetter.domain.Gender;
 import GoGetters.GoGetter.domain.Member;
-import GoGetters.GoGetter.dto.RequestDto.LoginRequest;
-import GoGetters.GoGetter.dto.RequestDto.MemberInfoRequest;
-import GoGetters.GoGetter.dto.ResponseDto.UserResponse;
+import GoGetters.GoGetter.dto.requestDto.MemberInfoRequest;
 import GoGetters.GoGetter.exception.Member.InvalidUpdateMemberInfoException;
 import GoGetters.GoGetter.exception.Member.NoSuchMemberException;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.BlobStorage;
-import GoGetters.GoGetter.util.CookieUtil;
 import GoGetters.GoGetter.util.JwtUtil;
 //import GoGetters.GoGetter.util.RedisUtil;
 //import com.google.firebase.auth.FirebaseAuth;
@@ -24,17 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Nullable;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,12 +52,24 @@ public class MemberApiController {
             throw new InvalidUpdateMemberInfoException(MessageResource.invalidMemberRequestForm);
         }
         String imageBlobUrl = null;
+        Long updatedId = null;
         if (imgFile != null) {
-            imageBlobUrl = blobStorage.uploadFile(imgFile);
-        }
-        log.info("blob url {}",imageBlobUrl);
-        Long updatedId=memberService.updateMyInfo(request,imageBlobUrl);
+            // 1. 기존 프로필이 존재하는지 확인하기 위해 멤버 조회
+            Member member = memberService.findOne(request.getMemberId());
+            log.info("member imageUrl : {}",member.getProfileUrl());
+            // 2. 기존 프로필이 존재한다면 blob 삭제
+            if(member.getProfileFileName()!=null)
+                blobStorage.deleteBlob(member.getProfileFileName());
 
+            // 3. blob Container 에 프로필 업로드
+            String blobFileName = blobStorage.uploadFile(imgFile);
+
+            // 4. blob url 및 fileName 저장
+            updatedId = memberService.updateMyInfo(request, blobStorage.getFileUrl(blobFileName),blobFileName);
+        }
+        else {
+            updatedId = memberService.updateMyInfo(request);
+        }
         return ResponseUtil.successResponse(HttpStatus.OK, updatedId);
     }
 

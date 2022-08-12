@@ -1,10 +1,8 @@
-package GoGetters.GoGetter.dto.MessageDto;
+package GoGetters.GoGetter.dto.messageDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor

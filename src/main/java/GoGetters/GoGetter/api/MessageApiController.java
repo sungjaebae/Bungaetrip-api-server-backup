@@ -3,11 +3,11 @@ package GoGetters.GoGetter.api;
 import GoGetters.GoGetter.domain.Message;
 import GoGetters.GoGetter.domain.Receiver;
 import GoGetters.GoGetter.domain.Sender;
-import GoGetters.GoGetter.dto.MessageDto.MessageDto;
-import GoGetters.GoGetter.dto.MessageDto.ReceivedMessageDto;
-import GoGetters.GoGetter.dto.MessageDto.SentMessageDto;
-import GoGetters.GoGetter.dto.MessageDto.MessageRequest;
-import GoGetters.GoGetter.dto.returnDto.MemberReturnDto;
+import GoGetters.GoGetter.dto.messageDto.MessageDto;
+import GoGetters.GoGetter.dto.messageDto.ReceivedMessageResponse;
+import GoGetters.GoGetter.dto.messageDto.SentMessageResponse;
+import GoGetters.GoGetter.dto.messageDto.MessageRequest;
+import GoGetters.GoGetter.dto.memberDto.MemberInfoDto;
 import GoGetters.GoGetter.service.MessageService;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.FirebaseSender;
@@ -38,8 +38,8 @@ public class MessageApiController {
         memberService.findOne(receiverId);
 
         List<Message> messages=messageService.findReceivedMessages(receiverId);
-        List<ReceivedMessageDto> collect = messages.stream().map(m ->
-                new ReceivedMessageDto(m)).collect(Collectors.toList());
+        List<ReceivedMessageResponse> collect = messages.stream().map(m ->
+                new ReceivedMessageResponse(m)).collect(Collectors.toList());
 
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
 
@@ -50,8 +50,8 @@ public class MessageApiController {
         Message message = messageService.findMessage(messageId);
         Sender sender=message.getSender();
         Receiver receiver=message.getReceiver();
-        MessageDto messageDto=new MessageDto(message.getId(),new MemberReturnDto(sender.getMember()),
-                new MemberReturnDto(receiver.getMember()),
+        MessageDto messageDto=new MessageDto(message.getId(),new MemberInfoDto(sender.getMember()),
+                new MemberInfoDto(receiver.getMember()),
                 message.getContent(),message.getCreatedAt());
         return ResponseUtil.successResponse(HttpStatus.OK, messageDto);
     }
@@ -93,8 +93,8 @@ public class MessageApiController {
         memberService.findOne(memberId);
 
         List<Message> sentMessages= messageService.findSentMessages(memberId);
-        List<SentMessageDto> collect = sentMessages.stream()
-                .map(message -> new SentMessageDto(message))
+        List<SentMessageResponse> collect = sentMessages.stream()
+                .map(message -> new SentMessageResponse(message))
                 .collect(Collectors.toList());
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
     }

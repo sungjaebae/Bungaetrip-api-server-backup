@@ -1,9 +1,8 @@
-package GoGetters.GoGetter.dto.ArticleDto;
+package GoGetters.GoGetter.dto.articleDto;
 
 import GoGetters.GoGetter.domain.Article;
-import GoGetters.GoGetter.domain.Member;
-import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
-import GoGetters.GoGetter.dto.returnDto.MemberReturnDto;
+import GoGetters.GoGetter.dto.requestDto.UpdateArticleRequest;
+import GoGetters.GoGetter.dto.memberDto.MemberInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,7 @@ import java.time.LocalTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleDto {
+public class ArticleResponse {
     private Long articleId;
     private String departure;
 
@@ -36,8 +35,8 @@ public class ArticleDto {
 
     private String content;
 
-    private MemberReturnDto member;
-    public ArticleDto(Article article){
+    private MemberInfoDto member;
+    public ArticleResponse(Article article){
         this.articleId=article.getId();
         this.departure=article.getDeparture();
         this.destination=article.getDestination();
@@ -48,15 +47,11 @@ public class ArticleDto {
         this.title=article.getTitle();
         this.content=article.getContent();
         this.createdAt=article.getCreatedAt();
-        Member writer=article.getWriter();
-        writer.getId();
-        writer.getEmail();
-        writer.getNickname();
-        writer.getUsername();
-        this.member = new MemberReturnDto(writer.getId(), writer.getEmail(), writer.getNickname(), writer.getUsername());
+
+        this.member = new MemberInfoDto(article.getWriter());
     }
 
-    public ArticleDto(ArticleRequest articleRequest, LocalDate date, LocalTime time) {
+    public ArticleResponse(ArticleRequest articleRequest, LocalDate date, LocalTime time) {
         this.departure=articleRequest.getDeparture();
         this.destination=articleRequest.getDestination();
         this.currentParticipants=articleRequest.getCurrentParticipants();
@@ -67,7 +62,7 @@ public class ArticleDto {
         this.time=time;
     }
 
-    public ArticleDto(UpdateArticleRequest request){
+    public ArticleResponse(UpdateArticleRequest request){
         this.departure=request.getDeparture();
         this.destination=request.getDestination();
         this.currentParticipants=request.getCurrentParticipants();

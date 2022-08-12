@@ -1,4 +1,4 @@
-package GoGetters.GoGetter.dto.ResponseDto;
+package GoGetters.GoGetter.dto.responseDto;
 
 import GoGetters.GoGetter.domain.Member;
 import lombok.Data;

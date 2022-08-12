@@ -1,4 +1,4 @@
-package GoGetters.GoGetter.dto.RequestDto;
+package GoGetters.GoGetter.dto.requestDto;
 
 import GoGetters.GoGetter.domain.Gender;
 import lombok.AllArgsConstructor;

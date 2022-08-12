@@ -1,8 +1,7 @@
 package GoGetters.GoGetter.util;
 
-import GoGetters.GoGetter.dto.ResponseDto.Error;
-import GoGetters.GoGetter.dto.ResponseDto.Result;
-import GoGetters.GoGetter.dto.ResponseDto.Success;
+import GoGetters.GoGetter.dto.responseDto.Error;
+import GoGetters.GoGetter.dto.responseDto.Success;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
