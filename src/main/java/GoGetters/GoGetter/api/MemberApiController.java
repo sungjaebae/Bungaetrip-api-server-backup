@@ -63,12 +63,16 @@ public class MemberApiController {
             throw new InvalidUpdateMemberInfoException(MessageResource.invalidMemberRequestForm);
         }
         String imageBlobUrl = null;
+        Long updatedId = null;
         if (imgFile != null) {
             imageBlobUrl = blobStorage.uploadFile(imgFile);
-        }
-        log.info("blob url {}",imageBlobUrl);
-        Long updatedId=memberService.updateMyInfo(request,imageBlobUrl);
 
+            log.info("blob url {}", imageBlobUrl);
+            updatedId = memberService.updateMyInfo(request, imageBlobUrl);
+        }
+        else {
+            updatedId = memberService.updateMyInfo(request);
+        }
         return ResponseUtil.successResponse(HttpStatus.OK, updatedId);
     }
 
