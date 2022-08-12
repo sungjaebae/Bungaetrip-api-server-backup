@@ -54,10 +54,18 @@ public class MemberApiController {
         String imageBlobUrl = null;
         Long updatedId = null;
         if (imgFile != null) {
-            imageBlobUrl = blobStorage.uploadFile(imgFile);
+            // 1. 기존 프로필이 존재하는지 확인하기 위해 멤버 조회
+            Member member = memberService.findOne(request.getMemberId());
+            log.info("member imageUrl : {}",member.getProfileUrl());
+            // 2. 기존 프로필이 존재한다면 blob 삭제
+            if(member.getProfileFileName()!=null)
+                blobStorage.deleteBlob(member.getProfileFileName());
 
-            log.info("blob url {}", imageBlobUrl);
-            updatedId = memberService.updateMyInfo(request, imageBlobUrl);
+            // 3. blob Container 에 프로필 업로드
+            String blobFileName = blobStorage.uploadFile(imgFile);
+
+            // 4. blob url 및 fileName 저장
+            updatedId = memberService.updateMyInfo(request, blobStorage.getFileUrl(blobFileName),blobFileName);
         }
         else {
             updatedId = memberService.updateMyInfo(request);

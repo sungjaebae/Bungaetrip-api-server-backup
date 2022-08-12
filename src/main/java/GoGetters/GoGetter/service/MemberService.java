@@ -69,9 +69,9 @@ public class MemberService {
     }
 
     @Transactional
-    public Long updateMyInfo(MemberInfoRequest memberInfoDto,String profileUrl) {
+    public Long updateMyInfo(MemberInfoRequest memberInfoDto,String profileUrl,String profileFileName) {
         Member member = this.findOne(memberInfoDto.getMemberId());
-        return memberRepository.updateMemberInfo(member,memberInfoDto,profileUrl);
+        return memberRepository.updateMemberInfo(member,memberInfoDto,profileUrl,profileFileName);
     }
     @Transactional
     public Sender sender(Long memberId) {

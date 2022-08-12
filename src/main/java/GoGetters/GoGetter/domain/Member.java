@@ -56,6 +56,7 @@ public class Member
     private String fcmToken;
     @Column(length = 1000)
     private String profileUrl;
+    private String profileFileName;
     public Member(String username, String email, String password, String nickname, Integer age, Gender gender, String description) {
         this(username,email, password, nickname, age, gender);
         this.description=description;
@@ -111,9 +112,10 @@ public class Member
         this.gender=Gender.valueOf(memberInfoRequest.getGender()) ;
         this.description= memberInfoRequest.getDescription();
     }
-    public void updateMyInfo(MemberInfoRequest memberInfoRequest,String imageUrl) {
+    public void updateMyInfo(MemberInfoRequest memberInfoRequest,String profileUrl,String profileFileName) {
         this.updateMyInfo(memberInfoRequest);
-        this.profileUrl=imageUrl;
+        this.profileUrl=profileUrl;
+        this.profileFileName=profileFileName;
     }
 
     public void enrollFcmToken(String fcmToken) {
