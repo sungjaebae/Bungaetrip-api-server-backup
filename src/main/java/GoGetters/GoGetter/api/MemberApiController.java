@@ -9,6 +9,7 @@ import GoGetters.GoGetter.dto.ResponseDto.UserResponse;
 import GoGetters.GoGetter.exception.Member.InvalidUpdateMemberInfoException;
 import GoGetters.GoGetter.exception.Member.NoSuchMemberException;
 import GoGetters.GoGetter.service.MemberService;
+import GoGetters.GoGetter.util.BlobStorage;
 import GoGetters.GoGetter.util.CookieUtil;
 import GoGetters.GoGetter.util.JwtUtil;
 //import GoGetters.GoGetter.util.RedisUtil;
@@ -21,14 +22,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 //import org.springframework.security.core.Authentication;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Nullable;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,18 +48,26 @@ public class MemberApiController {
     private final JwtUtil jwtUtil;
     private final MemberService memberService;
 
+    private final BlobStorage blobStorage;
+
     @GetMapping(value = "/{memberId}")
     public ResponseEntity readMemberById(@PathVariable("memberId") Long memberId) {
         Member member = memberService.findOne(memberId);
         MemberInfoReturn memberResponse=new MemberInfoReturn(member);
         return ResponseUtil.successResponse(HttpStatus.OK,memberResponse);
     }
-    @PatchMapping(value = "/myInfo")
-    public ResponseEntity createMemberInfo(@RequestBody MemberInfoRequest memberInfoDto) {
-        if (!memberInfoDto.getGender().equals("MALE") && !memberInfoDto.getGender().equals("FEMALE")) {
+    @PatchMapping(value = "/myInfo", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity updateMemberInfo(@RequestPart MemberInfoRequest request,
+                                           @RequestPart(required = false) MultipartFile imgFile) throws IOException {
+        if (!request.getGender().equals("MALE") && !request.getGender().equals("FEMALE")) {
             throw new InvalidUpdateMemberInfoException(MessageResource.invalidMemberRequestForm);
         }
-        Long updatedId=memberService.updateMyInfo(memberInfoDto);
+        String imageBlobUrl = null;
+        if (imgFile != null) {
+            imageBlobUrl = blobStorage.uploadFile(imgFile);
+        }
+        log.info("blob url {}",imageBlobUrl);
+        Long updatedId=memberService.updateMyInfo(request,imageBlobUrl);
 
         return ResponseUtil.successResponse(HttpStatus.OK, updatedId);
     }
@@ -110,7 +123,7 @@ public class MemberApiController {
 
         private String gender;
         private String description;
-
+        private String profileUrl;
         private List<Long> blockedPeople;
         public MemberInfoReturn(Member member) {
             this.memberId=member.getId();
@@ -128,6 +141,7 @@ public class MemberApiController {
             this.blockedPeople= member.getBlockedPeople().stream()
                     .map(blockedPeople -> blockedPeople.getReportedMemberId())
                     .collect(Collectors.toList());
+            this.profileUrl=member.getProfileUrl();
         }
     }
     @Data

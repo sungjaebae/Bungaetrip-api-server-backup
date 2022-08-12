@@ -15,5 +15,4 @@ public class MemberInfoRequest {
     private String gender;
     private String description;
 
-
 }
