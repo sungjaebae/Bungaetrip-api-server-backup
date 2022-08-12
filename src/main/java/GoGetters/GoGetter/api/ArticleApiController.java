@@ -4,15 +4,13 @@ import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.Article;
 import GoGetters.GoGetter.domain.ArticleSortType;
 import GoGetters.GoGetter.domain.Member;
-import GoGetters.GoGetter.dto.ArticleDto.ArticleDto;
-import GoGetters.GoGetter.dto.ArticleDto.ArticleRequest;
-import GoGetters.GoGetter.dto.RequestDto.UpdateArticleRequest;
+import GoGetters.GoGetter.dto.articleDto.ArticleResponse;
+import GoGetters.GoGetter.dto.articleDto.ArticleRequest;
+import GoGetters.GoGetter.dto.requestDto.UpdateArticleRequest;
 import GoGetters.GoGetter.exception.Article.InvalidSortTypeException;
 import GoGetters.GoGetter.service.ArticleService;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.ResponseUtil;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -43,8 +41,8 @@ public class ArticleApiController {
 
             //DTO 리스트로 변환
 
-            List<ArticleDto> collect = findArticles.stream()
-                    .map(a -> new ArticleDto(a)).collect(Collectors.toList());
+            List<ArticleResponse> collect = findArticles.stream()
+                    .map(a -> new ArticleResponse(a)).collect(Collectors.toList());
 
             log.info("Log ArticleController | get | /articles | response data : {}", collect);
             return ResponseUtil.successResponse(HttpStatus.OK, collect);
@@ -54,8 +52,8 @@ public class ArticleApiController {
     @GetMapping(value = "", params = "searchKeyword")
     public ResponseEntity readArticlesByKeyword(@RequestParam("searchKeyword") String searchKeyword) {
         List<Article> findArticles = articleService.findArticlesBySearchKeyword(searchKeyword);
-        List<ArticleDto> collect = findArticles.stream()
-                .map(a -> new ArticleDto(a)).collect(Collectors.toList());
+        List<ArticleResponse> collect = findArticles.stream()
+                .map(a -> new ArticleResponse(a)).collect(Collectors.toList());
         log.info("Log ArticleController | get | /articles?searchKeyword | request: {} | response data: {}", searchKeyword, collect);
 
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
@@ -74,7 +72,7 @@ public class ArticleApiController {
         Article article;
         article = articleService.findArticle(articleId);
 
-        ArticleDto ret = new ArticleDto(article);
+        ArticleResponse ret = new ArticleResponse(article);
         log.info("Log ArticleController | get | /articles/{id} | request: {} | response data: {}", articleId, ret);
 
         return ResponseUtil.successResponse(HttpStatus.OK, ret);
@@ -137,8 +135,8 @@ public class ArticleApiController {
 
         ArticleSortType type = ArticleSortType.valueOf(sortType);
         List<Article> sortedArticles = articleService.sortArticles(type);
-        List<ArticleDto> collect = sortedArticles.stream()
-                .map(a -> new ArticleDto(a)).collect(Collectors.toList());
+        List<ArticleResponse> collect = sortedArticles.stream()
+                .map(a -> new ArticleResponse(a)).collect(Collectors.toList());
 
         log.info("Article Controller sortedList:{}", collect);
         return ResponseUtil.successResponse(HttpStatus.OK, collect);

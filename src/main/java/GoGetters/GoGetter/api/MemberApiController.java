@@ -1,16 +1,12 @@
 package GoGetters.GoGetter.api;
 
 import GoGetters.GoGetter.MessageResource;
-import GoGetters.GoGetter.domain.Gender;
 import GoGetters.GoGetter.domain.Member;
-import GoGetters.GoGetter.dto.RequestDto.LoginRequest;
-import GoGetters.GoGetter.dto.RequestDto.MemberInfoRequest;
-import GoGetters.GoGetter.dto.ResponseDto.UserResponse;
+import GoGetters.GoGetter.dto.requestDto.MemberInfoRequest;
 import GoGetters.GoGetter.exception.Member.InvalidUpdateMemberInfoException;
 import GoGetters.GoGetter.exception.Member.NoSuchMemberException;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.BlobStorage;
-import GoGetters.GoGetter.util.CookieUtil;
 import GoGetters.GoGetter.util.JwtUtil;
 //import GoGetters.GoGetter.util.RedisUtil;
 //import com.google.firebase.auth.FirebaseAuth;
@@ -24,17 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Nullable;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -3,7 +3,7 @@ package GoGetters.GoGetter.repository;
 import GoGetters.GoGetter.domain.Receiver;
 import GoGetters.GoGetter.domain.Sender;
 import GoGetters.GoGetter.domain.Member;
-import GoGetters.GoGetter.dto.RequestDto.MemberInfoRequest;
+import GoGetters.GoGetter.dto.requestDto.MemberInfoRequest;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

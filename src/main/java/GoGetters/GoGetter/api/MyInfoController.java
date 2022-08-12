@@ -1,7 +1,7 @@
 package GoGetters.GoGetter.api;
 
 import GoGetters.GoGetter.domain.Article;
-import GoGetters.GoGetter.dto.ArticleDto.ArticleDto;
+import GoGetters.GoGetter.dto.articleDto.ArticleResponse;
 import GoGetters.GoGetter.service.ArticleService;
 import GoGetters.GoGetter.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class MyInfoController {
     public ResponseEntity readMyArticles(@PathVariable(name = "memberId") Long memberId) {
         List<Article> myArticles= articleService.findArticlesByMemberId(memberId);
         log.debug("myArticles : {}", myArticles.size());
-        List<ArticleDto> collect = myArticles.stream().map(a -> new ArticleDto(a)).collect(Collectors.toList());
+        List<ArticleResponse> collect = myArticles.stream().map(a -> new ArticleResponse(a)).collect(Collectors.toList());
         log.debug("myArticles Dto : {}",collect);
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
     }

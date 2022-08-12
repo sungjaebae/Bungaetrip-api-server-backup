@@ -1,6 +1,6 @@
 package GoGetters.GoGetter.domain;
 
-import GoGetters.GoGetter.dto.RequestDto.MemberInfoRequest;
+import GoGetters.GoGetter.dto.requestDto.MemberInfoRequest;
 import GoGetters.GoGetter.util.DateTimeUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,11 +1,13 @@
-package GoGetters.GoGetter.dto.ResponseDto;
+package GoGetters.GoGetter.dto.responseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper=false)
+
 public class Error extends Result{
     private String status;
     private String message;
