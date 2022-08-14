@@ -1,7 +1,6 @@
 package GoGetters.GoGetter.domain.member;
 
 
-import GoGetters.GoGetter.domain.message.Member;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 

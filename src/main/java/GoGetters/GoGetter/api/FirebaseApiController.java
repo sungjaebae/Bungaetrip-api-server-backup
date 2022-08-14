@@ -1,7 +1,7 @@
 package GoGetters.GoGetter.api;
 
 
-import GoGetters.GoGetter.domain.message.Member;
+import GoGetters.GoGetter.domain.member.Member;
 import GoGetters.GoGetter.dto.fcmToken.FcmTokenRequest;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.FirebaseSender;

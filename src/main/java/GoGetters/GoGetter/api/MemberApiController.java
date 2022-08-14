@@ -1,7 +1,7 @@
 package GoGetters.GoGetter.api;
 
 import GoGetters.GoGetter.MessageResource;
-import GoGetters.GoGetter.domain.message.Member;
+import GoGetters.GoGetter.domain.member.Member;
 import GoGetters.GoGetter.dto.member.CanMemberGenerate;
 import GoGetters.GoGetter.dto.member.MemberInfoReturn;
 import GoGetters.GoGetter.dto.member.UpdateMemberRequest;

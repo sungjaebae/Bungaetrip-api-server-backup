@@ -1,6 +1,6 @@
 package GoGetters.GoGetter.domain.report;
 
-import GoGetters.GoGetter.domain.message.Member;
+import GoGetters.GoGetter.domain.member.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

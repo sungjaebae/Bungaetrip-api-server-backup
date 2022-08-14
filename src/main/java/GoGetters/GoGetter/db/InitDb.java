@@ -1,6 +1,8 @@
 package GoGetters.GoGetter.db;
 
 import GoGetters.GoGetter.domain.article.Article;
+import GoGetters.GoGetter.domain.member.Gender;
+import GoGetters.GoGetter.domain.member.Member;
 import GoGetters.GoGetter.domain.message.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

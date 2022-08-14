@@ -1,7 +1,7 @@
 package GoGetters.GoGetter.util;
 
 
-        import GoGetters.GoGetter.domain.message.Member;
+        import GoGetters.GoGetter.domain.member.Member;
         import io.jsonwebtoken.Claims;
         import io.jsonwebtoken.ExpiredJwtException;
         import io.jsonwebtoken.Jwts;

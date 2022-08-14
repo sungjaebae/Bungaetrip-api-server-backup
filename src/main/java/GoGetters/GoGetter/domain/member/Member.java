@@ -1,7 +1,6 @@
-package GoGetters.GoGetter.domain.message;
+package GoGetters.GoGetter.domain.member;
 
 import GoGetters.GoGetter.domain.report.ReportedMember;
-import GoGetters.GoGetter.domain.member.UserRole;
 import GoGetters.GoGetter.dto.member.UpdateMemberRequest;
 import GoGetters.GoGetter.util.DateTimeUtils;
 import lombok.AllArgsConstructor;

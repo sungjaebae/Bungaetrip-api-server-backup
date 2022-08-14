@@ -1,6 +1,6 @@
 package GoGetters.GoGetter.domain.article;
 
-import GoGetters.GoGetter.domain.message.Member;
+import GoGetters.GoGetter.domain.member.Member;
 import GoGetters.GoGetter.dto.article.UpdateArticleRequest;
 import GoGetters.GoGetter.util.DateTimeUtils;
 import lombok.Getter;

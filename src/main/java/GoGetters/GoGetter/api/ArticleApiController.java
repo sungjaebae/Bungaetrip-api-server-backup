@@ -3,7 +3,7 @@ package GoGetters.GoGetter.api;
 import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.article.ArticleSortType;
-import GoGetters.GoGetter.domain.message.Member;
+import GoGetters.GoGetter.domain.member.Member;
 import GoGetters.GoGetter.dto.article.ArticleResponse;
 import GoGetters.GoGetter.dto.article.ArticleRequest;
 import GoGetters.GoGetter.dto.article.UpdateArticleRequest;

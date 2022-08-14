@@ -4,7 +4,7 @@ import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.message.Receiver;
 import GoGetters.GoGetter.domain.member.SecurityMember;
 import GoGetters.GoGetter.domain.message.Sender;
-import GoGetters.GoGetter.domain.message.Member;
+import GoGetters.GoGetter.domain.member.Member;
 import GoGetters.GoGetter.dto.member.UpdateMemberRequest;
 import GoGetters.GoGetter.exception.Member.NoSuchMemberException;
 import GoGetters.GoGetter.repository.MemberRepository;

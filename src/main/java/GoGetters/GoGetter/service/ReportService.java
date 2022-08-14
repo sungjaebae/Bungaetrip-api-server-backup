@@ -1,7 +1,7 @@
 package GoGetters.GoGetter.service;
 
 import GoGetters.GoGetter.MessageResource;
-import GoGetters.GoGetter.domain.message.Member;
+import GoGetters.GoGetter.domain.member.Member;
 import GoGetters.GoGetter.domain.report.ReportedArticle;
 import GoGetters.GoGetter.domain.report.ReportedMember;
 import GoGetters.GoGetter.exception.Member.NoSuchMemberException;
