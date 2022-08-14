@@ -1,8 +1,8 @@
 package GoGetters.GoGetter.repository;
 
-import GoGetters.GoGetter.domain.Article;
-import GoGetters.GoGetter.domain.ArticleStatus;
-import GoGetters.GoGetter.dto.requestDto.UpdateArticleRequest;
+import GoGetters.GoGetter.domain.article.Article;
+import GoGetters.GoGetter.domain.article.ArticleStatus;
+import GoGetters.GoGetter.dto.article.UpdateArticleRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

@@ -1,9 +1,9 @@
 package GoGetters.GoGetter.service;
 
 import GoGetters.GoGetter.MessageResource;
-import GoGetters.GoGetter.domain.Article;
-import GoGetters.GoGetter.domain.ArticleSortType;
-import GoGetters.GoGetter.dto.requestDto.UpdateArticleRequest;
+import GoGetters.GoGetter.domain.article.Article;
+import GoGetters.GoGetter.domain.article.ArticleSortType;
+import GoGetters.GoGetter.dto.article.UpdateArticleRequest;
 import GoGetters.GoGetter.exception.Article.NoSuchArticleException;
 import GoGetters.GoGetter.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;

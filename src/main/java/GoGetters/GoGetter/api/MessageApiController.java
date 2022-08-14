@@ -1,13 +1,13 @@
 package GoGetters.GoGetter.api;
 
-import GoGetters.GoGetter.domain.Message;
-import GoGetters.GoGetter.domain.Receiver;
-import GoGetters.GoGetter.domain.Sender;
-import GoGetters.GoGetter.dto.messageDto.MessageDto;
-import GoGetters.GoGetter.dto.messageDto.ReceivedMessageResponse;
-import GoGetters.GoGetter.dto.messageDto.SentMessageResponse;
-import GoGetters.GoGetter.dto.messageDto.MessageRequest;
-import GoGetters.GoGetter.dto.memberDto.MemberInfoDto;
+import GoGetters.GoGetter.domain.message.Message;
+import GoGetters.GoGetter.domain.message.Receiver;
+import GoGetters.GoGetter.domain.message.Sender;
+import GoGetters.GoGetter.dto.message.MessageDto;
+import GoGetters.GoGetter.dto.message.ReceivedMessageResponse;
+import GoGetters.GoGetter.dto.message.SentMessageResponse;
+import GoGetters.GoGetter.dto.message.MessageRequest;
+import GoGetters.GoGetter.dto.member.MemberInfoDto;
 import GoGetters.GoGetter.service.MessageService;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.FirebaseSender;

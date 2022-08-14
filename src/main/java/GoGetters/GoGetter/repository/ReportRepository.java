@@ -1,8 +1,7 @@
 package GoGetters.GoGetter.repository;
 
-import GoGetters.GoGetter.domain.Member;
-import GoGetters.GoGetter.domain.ReportedArticle;
-import GoGetters.GoGetter.domain.ReportedMember;
+import GoGetters.GoGetter.domain.report.ReportedArticle;
+import GoGetters.GoGetter.domain.report.ReportedMember;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

@@ -1,10 +1,9 @@
 package GoGetters.GoGetter.service;
 
 import GoGetters.GoGetter.MessageResource;
-import GoGetters.GoGetter.domain.Member;
-import GoGetters.GoGetter.domain.ReportedArticle;
-import GoGetters.GoGetter.domain.ReportedMember;
-import GoGetters.GoGetter.exception.Member.MemberAlreadyExistException;
+import GoGetters.GoGetter.domain.message.Member;
+import GoGetters.GoGetter.domain.report.ReportedArticle;
+import GoGetters.GoGetter.domain.report.ReportedMember;
 import GoGetters.GoGetter.exception.Member.NoSuchMemberException;
 import GoGetters.GoGetter.exception.report.AlreadyReportException;
 import GoGetters.GoGetter.repository.MemberRepository;

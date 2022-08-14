@@ -1,8 +1,6 @@
 package GoGetters.GoGetter.api;
 
-import GoGetters.GoGetter.domain.Member;
-import GoGetters.GoGetter.domain.ReportedArticle;
-import GoGetters.GoGetter.domain.ReportedMember;
+import GoGetters.GoGetter.domain.report.ReportedArticle;
 import GoGetters.GoGetter.dto.report.ArticleReportRequest;
 import GoGetters.GoGetter.dto.report.MemberReportRequest;
 import GoGetters.GoGetter.service.MemberService;
