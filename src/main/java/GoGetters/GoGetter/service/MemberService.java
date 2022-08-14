@@ -1,11 +1,11 @@
 package GoGetters.GoGetter.service;
 
 import GoGetters.GoGetter.MessageResource;
-import GoGetters.GoGetter.domain.Receiver;
-import GoGetters.GoGetter.domain.SecurityMember;
-import GoGetters.GoGetter.domain.Sender;
-import GoGetters.GoGetter.domain.Member;
-import GoGetters.GoGetter.dto.requestDto.MemberInfoRequest;
+import GoGetters.GoGetter.domain.message.Receiver;
+import GoGetters.GoGetter.domain.member.SecurityMember;
+import GoGetters.GoGetter.domain.message.Sender;
+import GoGetters.GoGetter.domain.member.Member;
+import GoGetters.GoGetter.dto.member.UpdateMemberRequest;
 import GoGetters.GoGetter.exception.Member.NoSuchMemberException;
 import GoGetters.GoGetter.repository.MemberRepository;
 import GoGetters.GoGetter.repository.ReceiverRepository;
@@ -63,13 +63,13 @@ public class MemberService {
     }
 
     @Transactional
-    public Long updateMyInfo(MemberInfoRequest memberInfoDto) {
+    public Long updateMyInfo(UpdateMemberRequest memberInfoDto) {
         Member member = this.findOne(memberInfoDto.getMemberId());
         return memberRepository.updateMemberInfo(member,memberInfoDto);
     }
 
     @Transactional
-    public Long updateMyInfo(MemberInfoRequest memberInfoDto,String profileUrl,String profileFileName) {
+    public Long updateMyInfo(UpdateMemberRequest memberInfoDto, String profileUrl, String profileFileName) {
         Member member = this.findOne(memberInfoDto.getMemberId());
         return memberRepository.updateMemberInfo(member,memberInfoDto,profileUrl,profileFileName);
     }

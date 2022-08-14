@@ -1,12 +1,12 @@
 package GoGetters.GoGetter.api;
 
 import GoGetters.GoGetter.MessageResource;
-import GoGetters.GoGetter.domain.Article;
-import GoGetters.GoGetter.domain.ArticleSortType;
-import GoGetters.GoGetter.domain.Member;
-import GoGetters.GoGetter.dto.articleDto.ArticleResponse;
-import GoGetters.GoGetter.dto.articleDto.ArticleRequest;
-import GoGetters.GoGetter.dto.requestDto.UpdateArticleRequest;
+import GoGetters.GoGetter.domain.article.Article;
+import GoGetters.GoGetter.domain.article.ArticleSortType;
+import GoGetters.GoGetter.domain.member.Member;
+import GoGetters.GoGetter.dto.article.ArticleResponse;
+import GoGetters.GoGetter.dto.article.ArticleRequest;
+import GoGetters.GoGetter.dto.article.UpdateArticleRequest;
 import GoGetters.GoGetter.exception.Article.InvalidSortTypeException;
 import GoGetters.GoGetter.service.ArticleService;
 import GoGetters.GoGetter.service.MemberService;

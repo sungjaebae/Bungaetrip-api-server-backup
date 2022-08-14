@@ -1,7 +1,7 @@
 package GoGetters.GoGetter.api;
 
-import GoGetters.GoGetter.domain.Article;
-import GoGetters.GoGetter.dto.articleDto.ArticleResponse;
+import GoGetters.GoGetter.domain.article.Article;
+import GoGetters.GoGetter.dto.article.ArticleResponse;
 import GoGetters.GoGetter.service.ArticleService;
 import GoGetters.GoGetter.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;

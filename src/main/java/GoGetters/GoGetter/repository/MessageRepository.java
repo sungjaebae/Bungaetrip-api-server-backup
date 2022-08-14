@@ -1,6 +1,6 @@
 package GoGetters.GoGetter.repository;
 
-import GoGetters.GoGetter.domain.Message;
+import GoGetters.GoGetter.domain.message.Message;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -22,10 +22,12 @@ public class MessageRepository {
     public List<Message> findMessage(Long messageId){
         String query = "select m from Message m " +
                 "join fetch m.sender s " +
-                "join fetch s.member "+
+                "join fetch s.member sm "+
                 "join fetch m.receiver r " +
-                "join fetch r.member " +
-                "where m.id=:messageId";
+                "join fetch r.member rm " +
+                "where m.id=:messageId " +
+                "and sm.deletedAt is null " +
+                "and rm.deletedAt is null";
         return em.createQuery(query, Message.class)
                 .setParameter("messageId", messageId)
                 .getResultList();
@@ -35,7 +37,10 @@ public class MessageRepository {
     public List<Message> findMessagesByReceiverId(Long receiverId){
         String query="select m from Message m " +
                 "join fetch m.receiver r " +
-                "join fetch r.member rm where rm.id=:memberId order by m.createdAt desc";
+                "join fetch r.member rm " +
+                "where rm.id=:memberId " +
+                "and rm.deletedAt is null " +
+                "order by m.createdAt desc";
         return em.createQuery(query,Message.class)
                 .setParameter("memberId",receiverId).getResultList();
     }
@@ -45,18 +50,11 @@ public class MessageRepository {
         String query = "select m from Message m " +
                 "join fetch m.sender s " +
                 "join fetch s.member sm " +
-                "where sm.id=:memberId order by m.createdAt desc";
+                "where sm.id=:memberId " +
+                "and sm.deletedAt is null " +
+                "order by m.createdAt desc";
         return em.createQuery(query, Message.class)
                 .setParameter("memberId",memberId).getResultList();
     }
 
-//    public List<Message> findMessagesByReceiverId(Long receiverId) {
-//        String query="select m from Message m " +
-//                "join fetch m.receiver r " +
-//                "join fetch r.member rm "+
-//                "where rm.id=:receiverId";
-//        return em.createQuery(query)
-//                .setParameter("receiverId", receiverId)
-//                .getResultList();
-//    }
 }

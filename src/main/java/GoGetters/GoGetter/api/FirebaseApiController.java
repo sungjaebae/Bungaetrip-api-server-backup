@@ -1,15 +1,12 @@
 package GoGetters.GoGetter.api;
 
 
-import GoGetters.GoGetter.domain.Member;
+import GoGetters.GoGetter.domain.member.Member;
 import GoGetters.GoGetter.dto.fcmToken.FcmTokenRequest;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.FirebaseSender;
 import GoGetters.GoGetter.util.JwtUtil;
 import GoGetters.GoGetter.util.ResponseUtil;
-import com.azure.core.annotation.Patch;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

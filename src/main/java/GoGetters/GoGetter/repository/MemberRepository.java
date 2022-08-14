@@ -1,9 +1,9 @@
 package GoGetters.GoGetter.repository;
 
-import GoGetters.GoGetter.domain.Receiver;
-import GoGetters.GoGetter.domain.Sender;
-import GoGetters.GoGetter.domain.Member;
-import GoGetters.GoGetter.dto.requestDto.MemberInfoRequest;
+import GoGetters.GoGetter.domain.message.Receiver;
+import GoGetters.GoGetter.domain.message.Sender;
+import GoGetters.GoGetter.domain.member.Member;
+import GoGetters.GoGetter.dto.member.UpdateMemberRequest;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -22,7 +22,9 @@ public class MemberRepository {
     }
 
     public List<Member> findOne(Long memberId){
-        String query = "select m from Member m where m.id=:memberId";
+        String query = "select m from Member m " +
+                "where m.id=:memberId " +
+                "and m.deletedAt is null";
 
         return em.createQuery(query,Member.class)
                 .setParameter("memberId",memberId)
@@ -44,31 +46,39 @@ public class MemberRepository {
     }
 
     public List<Sender> findSender(Long memberId) {
-        String query="select s from Sender s join fetch s.member m where m.id=:memberId";
+        String query="select s from Sender s " +
+                "join fetch s.member m " +
+                "where m.id=:memberId " +
+                "and m.deletedAt is null";
         return em.createQuery(query,Sender.class)
                 .setParameter("memberId",memberId)
                 .getResultList();
     }
 
     public List<Receiver> findReceiver(Long memberId) {
-        String query="select r from Receiver r join fetch r.member m where m.id=:memberId";
+        String query="select r from Receiver r " +
+                "join fetch r.member m " +
+                "where m.id=:memberId " +
+                "and m.deletedAt is null";
         return em.createQuery(query,Receiver.class)
                 .setParameter("memberId",memberId)
                 .getResultList();
     }
 
     public List<Member> findMembersByUsername(String username) {
-        String query = "select m from Member m where m.username=:username";
+        String query = "select m from Member m " +
+                "where m.username=:username " +
+                "and m.deletedAt is null";
         return em.createQuery(query, Member.class).setParameter("username", username).getResultList();
     }
 
-    public Long updateMemberInfo(Member member,MemberInfoRequest memberInfoDto) {
+    public Long updateMemberInfo(Member member, UpdateMemberRequest memberInfoDto) {
         member.updateMyInfo(memberInfoDto);
         return member.getId();
     }
 
 
-    public Long updateMemberInfo(Member member, MemberInfoRequest memberInfoDto, String profileUrl,String profileName) {
+    public Long updateMemberInfo(Member member, UpdateMemberRequest memberInfoDto, String profileUrl, String profileName) {
         member.updateMyInfo(memberInfoDto,profileUrl,profileName);
         return member.getId();
     }

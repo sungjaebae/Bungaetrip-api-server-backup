@@ -1,9 +1,9 @@
 package GoGetters.GoGetter.service;
 
 import GoGetters.GoGetter.MessageResource;
-import GoGetters.GoGetter.domain.Message;
-import GoGetters.GoGetter.domain.Receiver;
-import GoGetters.GoGetter.domain.Sender;
+import GoGetters.GoGetter.domain.message.Message;
+import GoGetters.GoGetter.domain.message.Receiver;
+import GoGetters.GoGetter.domain.message.Sender;
 import GoGetters.GoGetter.exception.Message.NoSuchMessageException;
 import GoGetters.GoGetter.repository.MessageRepository;
 import GoGetters.GoGetter.repository.ReceiverRepository;

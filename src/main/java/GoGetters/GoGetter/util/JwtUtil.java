@@ -1,8 +1,7 @@
 package GoGetters.GoGetter.util;
 
 
-        import GoGetters.GoGetter.domain.Member;
-        import GoGetters.GoGetter.domain.UserRole;
+        import GoGetters.GoGetter.domain.member.Member;
         import io.jsonwebtoken.Claims;
         import io.jsonwebtoken.ExpiredJwtException;
         import io.jsonwebtoken.Jwts;
@@ -15,7 +14,6 @@ package GoGetters.GoGetter.util;
 
         import java.nio.charset.StandardCharsets;
         import java.security.Key;
-        import java.time.LocalDateTime;
         import java.util.Date;
 
 @Component
