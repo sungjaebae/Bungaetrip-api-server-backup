@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 
-public class Error extends Result{
+public class Error {
     @ApiModelProperty(example = "응답 상태")
 
     private String status;

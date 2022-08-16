@@ -12,6 +12,7 @@ import GoGetters.GoGetter.service.MessageService;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.FirebaseSender;
 import GoGetters.GoGetter.util.ResponseUtil;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,7 @@ public class MessageApiController {
     @Operation(summary = "받은 메세지 목록 조회 API",description = "회원의 번호로 " +
             "받아진 메세지를 모두 조회합니다. 메세지 번호, 보낸 사람에 대한 정보, 메세지 내용, " +
             "메세지 작성 시간 등의 정보를 가진 메세지들을 JSON 형태로 반환합니다")
+    @ApiImplicitParam(name="receiverId",value = "메세지 받는 회원 번호",dataType = "Long",required = true,paramType = "query")
     public ResponseEntity listReceivedMessage(
                                       @RequestParam("receiverId") Long receiverId) {
         memberService.findOne(receiverId);
@@ -53,6 +55,7 @@ public class MessageApiController {
     @Operation(summary = "특정 메세지 조회 API",description = "메세지 번호를 통해 해당 메세지의 " +
             "내용을 조회합니다. 회원 번호, 메세지를 보낸 사람 및 받은 사람에 대한 정보, 메세지 내용 및 작성시간을 " +
             "JSON 형태로 반환합니다")
+    @ApiImplicitParam(name="messageId",value = "메세지 번호",dataType = "Long",required = true,paramType = "query")
     public ResponseEntity readMessage(@RequestParam("messageId")Long messageId){
         Message message = messageService.findMessage(messageId);
         Sender sender=message.getSender();

@@ -13,6 +13,9 @@ import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.ResponseUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +62,10 @@ public class ArticleApiController {
     //특정 게시글 조회
     @GetMapping(value = "/{id}")
     @Operation(summary= "특정 게시글 조회 API", description = "사용자가 요청한 게시글 번호에 해당하는 게시글 정보를 조회합니다." +
-            "게시글 번호, 출발지, 도착지, 약속 날짜 및 시간, 현재 인원, 글 생성 시간, 제목 및 내용을 JSON 형태로 반환합니다")
+            "게시글 번호, 출발지, 도착지, 약속 날짜 및 시간, 현재 인원, 글 생성 시간, 제목 및 내용을 JSON 형태로 반환합니다",responses = {
+            @ApiResponse(responseCode = "200",description = "게시글 조회 성공",content =  @Content(schema = @Schema(implementation = ResponseEntity.class))),
+            @ApiResponse(responseCode = "404",description = "존재하지 않는 리소스 접근",content =  @Content(schema = @Schema(implementation = ResponseEntity.class)))
+    })
     @ApiImplicitParam(name = "id", value = "게시글 번호", dataType = "Long", required = true, example = "1", paramType = "path")
     public ResponseEntity readArticle(@PathVariable(value = "id")  Long articleId) {
 
