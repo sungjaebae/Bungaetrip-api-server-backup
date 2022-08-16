@@ -16,7 +16,7 @@ public class MessageResource {
     public static String invalidMemberRequestForm = "사용자 관련 요청값이 형식에 맞지 않습니다";
 
     //    Message
-    public static String messageNotExist = "존재하지 않는 메시지입니다";
+    public static String messageNotExist = "존재하지 않는 메세지입니다";
 
 
     //    Login
