@@ -12,6 +12,8 @@ import GoGetters.GoGetter.service.MessageService;
 import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.FirebaseSender;
 import GoGetters.GoGetter.util.ResponseUtil;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,6 +35,10 @@ public class MessageApiController {
     private final FirebaseSender firebaseSender;
     //receiver_id 를 통해 message 목록 조회 api
     @GetMapping(value="/messages",params = "receiverId")
+    @Operation(summary = "받은 메세지 목록 조회 API",description = "회원의 번호로 " +
+            "받아진 메세지를 모두 조회합니다. 메세지 번호, 보낸 사람에 대한 정보, 메세지 내용, " +
+            "메세지 작성 시간 등의 정보를 가진 메세지들을 JSON 형태로 반환합니다")
+    @ApiImplicitParam(name="receiverId",value = "메세지 받는 회원 번호",dataType = "Long",required = true,paramType = "query")
     public ResponseEntity listReceivedMessage(
                                       @RequestParam("receiverId") Long receiverId) {
         memberService.findOne(receiverId);
@@ -46,6 +52,10 @@ public class MessageApiController {
     }
     //message 내용 조회 api
     @GetMapping(value = "/messages",params = "messageId")
+    @Operation(summary = "특정 메세지 조회 API",description = "메세지 번호를 통해 해당 메세지의 " +
+            "내용을 조회합니다. 회원 번호, 메세지를 보낸 사람 및 받은 사람에 대한 정보, 메세지 내용 및 작성시간을 " +
+            "JSON 형태로 반환합니다")
+    @ApiImplicitParam(name="messageId",value = "메세지 번호",dataType = "Long",required = true,paramType = "query")
     public ResponseEntity readMessage(@RequestParam("messageId")Long messageId){
         Message message = messageService.findMessage(messageId);
         Sender sender=message.getSender();
@@ -55,19 +65,22 @@ public class MessageApiController {
                 message.getContent(),message.getCreatedAt());
         return ResponseUtil.successResponse(HttpStatus.OK, messageDto);
     }
-    //메시지 작성 api
+    //메세지 작성 api
     @PostMapping("/messages")
+    @Operation(summary = "메세지 생성 API",description = "메세지를 보내는 회원의 번호 및 받는 회원의 번호 그리고" +
+            "메세지 내용을 입력받아 정보들을 데이터베이스에 저장하고 메세지를 받을 사람에게 " +
+            "알림을 보낸다")
     public ResponseEntity createMessage(@RequestBody MessageRequest messageRequest) throws IOException {
         //senderId, receiverId를 통해 sender,receiver 찾기
         Sender sender= memberService.sender(messageRequest.getSenderId());
         Receiver receiver= memberService.receiver(messageRequest.getReceiverId());
 
-        //메시지 작성
+        //메세지 작성
         Message message=new Message(messageRequest.getContent());
         Long messageId= messageService.send(sender,receiver,message);
 
         ////////////////////////////
-        //fcm 에 메시지 보내기
+        //fcm 에 메세지 보내기
         sendMessageToFCM(receiver,messageId);
         //////////////////////////////
 
@@ -85,10 +98,12 @@ public class MessageApiController {
 
         //2. fcm 에 전송하기
         String title = "알림";
-        String body = "새 메시지가 도착했습니다";
+        String body = "새 메세지가 도착했습니다";
         firebaseSender.pushBrowserSend(fcmToken,title,body,String.valueOf(messageId));
     }
     @GetMapping(value="/messages/sentMessages")
+    @Operation(summary = "보낸 메세지 목록 조회 API",description = "회원 번호를 통해" +
+            "해당 회원이 보낸 메세지 목록을 JSON 형태로 반환한다")
     public ResponseEntity listSentMessages(@RequestParam("memberId") Long memberId) {
         memberService.findOne(memberId);
 

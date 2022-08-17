@@ -11,11 +11,10 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "게시글 수정 요청")
-public class UpdateArticleRequest {
-
-    @Schema(description = "게시글 번호")
-    private Long articleId;
+@Schema(description = "게시글 생성 DTO",name = "ddd",title = "dfsf")
+public class CreateArticleRequest {
+    @Schema(description = "회원 번호")
+    private Long memberId;
 
     @Schema(description = "출발지")
     private String departure;
@@ -26,12 +25,10 @@ public class UpdateArticleRequest {
     @Schema(description = "현재 인원")
     private Integer currentParticipants;
 
-//    private Integer totalParticipants;
-
-    @Schema(description = "약속 날짜",example = "yyyy-MM-dd",format = "yyyy-mm-ss")
+    @Schema(description = "약속 날짜", example = "yyyy-MM-dd", format = "yyyy-mm-ss")
     private LocalDate date;
 
-    @Schema(description = "약속 시간",type = "string",example = "HH:mm:ss",format = "HH:mm:ss")
+    @Schema(description = "약속 시간", type = "string", example = "HH:mm:ss", format= "HH:mm:ss")
     private LocalTime time;
 
     @Schema(description = "제목")

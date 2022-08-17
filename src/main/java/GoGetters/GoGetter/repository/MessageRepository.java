@@ -12,13 +12,13 @@ public class MessageRepository {
     @PersistenceContext
     private EntityManager em;
 
-    //메시지 작성
+    //메세지 작성
     public Long save(Message message) {
         em.persist(message);
         return message.getId();
     }
 
-    //메시지 가져오기
+    //메세지 가져오기
     public List<Message> findMessage(Long messageId){
         String query = "select m from Message m " +
                 "join fetch m.sender s " +

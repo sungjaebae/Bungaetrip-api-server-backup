@@ -1,6 +1,7 @@
 package GoGetters.GoGetter.dto.member;
 
 import GoGetters.GoGetter.domain.member.Member;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -10,7 +11,10 @@ import java.util.stream.Collectors;
 @Data
 @AllArgsConstructor
 public class MemberInfoReturn{
+    @Schema(description = "회원 번호",example = "1")
+
     private Long memberId;
+    @Schema(description = "회원 아이디",example = "1")
     private String username;
     private String email;
     private String nickname;

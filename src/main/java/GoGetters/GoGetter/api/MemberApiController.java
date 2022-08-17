@@ -11,6 +11,7 @@ import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.util.BlobStorage;
 import GoGetters.GoGetter.util.JwtUtil;
 import GoGetters.GoGetter.util.ResponseUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,12 +34,16 @@ public class MemberApiController {
     private final BlobStorage blobStorage;
 
     @GetMapping(value = "/{memberId}")
+    @Operation(summary = "회원 정보 조회 API",description = "회원 번호를 통해 회원의 정보를 조회합니다. 회원 번호, 아이디, 이메일, 닉네임, " +
+            "나이를 JSON 형태로 반환합니다")
     public ResponseEntity readMemberById(@PathVariable("memberId") Long memberId) {
         Member member = memberService.findOne(memberId);
         MemberInfoReturn memberResponse=new MemberInfoReturn(member);
         return ResponseUtil.successResponse(HttpStatus.OK,memberResponse);
     }
     @PatchMapping(value = "/myInfo", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+    @Operation(summary = "회원 정보 수정 API", description = "회원 번호, 닉네임, 나이, 성별, 자기 소개 그리고 프로필 사진을 입력받아 사용자 정보를" +
+            " 추가합니다")
     public ResponseEntity updateMemberInfo(@RequestPart UpdateMemberRequest request,
                                            @RequestPart(required = false) MultipartFile imgFile) throws IOException {
         if (!request.getGender().equals("MALE") && !request.getGender().equals("FEMALE")) {
@@ -67,6 +72,7 @@ public class MemberApiController {
     }
 
     @GetMapping(value = "/username")
+    @Operation(summary = "회원 아이디 사용가능 여부 조회 API",description = "회원가입을 할 때 입력한 아이디가 사용 가능한지 판별한다")
     public ResponseEntity validateUsername(@RequestParam("username") String username) {
         log.debug("Log /member/username");
         List<Member> membersByUsername= memberService.findMemberByUsername(username);
@@ -78,6 +84,7 @@ public class MemberApiController {
     }
 
     @GetMapping(value = "/email")
+    @Operation(summary ="이메일 사용가능 여부 조회 API",description = "회원가입을 할 때 입력한 이메일이 사용 가능한지 판별한다")
     public ResponseEntity validateEmail(@RequestParam("email") String email) {
         log.debug("Log /member/email");
         List<Member> membersByEmail= memberService.findMemberByEmail(email);
@@ -89,6 +96,8 @@ public class MemberApiController {
     }
 
     @GetMapping(value = "")
+    @Operation(summary = "토큰을 통해 회원 정보 조회 API",description = "사용자가 가지고 있는 jwt 토큰을 통해" +
+            " 회원 번호를 파싱하고, 이를 사용하여 회원 정보를 JSON 형태로 반환한다")
     public ResponseEntity readMember(
             @RequestHeader("Authorization") String authorization) {
         log.debug("JWT authorization : {}",authorization);

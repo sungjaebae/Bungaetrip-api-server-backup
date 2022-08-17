@@ -50,7 +50,7 @@ public class ArticleResponse {
         this.member = new MemberInfoDto(article.getWriter());
     }
 
-    public ArticleResponse(ArticleRequest articleRequest, LocalDate date, LocalTime time) {
+    public ArticleResponse(CreateArticleRequest articleRequest, LocalDate date, LocalTime time) {
         this.departure=articleRequest.getDeparture();
         this.destination=articleRequest.getDestination();
         this.currentParticipants=articleRequest.getCurrentParticipants();

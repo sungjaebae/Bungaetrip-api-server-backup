@@ -7,6 +7,7 @@ import GoGetters.GoGetter.service.MemberService;
 import GoGetters.GoGetter.service.ReportService;
 import GoGetters.GoGetter.util.JwtUtil;
 import GoGetters.GoGetter.util.ResponseUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class ReportApiController {
     private final MemberService memberService;
     @Transactional
     @PostMapping(value = "/member")
+    @Operation(summary = "회원 신고 접수 API",description = "회원번호와 신고 사유를 입력받아 신고를 접수받는다")
     public ResponseEntity createMemberReport(@RequestHeader("Authorization")String authorization,
                                              @RequestBody MemberReportRequest reportRequest) {
             String token = authorization.substring("Bearer ".length());
@@ -43,13 +45,11 @@ public class ReportApiController {
 
     @Transactional
     @PostMapping(value = "/article")
+    @Operation(summary = "게시글 신고 접수 API",description = "게시글 번호와 신고 사유를 입력받아 신고를 접수받는다")
     public ResponseEntity createArticleReport(@RequestBody ArticleReportRequest articleReportRequest ) {
         Long reportedArticleId=reportService.reportArticle(new ReportedArticle(articleReportRequest.getArticleId(), articleReportRequest.getReportContent()));
         return ResponseUtil.successResponse(HttpStatus.CREATED, new ReportResponse(reportedArticleId));
     }
-
-
-
 
 
     @Data
