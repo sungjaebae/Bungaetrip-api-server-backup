@@ -36,4 +36,16 @@ public class CreateArticleRequest {
 
     @Schema(description = "게시글 내용")
     private String content;
+
+    @Schema(description = "출발지 위도")
+    private Double departureLongitude;
+
+    @Schema(description = "출발지 경도")
+    private Double departureLatitude;
+
+    @Schema(description = "도착지 위도")
+    private Double destinationLongitude;
+
+    @Schema(description = "도착지 경도")
+    private Double destinationLatitude;
 }

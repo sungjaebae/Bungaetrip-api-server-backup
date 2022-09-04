@@ -24,7 +24,16 @@ public class Article {
 
     private String departure;
 
+    //출발지 위도
+    private Double departureLongitude;
+    //출발지 경도
+    private Double departureLatitude;
+
     private String destination;
+    //도착지 위도
+    private Double destinationLongitude;
+    //도착지 경도
+    private Double destinationLatitude;
 
     private LocalDate date;
 
@@ -42,17 +51,27 @@ public class Article {
 
     @Enumerated(EnumType.STRING)
     private ArticleStatus status;
+
+
     public Article(Member member, String departure, String destination, LocalDate date, LocalTime time,
                    Integer currentParticipants,
-//                   Integer totalParticipants,
-                   String title, String content){
-        this(departure,destination,date,time,currentParticipants, title,content);
+                   String title, String content,
+                   Double departureLongitude,Double departureLatitude,
+                   Double destinationLongitude,Double destinationLatitude
+
+    ){
+        this(departure,destination
+                ,date,time,currentParticipants, title,content
+                ,departureLongitude,departureLatitude,
+                destinationLongitude,destinationLatitude);
         this.setWriter(member);
     }
-    public Article(String departure,String destination,LocalDate date,LocalTime time,
+    public Article(String departure,String destination
+            ,LocalDate date,LocalTime time,
                    Integer currentParticipants,
-//                   Integer totalParticipants,
-            String title,String content){
+            String title,String content,
+    Double departureLongitude,Double departureLatitude,
+                   Double destinationLongitude,Double destinationLatitude){
         this.departure=departure;
         this.destination=destination;
         this.date=date;
@@ -64,6 +83,11 @@ public class Article {
 
         this.createdAt= DateTimeUtils.nowFromZone();
         this.status=ArticleStatus.CREATE;
+
+        this.departureLongitude=departureLongitude;
+        this.departureLatitude=departureLatitude;
+        this.destinationLongitude=destinationLongitude;
+        this.destinationLatitude=destinationLatitude;
     }
 
     public void changeArticleStatus(ArticleStatus status){
@@ -76,9 +100,13 @@ public class Article {
         this.date=fixes.getDate();
         this.time=fixes.getTime();
         this.currentParticipants= fixes.getCurrentParticipants();
-//        this.totalParticipants= fixes.getTotalParticipants();;
         this.title=fixes.getTitle();
         this.content= fixes.getContent();
+
+        this.departureLongitude=fixes.getDepartureLongitude();
+        this.departureLatitude=fixes.getDepartureLatitude();
+        this.destinationLongitude=fixes.getDestinationLongitude();
+        this.destinationLatitude=fixes.getDestinationLatitude();
     }
 
 

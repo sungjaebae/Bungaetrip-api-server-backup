@@ -48,7 +48,10 @@ public class ArticleApiController {
         Article article = new Article(member, createArticleRequest.getDeparture(), createArticleRequest.getDestination(),
                 createArticleRequest.getDate(), createArticleRequest.getTime(),
                 createArticleRequest.getCurrentParticipants(),
-                createArticleRequest.getTitle(), createArticleRequest.getContent());
+                createArticleRequest.getTitle(), createArticleRequest.getContent(),
+                createArticleRequest.getDepartureLongitude(),createArticleRequest.getDepartureLatitude(),
+                createArticleRequest.getDestinationLongitude(),createArticleRequest.getDestinationLatitude()
+                );
 
         Long writeId = articleService.writeArticle(article);
         Article findArticle = articleService.findArticle(writeId);
