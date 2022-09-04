@@ -26,8 +26,6 @@ public class UpdateArticleRequest {
     @Schema(description = "현재 인원")
     private Integer currentParticipants;
 
-//    private Integer totalParticipants;
-
     @Schema(description = "약속 날짜",example = "yyyy-MM-dd",format = "yyyy-mm-ss")
     private LocalDate date;
 
@@ -39,4 +37,16 @@ public class UpdateArticleRequest {
 
     @Schema(description = "게시글 내용")
     private String content;
+
+    @Schema(description = "출발지 위도")
+    private Double departureLongitude;
+
+    @Schema(description = "출발지 경도")
+    private Double departureLatitude;
+
+    @Schema(description = "도착지 위도")
+    private Double destinationLongitude;
+
+    @Schema(description = "도착지 경도")
+    private Double destinationLatitude;
 }

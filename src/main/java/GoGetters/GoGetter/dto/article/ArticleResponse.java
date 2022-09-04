@@ -17,9 +17,11 @@ import java.time.LocalTime;
 public class ArticleResponse {
     private Long articleId;
     private String departure;
-
+    private Double departureLongitude;
+    private Double departureLatitude;
     private String destination;
-
+    private Double destinationLongitude;
+    private Double destinationLatitude;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
@@ -29,10 +31,10 @@ public class ArticleResponse {
     private Integer currentParticipants;
 
     private LocalDateTime createdAt;
-//    private Integer totalParticipants;
     private String title;
 
     private String content;
+
 
     private MemberInfoDto member;
     public ArticleResponse(Article article){
@@ -42,19 +44,22 @@ public class ArticleResponse {
         this.date=article.getDate();
         this.time=article.getTime();
         this.currentParticipants=article.getCurrentParticipants();
-//        this.totalParticipants=article.getTotalParticipants();
         this.title=article.getTitle();
         this.content=article.getContent();
         this.createdAt=article.getCreatedAt();
 
         this.member = new MemberInfoDto(article.getWriter());
+
+        this.departureLongitude = article.getDepartureLongitude();
+        this.departureLatitude=article.getDepartureLatitude();
+        this.destinationLongitude=article.getDestinationLongitude();
+        this.destinationLatitude=article.getDestinationLatitude();
     }
 
     public ArticleResponse(CreateArticleRequest articleRequest, LocalDate date, LocalTime time) {
         this.departure=articleRequest.getDeparture();
         this.destination=articleRequest.getDestination();
         this.currentParticipants=articleRequest.getCurrentParticipants();
-//        this.totalParticipants=articleRequest.getTotalParticipants();
         this.title=articleRequest.getTitle();
         this.content=articleRequest.getContent();
         this.date=date;
@@ -65,7 +70,6 @@ public class ArticleResponse {
         this.departure=request.getDeparture();
         this.destination=request.getDestination();
         this.currentParticipants=request.getCurrentParticipants();
-//        this.totalParticipants=articleRequest.getTotalParticipants();
         this.title=request.getTitle();
         this.content=request.getContent();
         this.date=request.getDate();

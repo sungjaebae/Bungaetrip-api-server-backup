@@ -79,7 +79,8 @@ public class InitDb {
                 Article article=createArticle(members.get(random.nextInt(10)),"출발지"+String.valueOf(i),
                         "도착지"+String.valueOf(i),LocalDate.of(2020+i%5,i%12+1,i%28+1)
                         ,LocalTime.of(i%23+1,i%60), 4/(random.nextInt(4)+1),
-                        "제목"+String.valueOf(i),"내용" +String.valueOf(i)  );
+                        "제목"+String.valueOf(i),"내용" +String.valueOf(i)
+                , random.nextDouble(), random.nextDouble(),random.nextDouble(),random.nextDouble());
                 em.persist(article);
                 articles.add(article);
             }
@@ -111,9 +112,13 @@ public class InitDb {
 
         private Article createArticle(Member member, String dep, String des, LocalDate date, LocalTime time,
                                       Integer current,
-//                                      Integer total,
-                                      String title, String content) {
-            return new Article(member,dep,des,date,time,current,title,content);
+                                      String title, String content,
+                                      Double departureLongitude,Double departureLatitude,
+                                      Double destinationLongitude,Double destinationLatitude
+        ) {
+            return new Article(member,dep,des,date,time,current,title,content,
+                    departureLongitude,departureLatitude,
+                    destinationLongitude,destinationLatitude);
         }
 
 
