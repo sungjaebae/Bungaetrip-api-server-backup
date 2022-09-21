@@ -12,7 +12,17 @@ import java.util.List;
 public class ContentService {
     private final ContentRepository contentRepository;
 
-    public List<Content> findAllByLocationAndFilter(Double left, Double right, Double top, Double bottom, String filter) {
-        return null;
+
+
+    public Content findOne(Long contentId) {
+        return contentRepository.findOne(contentId);
+    }
+
+    public List<Content> findAllBySearchKeyword(String searchKeyword) {
+        return contentRepository.findAllBySearchKeyword(searchKeyword);
+    }
+
+    public List<Content> findPlaceInAreaByFilter(Double left, Double right, Double top, Double bottom, String filter) {
+        return contentRepository.findAllByLocationAndFilter(left, right, top, bottom, filter);
     }
 }

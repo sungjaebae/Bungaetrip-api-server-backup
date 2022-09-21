@@ -23,10 +23,15 @@ public class Content extends JpaBaseEntity {
     private Double latitude;
     private Double longitude;
 
-//    @Enumerated(value = EnumType.STRING)
-//    private ContentType contentType;
+    @Enumerated(value = EnumType.STRING)
+    private ContentType contentType;
 
     private Integer likes;
+
+    private Long review;
+    private Long rating;
+    private Long kakaoId;
+    private String address;
 
     public Content(String title, String content, Double latitude, Double longitude, Integer likes) {
         this.title=title;
