@@ -100,4 +100,14 @@ public class ArticleRepository {
                 .setParameter("status", ArticleStatus.CREATE)
                 .getResultList();
     }
+
+    public List<Article> findArticlesByLocation(String travelPlace) {
+        String query="select a from Article a" +
+                " where a.status=:status" +
+                " and a.destination=:travelPlace";
+        return em.createQuery(query, Article.class)
+                .setParameter("status",ArticleStatus.CREATE)
+                .setParameter("travelPlace",travelPlace)
+                .getResultList();
+    }
 }

@@ -82,4 +82,8 @@ public class ArticleService {
         return sortedList;
 
     }
+
+    public List<Article> findArticlesByLocation(String location) {
+        return articleRepository.findArticlesByLocation(location);
+    }
 }

@@ -1,6 +1,7 @@
 package GoGetters.GoGetter.db;
 
 import GoGetters.GoGetter.domain.article.Article;
+import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.member.Gender;
 import GoGetters.GoGetter.domain.member.Member;
 import GoGetters.GoGetter.domain.message.*;
@@ -39,6 +40,7 @@ public class InitDb {
         initService.getMembersFromDB();
         initService.dbInitArticle();
         initService.dbInitMessage();
+        initService.initDbContent();
     }
    }
     @Component
@@ -50,6 +52,7 @@ public class InitDb {
         private List<Member> members =new ArrayList<>();
         private List<Article> articles=new ArrayList<>();
         private List<Message> messages=new ArrayList<>();
+        private List<Content> contentList = new ArrayList<>();
         private Random random = new Random();
 
         public void getMembersFromDB() {
@@ -79,7 +82,7 @@ public class InitDb {
                 Article article=createArticle(members.get(random.nextInt(10)),"출발지"+String.valueOf(i),
                         "도착지"+String.valueOf(i),LocalDate.of(2020+i%5,i%12+1,i%28+1)
                         ,LocalTime.of(i%23+1,i%60), 4/(random.nextInt(4)+1),
-                        "제목"+String.valueOf(i),"내용" +String.valueOf(i)
+                        "제목 테스트 "+String.valueOf(i),"내용" +String.valueOf(i)
                 , random.nextDouble(), random.nextDouble(),random.nextDouble(),random.nextDouble());
                 em.persist(article);
                 articles.add(article);
@@ -106,6 +109,11 @@ public class InitDb {
                 messages.add(message);
             }
         }
+
+        public void initDbContent() {
+            Content content = new Content("제목", "내용", random.nextDouble(),random.nextDouble(), 9);
+            em.persist(content);
+        }
         private Member createUser(String email, String nickname, String pw, Integer age, Gender gender,String description) {
             return new Member(email,email, pw, nickname, age, gender,description);
         }
@@ -120,6 +128,8 @@ public class InitDb {
                     departureLongitude,departureLatitude,
                     destinationLongitude,destinationLatitude);
         }
+
+
 
 
     }
