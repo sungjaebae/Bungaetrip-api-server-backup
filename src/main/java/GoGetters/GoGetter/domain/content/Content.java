@@ -32,6 +32,7 @@ public class Content extends JpaBaseEntity {
     private Long rating;
     private Long kakaoId;
     private String address;
+    private Long ratingCount;
 
     public Content(String title, String content, Double latitude, Double longitude, Integer likes) {
         this.title=title;
