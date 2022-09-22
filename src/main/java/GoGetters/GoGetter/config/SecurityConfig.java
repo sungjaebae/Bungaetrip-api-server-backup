@@ -64,20 +64,13 @@ package GoGetters.GoGetter.config;
 
 
 import GoGetters.GoGetter.filter.JwtRequestFilter;
-import GoGetters.GoGetter.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -136,14 +129,13 @@ public class SecurityConfig {
 //                .antMatchers("/users/login").permitAll()
 //                .antMatchers(HttpMethod.GET,"/api/**").permitAll()
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
-
                 .antMatchers(HttpMethod.GET, "/articles").permitAll()
                 .antMatchers(HttpMethod.GET, "/articles/sort").permitAll()
+                .antMatchers(HttpMethod.GET,"/contents/**").permitAll()
                 .antMatchers("/articles/**").hasRole("USER")
                 .antMatchers("/messages/**").hasRole("USER")
                 .antMatchers("/report/**").hasRole("USER")
                 .antMatchers(HttpMethod.GET,"/member/username").permitAll()
-
                 .antMatchers(HttpMethod.GET,"/member/email").permitAll()
                 .antMatchers("/member").hasRole("USER")
 //                .antMatchers("/messages/**").permitAll()

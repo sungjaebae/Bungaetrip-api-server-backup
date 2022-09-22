@@ -34,6 +34,16 @@ public class Content extends JpaBaseEntity {
     private String address;
     private Long ratingCount;
 
+    public Content(String title, String content, Double latitude, Double longitude, Integer likes,
+                   Long review,Long rating,Long kakaoId,String address,Long ratingCount,ContentType contentType){
+        this(title, content, latitude, longitude, likes);
+        this.review=review;
+        this.rating=rating;
+        this.kakaoId=kakaoId;
+        this.address=address;
+        this.ratingCount=ratingCount;
+        this.contentType=contentType;
+    }
     public Content(String title, String content, Double latitude, Double longitude, Integer likes) {
         this.title=title;
         this.content=content;

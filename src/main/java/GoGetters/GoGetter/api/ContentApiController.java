@@ -2,6 +2,7 @@ package GoGetters.GoGetter.api;
 
 import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.content.Content;
+import GoGetters.GoGetter.domain.content.ContentType;
 import GoGetters.GoGetter.dto.content.ContentWithArticlesResponse;
 import GoGetters.GoGetter.dto.content.ListContentResponse;
 import GoGetters.GoGetter.service.ArticleService;
@@ -27,9 +28,11 @@ public class ContentApiController {
                                            @RequestParam(value = "right") Double right,
                                            @RequestParam(value = "top") Double top,
                                            @RequestParam(value = "bottom") Double bottom,
-                                           @RequestParam(value = "filter", required = false) String filter
+                                           @RequestParam(value = "filter",required = false) ContentType filter
     ) {
-        List<Content> contentList = contentService.findPlaceInAreaByFilter(left, right, top, bottom, filter);
+
+        List<Content> contentList = contentService.findPlaceInAreaByFilter(left, right, top, bottom,
+                filter);
         List<ListContentResponse> collect = contentList.stream().map(content -> new ListContentResponse(content))
                 .collect(Collectors.toList());
         return ResponseUtil.successResponse(HttpStatus.OK, collect);

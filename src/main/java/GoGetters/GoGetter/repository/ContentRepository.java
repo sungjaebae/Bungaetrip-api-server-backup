@@ -1,6 +1,7 @@
 package GoGetters.GoGetter.repository;
 
 import GoGetters.GoGetter.domain.content.Content;
+import GoGetters.GoGetter.domain.content.ContentType;
 import lombok.Getter;
 import org.springframework.stereotype.Repository;
 
@@ -32,12 +33,13 @@ public class ContentRepository {
                 .getResultList();
     }
 
-    public List<Content> findAllByLocationAndFilter(Double left, Double right, Double top, Double bottom, String filter) {
+    public List<Content> findAllByLocationAndFilter(Double left, Double right, Double top, Double bottom,
+                                                    ContentType filter) {
         String query = "select c from Content c" +
                 " where c.latitude <= :top" +
                 " and c.latitude >= :bottom" +
                 " and c.longitude <= :right" +
-                " and c.longitude >= :lef";
+                " and c.longitude >= :left";
         if (filter != null) {
             query+= " and c.contentType=:filter";
         }
