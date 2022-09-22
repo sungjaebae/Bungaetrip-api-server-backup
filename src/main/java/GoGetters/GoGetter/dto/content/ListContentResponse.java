@@ -15,7 +15,9 @@ public class ListContentResponse {
     private Double latitude;
     private Double longitude;
     private Integer likes;
-
+    private Long review;
+    private Long rating;
+    private String address;
     public ListContentResponse(Content content) {
         this.contentId=content.getId();
         this.title = content.getTitle();
@@ -24,5 +26,8 @@ public class ListContentResponse {
         this.latitude = content.getLatitude();
         this.longitude=content.getLongitude();
         this.likes = content.getLikes();
+        this.review=content.getReview();
+        this.rating=content.getRating();
+        this.address=content.getAddress();
     }
 }

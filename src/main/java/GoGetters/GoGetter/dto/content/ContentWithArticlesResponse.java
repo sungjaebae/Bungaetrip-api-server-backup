@@ -18,6 +18,10 @@ public class ContentWithArticlesResponse {
     private Double latitude;
     private Double longitude;
     private Integer likes;
+    private Long review;
+    private Long rating;
+    private String address;
+
     private List<ArticleResponse> articles;
 
     public ContentWithArticlesResponse(Content content, List<Article> articles) {
@@ -28,6 +32,9 @@ public class ContentWithArticlesResponse {
         this.latitude = content.getLatitude();
         this.longitude=content.getLongitude();
         this.likes = content.getLikes();
+        this.review=content.getReview();
+        this.rating=content.getRating();
+        this.address=content.getAddress();
         this.articles = articles.stream().map(article -> new ArticleResponse(article)).collect(Collectors.toList());
     }
 

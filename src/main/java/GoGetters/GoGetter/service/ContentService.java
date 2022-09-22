@@ -1,6 +1,7 @@
 package GoGetters.GoGetter.service;
 
 import GoGetters.GoGetter.domain.content.Content;
+import GoGetters.GoGetter.domain.content.ContentType;
 import GoGetters.GoGetter.repository.ContentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class ContentService {
         return contentRepository.findAllBySearchKeyword(searchKeyword);
     }
 
-    public List<Content> findPlaceInAreaByFilter(Double left, Double right, Double top, Double bottom, String filter) {
+    public List<Content> findPlaceInAreaByFilter(Double left, Double right, Double top, Double bottom, ContentType filter) {
         return contentRepository.findAllByLocationAndFilter(left, right, top, bottom, filter);
     }
 }

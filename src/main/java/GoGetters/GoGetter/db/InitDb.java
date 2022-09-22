@@ -2,6 +2,7 @@ package GoGetters.GoGetter.db;
 
 import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.content.Content;
+import GoGetters.GoGetter.domain.content.ContentType;
 import GoGetters.GoGetter.domain.member.Gender;
 import GoGetters.GoGetter.domain.member.Member;
 import GoGetters.GoGetter.domain.message.*;
@@ -17,9 +18,7 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -111,8 +110,21 @@ public class InitDb {
         }
 
         public void initDbContent() {
-            Content content = new Content("제목", "내용", random.nextDouble(),random.nextDouble(), 9);
-            em.persist(content);
+            List<ContentType> contentTypes = new ArrayList<>();
+            contentTypes.add(ContentType.CAFE);
+            contentTypes.add(ContentType.LEISURE);
+            contentTypes.add(ContentType.ATTRACTION);
+            contentTypes.add(ContentType.CLASS);
+            contentTypes.add(ContentType.PHOTO_SPOTS);
+            contentTypes.add(ContentType.RESTAURANT);
+            for(int i=0;i<100;i++){
+                Content content = createContent("컨텐츠 제목" + i, "컨텐츠 내용", random.nextDouble()*100,
+                        random.nextDouble()*100, random.nextInt(),
+                        random.nextLong(), random.nextLong(), random.nextLong(),
+                        "컨텐츠 주소" + i, random.nextLong(),contentTypes.get(random.nextInt(6)));
+                em.persist(content);
+                contentList.add(content);
+            }
         }
         private Member createUser(String email, String nickname, String pw, Integer age, Gender gender,String description) {
             return new Member(email,email, pw, nickname, age, gender,description);
@@ -129,6 +141,13 @@ public class InitDb {
                     destinationLongitude,destinationLatitude);
         }
 
+        private Content createContent(String title, String content, Double latitude, Double longitude, Integer likes,
+                                      Long review, Long rating, Long kakaoId,
+                                      String address, Long ratingCount, ContentType contentType){
+            return new Content(title, content, latitude, longitude, likes,
+                    review, rating, kakaoId, address, ratingCount,contentType);
+
+        }
 
 
 
