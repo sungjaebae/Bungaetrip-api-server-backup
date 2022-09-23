@@ -29,13 +29,13 @@ public class Content extends JpaBaseEntity {
     private Integer likes;
 
     private Long review;
-    private Long rating;
+    private Double rating;
     private Long kakaoId;
     private String address;
     private Long ratingCount;
 
     public Content(String title, String content, Double latitude, Double longitude, Integer likes,
-                   Long review,Long rating,Long kakaoId,String address,Long ratingCount,ContentType contentType){
+                   Long review,Double rating,Long kakaoId,String address,Long ratingCount,ContentType contentType){
         this(title, content, latitude, longitude, likes);
         this.review=review;
         this.rating=rating;

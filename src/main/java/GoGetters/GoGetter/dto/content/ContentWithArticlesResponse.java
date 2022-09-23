@@ -19,7 +19,7 @@ public class ContentWithArticlesResponse {
     private Double longitude;
     private Integer likes;
     private Long review;
-    private Long rating;
+    private Double rating;
     private String address;
 
     private List<ArticleResponse> articles;

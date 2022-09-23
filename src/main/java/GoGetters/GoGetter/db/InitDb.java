@@ -120,7 +120,7 @@ public class InitDb {
             for(int i=0;i<100;i++){
                 Content content = createContent("컨텐츠 제목" + i, "컨텐츠 내용", random.nextDouble()*100,
                         random.nextDouble()*100, random.nextInt(),
-                        random.nextLong(), random.nextLong(), random.nextLong(),
+                        random.nextLong(), random.nextDouble(), random.nextLong(),
                         "컨텐츠 주소" + i, random.nextLong(),contentTypes.get(random.nextInt(6)));
                 em.persist(content);
                 contentList.add(content);
@@ -142,7 +142,7 @@ public class InitDb {
         }
 
         private Content createContent(String title, String content, Double latitude, Double longitude, Integer likes,
-                                      Long review, Long rating, Long kakaoId,
+                                      Long review, Double rating, Long kakaoId,
                                       String address, Long ratingCount, ContentType contentType){
             return new Content(title, content, latitude, longitude, likes,
                     review, rating, kakaoId, address, ratingCount,contentType);
