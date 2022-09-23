@@ -20,6 +20,7 @@ public class ContentWithArticlesResponse {
     private Integer likes;
     private Long review;
     private Double rating;
+    private Long ratingCount;
     private String address;
 
     private List<ArticleResponse> articles;
@@ -36,6 +37,7 @@ public class ContentWithArticlesResponse {
         this.rating=content.getRating();
         this.address=content.getAddress();
         this.articles = articles.stream().map(article -> new ArticleResponse(article)).collect(Collectors.toList());
+        this.ratingCount=content.getRatingCount();
     }
 
 }

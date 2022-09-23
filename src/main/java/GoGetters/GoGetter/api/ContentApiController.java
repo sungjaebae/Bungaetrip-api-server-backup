@@ -48,7 +48,8 @@ public class ContentApiController {
 
     @GetMapping(value = "/recommend")
     public ResponseEntity listRecommendContent() {
-//        contentService.findContentsWhereOtherLeanTo()
+        Integer count=10;
+//        List<Content> restaurantPeopleLike=contentService.findRestaurantPeopleLike(count);
         return ResponseUtil.successResponse(HttpStatus.OK, "");
     }
 
