@@ -26,10 +26,11 @@ public class ContentRepository {
     }
 
     public List<Content> findAllBySearchKeyword(String searchKeyword) {
-        String query = "select c from Content" +
-                " where c.title=:searchKeyword";
+        String likeVariable="'%"+searchKeyword+"%'";
+
+        String query = "select c from Content c" +
+                " where c.title like "+likeVariable;
         return em.createQuery(query,Content.class)
-                .setParameter("searchKeyword",searchKeyword)
                 .getResultList();
     }
 
