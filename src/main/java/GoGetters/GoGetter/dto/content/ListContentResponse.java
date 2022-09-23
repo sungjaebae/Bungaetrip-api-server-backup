@@ -4,6 +4,8 @@ import GoGetters.GoGetter.domain.content.Content;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.zip.DeflaterOutputStream;
+
 @Data
 @NoArgsConstructor
 public class ListContentResponse {
@@ -16,7 +18,7 @@ public class ListContentResponse {
     private Double longitude;
     private Integer likes;
     private Long review;
-    private Long rating;
+    private Double rating;
     private String address;
     public ListContentResponse(Content content) {
         this.contentId=content.getId();
