@@ -3,8 +3,9 @@ package GoGetters.GoGetter.api;
 import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.content.ContentType;
+import GoGetters.GoGetter.dto.content.ContentListPeopleLikeResponse;
 import GoGetters.GoGetter.dto.content.ContentWithArticlesResponse;
-import GoGetters.GoGetter.dto.content.ListContentResponse;
+import GoGetters.GoGetter.dto.content.ContentListResponse;
 import GoGetters.GoGetter.service.ArticleService;
 import GoGetters.GoGetter.service.ContentService;
 import GoGetters.GoGetter.util.ResponseUtil;
@@ -30,10 +31,10 @@ public class ContentApiController {
                                            @RequestParam(value = "bottom") Double bottom,
                                            @RequestParam(value = "filter",required = false) ContentType filter
     ) {
-
+        Integer count=50;
         List<Content> contentList = contentService.findPlaceInAreaByFilter(left, right, top, bottom,
-                filter);
-        List<ListContentResponse> collect = contentList.stream().map(content -> new ListContentResponse(content))
+                filter,count);
+        List<ContentListResponse> collect = contentList.stream().map(content -> new ContentListResponse(content))
                 .collect(Collectors.toList());
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
     }
@@ -49,14 +50,18 @@ public class ContentApiController {
     @GetMapping(value = "/recommend")
     public ResponseEntity listRecommendContent() {
         Integer count=10;
-//        List<Content> restaurantPeopleLike=contentService.findRestaurantPeopleLike(count);
-        return ResponseUtil.successResponse(HttpStatus.OK, "");
+        List<Content> restaurantListPeopleLike=contentService.findRestaurantsPeopleLike(count);
+        List<Content> cafeListPeopleLike=contentService.findCafesPeopleLike(count);
+        List<Content> attractionListPeopleLike=contentService.findAttractionsPeopleLike(count);
+
+        return ResponseUtil.successResponse(HttpStatus.OK,new ContentListPeopleLikeResponse(restaurantListPeopleLike,
+                cafeListPeopleLike,attractionListPeopleLike));
     }
 
     @GetMapping(value = "",params = "searchKeyword")
     public ResponseEntity listTourContentBySearchKeyword(@RequestParam(value = "searchKeyword") String searchKeyword) {
         List<Content> contentList=contentService.findAllBySearchKeyword(searchKeyword);
-        List<ListContentResponse> collect = contentList.stream().map(content -> new ListContentResponse(content)).collect(Collectors.toList());
+        List<ContentListResponse> collect = contentList.stream().map(content -> new ContentListResponse(content)).collect(Collectors.toList());
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
     }
 }

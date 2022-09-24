@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ListContentResponse {
+public class ContentListResponse {
     private Long contentId;
     private String title;
 
@@ -19,7 +19,7 @@ public class ListContentResponse {
     private Double rating;
     private Long ratingCount;
     private String address;
-    public ListContentResponse(Content content) {
+    public ContentListResponse(Content content) {
         this.contentId=content.getId();
         this.title = content.getTitle();
         this.content=content.getContent();
