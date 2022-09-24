@@ -23,7 +23,22 @@ public class ContentService {
         return contentRepository.findAllBySearchKeyword(searchKeyword);
     }
 
-    public List<Content> findPlaceInAreaByFilter(Double left, Double right, Double top, Double bottom, ContentType filter) {
-        return contentRepository.findAllByLocationAndFilter(left, right, top, bottom, filter);
+    public List<Content> findPlaceInAreaByFilter(Double left, Double right, Double top, Double bottom,
+                                                 ContentType filter,Integer count) {
+        return contentRepository.findAllByLocationAndFilter(left, right, top, bottom, filter,count);
+    }
+
+    public List<Content> findRestaurantsPeopleLike(Integer count) {
+        return contentRepository.findRestaurantsPeopleLike(count);
+    }
+
+    public List<Content> findCafesPeopleLike(Integer count) {
+        return contentRepository.findCafesPeopleLike(count);
+
+    }
+
+    public List<Content> findAttractionsPeopleLike(Integer count) {
+        return contentRepository.findAttractionsPeopleLike(count);
+
     }
 }

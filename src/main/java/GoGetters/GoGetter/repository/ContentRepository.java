@@ -35,9 +35,7 @@ public class ContentRepository {
     }
 
     public List<Content> findAllByLocationAndFilter(Double left, Double right, Double top, Double bottom,
-                                                    ContentType filter) {
-        Long multiple= 2L;
-        Integer limitCount=50;
+                                                    ContentType filter,Integer count) {
         String query = "select c from Content c" +
                 " where c.latitude <= :top" +
                 " and c.latitude >= :bottom" +
@@ -54,7 +52,7 @@ public class ContentRepository {
                 .setParameter("right", right)
                 .setParameter("top", top)
                 .setParameter("bottom", bottom)
-                .setMaxResults(limitCount);
+                .setMaxResults(count);
 
         if (filter != null) {
             contentTypedQuery.setParameter("filter",filter);
@@ -64,5 +62,35 @@ public class ContentRepository {
 //                .setParameter("limitCount", limitCount);
         return contentTypedQuery.getResultList();
 
+    }
+
+    public List<Content> findRestaurantsPeopleLike(Integer count) {
+        String query="select c from Content c" +
+                " where c.contentType=:restaurant" +
+                " order by c.rating*c.ratingCount*c.review desc";
+        return em.createQuery(query, Content.class)
+                .setParameter("restaurant", ContentType.RESTAURANT)
+                .setMaxResults(count)
+                .getResultList();
+    }
+
+    public List<Content> findCafesPeopleLike(Integer count) {
+        String query="select c from Content c" +
+                " where c.contentType=:cafe" +
+                " order by c.rating*c.ratingCount*c.review desc";
+        return em.createQuery(query, Content.class)
+                .setParameter("cafe", ContentType.CAFE)
+                .setMaxResults(count)
+                .getResultList();
+    }
+
+    public List<Content> findAttractionsPeopleLike(Integer count) {
+        String query="select c from Content c" +
+                " where c.contentType=:attraction" +
+                " order by c.rating*c.ratingCount*c.review desc";
+        return em.createQuery(query, Content.class)
+                .setParameter("attraction", ContentType.ATTRACTION)
+                .setMaxResults(count)
+                .getResultList();
     }
 }

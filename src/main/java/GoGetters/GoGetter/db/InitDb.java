@@ -78,9 +78,9 @@ public class InitDb {
         }
         public void dbInitArticle(){
             for(int i=0;i<100;i++){
-                Article article=createArticle(members.get(random.nextInt(10)),"출발지"+String.valueOf(i),
+                Article article=createArticle(members.get(i%10),"출발지"+String.valueOf(i),
                         "도착지"+String.valueOf(i),LocalDate.of(2020+i%5,i%12+1,i%28+1)
-                        ,LocalTime.of(i%23+1,i%60), 4/(random.nextInt(4)+1),
+                        ,LocalTime.of(i%23+1,i%60), 4/((i%4)+1),
                         "제목 테스트 "+String.valueOf(i),"내용" +String.valueOf(i)
                 , random.nextDouble(), random.nextDouble(),random.nextDouble(),random.nextDouble());
                 em.persist(article);
@@ -118,10 +118,10 @@ public class InitDb {
             contentTypes.add(ContentType.PHOTO_SPOTS);
             contentTypes.add(ContentType.RESTAURANT);
             for(int i=0;i<100;i++){
-                Content content = createContent("컨텐츠 제목" + i, "컨텐츠 내용", random.nextDouble()*100,
-                        random.nextDouble()*100, random.nextInt(),
-                        random.nextLong(), random.nextDouble(), random.nextLong(),
-                        "컨텐츠 주소" + i, random.nextLong(),contentTypes.get(random.nextInt(6)));
+                Content content = createContent("컨텐츠 제목" + i, "컨텐츠 내용", (i+124)/1.0,
+                        (i+124)/1.0,i,
+                        i+10L, i%5.0, i*1L,
+                        "컨텐츠 주소" + i, i*10L,contentTypes.get(i%6));
                 em.persist(content);
                 contentList.add(content);
             }
