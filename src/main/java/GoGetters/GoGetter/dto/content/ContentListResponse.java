@@ -11,6 +11,7 @@ public class ContentListResponse {
     private String title;
 
     private String content;
+    private String contentType;
     private String thumbnail;
     private Double latitude;
     private Double longitude;
@@ -23,6 +24,7 @@ public class ContentListResponse {
         this.contentId=content.getId();
         this.title = content.getTitle();
         this.content=content.getContent();
+        this.contentType=content.getContentType().toString();
         this.thumbnail=content.getThumbnail();
         this.latitude = content.getLatitude();
         this.longitude=content.getLongitude();
@@ -31,5 +33,6 @@ public class ContentListResponse {
         this.rating=content.getRating();
         this.address=content.getAddress();
         this.ratingCount=content.getRatingCount();
+
     }
 }

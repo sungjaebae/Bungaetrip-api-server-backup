@@ -14,6 +14,8 @@ public class ContentWithArticlesResponse {
     private String title;
 
     private String content;
+    private String contentType;
+
     private String thumbnail;
     private Double latitude;
     private Double longitude;
@@ -29,6 +31,7 @@ public class ContentWithArticlesResponse {
         this.contentId=content.getId();
         this.title = content.getTitle();
         this.content=content.getContent();
+        this.contentType=content.getContentType().toString();
         this.thumbnail=content.getThumbnail();
         this.latitude = content.getLatitude();
         this.longitude=content.getLongitude();
