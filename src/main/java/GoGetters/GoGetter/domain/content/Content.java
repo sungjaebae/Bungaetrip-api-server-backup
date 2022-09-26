@@ -1,9 +1,12 @@
 package GoGetters.GoGetter.domain.content;
 
+import GoGetters.GoGetter.domain.Image.Image;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @NoArgsConstructor
@@ -39,6 +42,9 @@ public class Content {
 
     private String contentDetailUrl;
 
+    @OneToMany(mappedBy = "content",cascade = CascadeType.ALL)
+    private List<Image> images=new ArrayList<>();
+
     public Content(String title,String subtitle, String content,ContentType contentType
             ,String address, Double latitude, Double longitude,Double rating,Integer blogReview,Integer visitorReview,
                    String phoneNumber,String naverId,String contentDetailUrl){
@@ -56,5 +62,7 @@ public class Content {
         this.naverId=naverId;
         this.contentDetailUrl=contentDetailUrl;
     }
+
+
 
 }

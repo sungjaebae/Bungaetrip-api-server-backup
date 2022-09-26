@@ -21,4 +21,9 @@ public class Image {
     @JoinColumn(name = "content_id")
     private Content content;
 
+    private void setContent(Content content) {
+        this.content=content;
+        this.content.getImages().add(this);
+    }
+
 }
