@@ -1,6 +1,5 @@
 package GoGetters.GoGetter.domain.content;
 
-import GoGetters.GoGetter.domain.JpaBaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter @NoArgsConstructor
-public class Content extends JpaBaseEntity {
+public class Content {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "content_id")
@@ -16,39 +15,46 @@ public class Content extends JpaBaseEntity {
 
     private String title;
 
+    private String subtitle;
+
     private String content;
-
-    private String thumbnail;
-
-    private Double latitude;
-    private Double longitude;
 
     @Enumerated(value = EnumType.STRING)
     private ContentType contentType;
 
-    private Integer likes;
+    private Double latitude;
+    private Double longitude;
 
-    private Long review;
-    private Double rating;
-    private Long kakaoId;
     private String address;
-    private Long ratingCount;
 
-    public Content(String title, String content, Double latitude, Double longitude, Integer likes,
-                   Long review,Double rating,Long kakaoId,String address,Long ratingCount,ContentType contentType){
-        this(title, content, latitude, longitude, likes);
-        this.review=review;
-        this.rating=rating;
-        this.kakaoId=kakaoId;
-        this.address=address;
-        this.ratingCount=ratingCount;
-        this.contentType=contentType;
-    }
-    public Content(String title, String content, Double latitude, Double longitude, Integer likes) {
+    private Double rating;
+
+    private Integer blogReview;
+
+    private Integer visitorReview;
+
+    private String phoneNumber;
+
+    private String naverId;
+
+    private String contentDetailUrl;
+
+    public Content(String title,String subtitle, String content,ContentType contentType
+            ,String address, Double latitude, Double longitude,Double rating,Integer blogReview,Integer visitorReview,
+                   String phoneNumber,String naverId,String contentDetailUrl){
         this.title=title;
+        this.subtitle=subtitle;
         this.content=content;
+        this.contentType=contentType;
         this.latitude=latitude;
         this.longitude=longitude;
-        this.likes=likes;
+        this.address=address;
+        this.rating=rating;
+        this.blogReview=blogReview;
+        this.visitorReview=visitorReview;
+        this.phoneNumber=phoneNumber;
+        this.naverId=naverId;
+        this.contentDetailUrl=contentDetailUrl;
     }
+
 }
