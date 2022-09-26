@@ -8,14 +8,15 @@ import java.util.stream.Collectors;
 
 @Data
 public class ContentListPeopleLikeResponse {
-    private List<ContentListResponse> restaurantList;
-    private List<ContentListResponse> cafeList;
-    private List<ContentListResponse> attractionList;
+    private String contentListType;
 
-    public ContentListPeopleLikeResponse(List<Content> restaurants, List<Content> cafes,
-                                         List<Content> attractions) {
-        this.restaurantList= restaurants.stream().map(r -> new ContentListResponse(r)).collect(Collectors.toList());
-        this.cafeList= cafes.stream().map(c -> new ContentListResponse(c)).collect(Collectors.toList());
-        this.attractionList= attractions.stream().map(a -> new ContentListResponse(a)).collect(Collectors.toList());
+    private List<ContentListResponse> contentList;
+
+    public ContentListPeopleLikeResponse(String contentListType, List<Content> contents) {
+        this.contentListType=contentListType;
+        this.contentList=contents.stream()
+                .map(content -> new ContentListResponse(content))
+                .collect(Collectors.toList());
+
     }
 }
