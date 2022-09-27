@@ -45,7 +45,7 @@ public class ContentRepository {
         if (filter != null) {
             query+= " and c.contentType=:filter";
         }
-        query+= " order by (c.rating*c.ratingCount*c.review) desc";
+        query+= " order by (c.rating*c.visitorReview*c.blogReview) desc";
 
         TypedQuery<Content> contentTypedQuery = em.createQuery(query, Content.class)
                 .setParameter("left", left)
@@ -67,7 +67,7 @@ public class ContentRepository {
     public List<Content> findRestaurantsPeopleLike(Integer count) {
         String query="select c from Content c" +
                 " where c.contentType=:restaurant" +
-                " order by c.rating*c.ratingCount*c.review desc";
+                " order by c.rating*c.visitorReview*c.blogReview desc";
         return em.createQuery(query, Content.class)
                 .setParameter("restaurant", ContentType.RESTAURANT)
                 .setMaxResults(count)
@@ -77,7 +77,7 @@ public class ContentRepository {
     public List<Content> findCafesPeopleLike(Integer count) {
         String query="select c from Content c" +
                 " where c.contentType=:cafe" +
-                " order by c.rating*c.ratingCount*c.review desc";
+                " order by c.rating*c.visitorReview*c.blogReview desc";
         return em.createQuery(query, Content.class)
                 .setParameter("cafe", ContentType.CAFE)
                 .setMaxResults(count)
@@ -87,7 +87,7 @@ public class ContentRepository {
     public List<Content> findAttractionsPeopleLike(Integer count) {
         String query="select c from Content c" +
                 " where c.contentType=:attraction" +
-                " order by c.rating*c.ratingCount*c.review desc";
+                " order by c.rating*c.visitorReview*c.blogReview desc";
         return em.createQuery(query, Content.class)
                 .setParameter("attraction", ContentType.ATTRACTION)
                 .setMaxResults(count)

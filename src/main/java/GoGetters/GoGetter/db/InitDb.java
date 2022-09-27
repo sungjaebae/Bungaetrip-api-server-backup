@@ -118,10 +118,11 @@ public class InitDb {
             contentTypes.add(ContentType.PHOTO_SPOTS);
             contentTypes.add(ContentType.RESTAURANT);
             for(int i=0;i<100;i++){
-                Content content = createContent("컨텐츠 제목" + i, "컨텐츠 내용", (i+124)/1.0,
-                        (i+124)/1.0,i,
-                        i+10L, i%5.0, i*1L,
-                        "컨텐츠 주소" + i, i*10L,contentTypes.get(i%6));
+                Content content = createContent("컨텐츠 제목" + i, "부제목"+i, "컨텐츠 내용",
+                        contentTypes.get(i%6),"컨텐츠 주소",(i+124)/1.0,
+                        (i+124)/1.0,i%5.0,
+                        i+10,i+20,"02-900-2121","naverId",
+                        "https://www.naver.com");
                 em.persist(content);
                 contentList.add(content);
             }
@@ -141,11 +142,11 @@ public class InitDb {
                     destinationLongitude,destinationLatitude);
         }
 
-        private Content createContent(String title, String content, Double latitude, Double longitude, Integer likes,
-                                      Long review, Double rating, Long kakaoId,
-                                      String address, Long ratingCount, ContentType contentType){
-            return new Content(title, content, latitude, longitude, likes,
-                    review, rating, kakaoId, address, ratingCount,contentType);
+        private Content createContent(String title,String subtitle, String content,ContentType contentType
+                ,String address, Double latitude, Double longitude,Double rating,Integer blogReview,Integer visitorReview,
+                                      String phoneNumber,String naverId,String contentDetailUrl){
+            return new Content(title,subtitle,content,contentType,address,latitude,longitude,rating,blogReview,visitorReview
+            ,phoneNumber,naverId,contentDetailUrl);
 
         }
 

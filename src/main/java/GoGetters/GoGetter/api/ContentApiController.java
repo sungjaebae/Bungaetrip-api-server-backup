@@ -4,8 +4,8 @@ import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.content.ContentType;
 import GoGetters.GoGetter.dto.content.ContentListPeopleLikeResponse;
-import GoGetters.GoGetter.dto.content.ContentWithArticlesResponse;
 import GoGetters.GoGetter.dto.content.ContentListResponse;
+import GoGetters.GoGetter.dto.content.ContentWithArticlesResponse;
 import GoGetters.GoGetter.service.ArticleService;
 import GoGetters.GoGetter.service.ContentService;
 import GoGetters.GoGetter.util.ResponseUtil;
@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,8 +55,15 @@ public class ContentApiController {
         List<Content> cafeListPeopleLike=contentService.findCafesPeopleLike(count);
         List<Content> attractionListPeopleLike=contentService.findAttractionsPeopleLike(count);
 
-        return ResponseUtil.successResponse(HttpStatus.OK,new ContentListPeopleLikeResponse(restaurantListPeopleLike,
-                cafeListPeopleLike,attractionListPeopleLike));
+        List<ContentListPeopleLikeResponse> contentsPeopleLike=new ArrayList<>();
+        contentsPeopleLike.add(new ContentListPeopleLikeResponse("restaurantList",
+                restaurantListPeopleLike));
+        contentsPeopleLike.add(new ContentListPeopleLikeResponse("cafeList"
+                ,cafeListPeopleLike));
+        contentsPeopleLike.add(new ContentListPeopleLikeResponse("attractionList",
+                attractionListPeopleLike));
+
+        return ResponseUtil.successResponse(HttpStatus.OK,contentsPeopleLike);
     }
 
     @GetMapping(value = "",params = "searchKeyword")
