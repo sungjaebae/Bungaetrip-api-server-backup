@@ -1,5 +1,6 @@
 package GoGetters.GoGetter.db;
 
+import GoGetters.GoGetter.domain.Image.Image;
 import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.content.ContentType;
@@ -40,6 +41,7 @@ public class InitDb {
         initService.dbInitArticle();
         initService.dbInitMessage();
         initService.initDbContent();
+        initService.initDbImage();
     }
    }
     @Component
@@ -52,6 +54,8 @@ public class InitDb {
         private List<Article> articles=new ArrayList<>();
         private List<Message> messages=new ArrayList<>();
         private List<Content> contentList = new ArrayList<>();
+
+        private List<Image> imageList = new ArrayList<>();
         private Random random = new Random();
 
         public void getMembersFromDB() {
@@ -127,6 +131,14 @@ public class InitDb {
                 contentList.add(content);
             }
         }
+
+        public void initDbImage() {
+            for (int i = 0; i < 500; i++) {
+                Image image = createImage(contentList.get(i % contentList.size()), "https://www.naver.com/image" + i);
+                em.persist(image);
+                imageList.add(image);
+            }
+        }
         private Member createUser(String email, String nickname, String pw, Integer age, Gender gender,String description) {
             return new Member(email,email, pw, nickname, age, gender,description);
         }
@@ -150,6 +162,12 @@ public class InitDb {
 
         }
 
+
+        private Image createImage(Content content,String imageUrl) {
+            Image image = new Image(imageUrl);
+            image.setContent(content);
+            return image;
+        }
 
 
     }
