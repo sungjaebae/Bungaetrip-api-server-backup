@@ -3,6 +3,7 @@ package GoGetters.GoGetter.dto.content;
 import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.dto.article.ArticleResponse;
+import GoGetters.GoGetter.dto.image.ContentImageDto;
 import lombok.Data;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class ContentWithArticlesResponse {
     private String contentDetailUrl;
 
     private List<ArticleResponse> articles;
+    private List<ContentImageDto> imageList;
 
     public ContentWithArticlesResponse(Content content, List<Article> articles) {
         this.contentId=content.getId();
@@ -58,6 +60,8 @@ public class ContentWithArticlesResponse {
         this.contentDetailUrl=content.getContentDetailUrl();
 
         this.articles = articles.stream().map(article -> new ArticleResponse(article)).collect(Collectors.toList());
+        this.imageList = content.getImages().stream().map(image -> new ContentImageDto(image))
+                .collect(Collectors.toList());
     }
 
 }

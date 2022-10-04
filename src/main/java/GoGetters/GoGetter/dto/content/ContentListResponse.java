@@ -1,8 +1,12 @@
 package GoGetters.GoGetter.dto.content;
 
 import GoGetters.GoGetter.domain.content.Content;
+import GoGetters.GoGetter.dto.image.ContentImageDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -32,6 +36,9 @@ public class ContentListResponse {
     private String naverId;
 
     private String contentDetailUrl;
+
+    private List<ContentImageDto> imageList;
+
     public ContentListResponse(Content content) {
         this.contentId=content.getId();
         this.title = content.getTitle();
@@ -50,6 +57,7 @@ public class ContentListResponse {
         this.phoneNumber=content.getPhoneNumber();
         this.naverId=content.getNaverId();
         this.contentDetailUrl=content.getContentDetailUrl();
+        this.imageList = content.getImages().stream().map(image -> new ContentImageDto(image)).collect(Collectors.toList());
 
     }
 }
