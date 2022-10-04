@@ -21,7 +21,10 @@ public class Image {
     @JoinColumn(name = "content_id")
     private Content content;
 
-    private void setContent(Content content) {
+    public Image(String imageUrl) {
+        this.imageUrl=imageUrl;
+    }
+    public void setContent(Content content) {
         this.content=content;
         this.content.getImages().add(this);
     }

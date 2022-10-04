@@ -8,12 +8,12 @@ import java.util.stream.Collectors;
 
 @Data
 public class ContentListPeopleLikeResponse {
-    private String contentListType;
+    private String contentListTitle;
 
     private List<ContentListResponse> contentList;
 
-    public ContentListPeopleLikeResponse(String contentListType, List<Content> contents) {
-        this.contentListType=contentListType;
+    public ContentListPeopleLikeResponse(String contentListTitle, List<Content> contents) {
+        this.contentListTitle=contentListTitle;
         this.contentList=contents.stream()
                 .map(content -> new ContentListResponse(content))
                 .collect(Collectors.toList());

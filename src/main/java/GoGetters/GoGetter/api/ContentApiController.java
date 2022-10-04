@@ -56,11 +56,11 @@ public class ContentApiController {
         List<Content> attractionListPeopleLike=contentService.findAttractionsPeopleLike(count);
 
         List<ContentListPeopleLikeResponse> contentsPeopleLike=new ArrayList<>();
-        contentsPeopleLike.add(new ContentListPeopleLikeResponse("restaurantList",
+        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 맛집",
                 restaurantListPeopleLike));
-        contentsPeopleLike.add(new ContentListPeopleLikeResponse("cafeList"
+        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 카페"
                 ,cafeListPeopleLike));
-        contentsPeopleLike.add(new ContentListPeopleLikeResponse("attractionList",
+        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 관광지",
                 attractionListPeopleLike));
 
         return ResponseUtil.successResponse(HttpStatus.OK,contentsPeopleLike);
