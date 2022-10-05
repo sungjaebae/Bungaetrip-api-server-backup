@@ -28,7 +28,7 @@ public class ContentRepository {
     public List<Content> findAllBySearchKeyword(String searchKeyword) {
         String likeVariable="'%"+searchKeyword+"%'";
 
-        String query = "select c from Content c" +
+        String query = "select distinct c from Content c" +
                 " join fetch c.images" +
                 " where c.title like "+likeVariable;
         return em.createQuery(query,Content.class)
@@ -37,7 +37,7 @@ public class ContentRepository {
 
     public List<Content> findAllByLocationAndFilter(Double left, Double right, Double top, Double bottom,
                                                     ContentType filter,Integer count) {
-        String query = "select c from Content c" +
+        String query = "select distinct c from Content c" +
                 " join fetch c.images"+
                 " where c.latitude <= :top" +
                 " and c.latitude >= :bottom" +
@@ -67,7 +67,7 @@ public class ContentRepository {
     }
 
     public List<Content> findRestaurantsPeopleLike(Integer count) {
-        String query="select c from Content c" +
+        String query="select distinct c from Content c" +
                 " join fetch c.images"+
                 " where c.contentType=:restaurant" +
                 " order by c.rating*c.visitorReview*c.blogReview desc";
@@ -78,7 +78,7 @@ public class ContentRepository {
     }
 
     public List<Content> findCafesPeopleLike(Integer count) {
-        String query="select c from Content c" +
+        String query="select distinct c from Content c" +
                 " join fetch c.images"+
                 " where c.contentType=:cafe" +
                 " order by c.rating*c.visitorReview*c.blogReview desc";
@@ -89,7 +89,7 @@ public class ContentRepository {
     }
 
     public List<Content> findAttractionsPeopleLike(Integer count) {
-        String query="select c from Content c" +
+        String query="select distinct c from Content c" +
                 " join fetch c.images"+
                 " where c.contentType=:attraction" +
                 " order by c.rating*c.visitorReview*c.blogReview desc";
