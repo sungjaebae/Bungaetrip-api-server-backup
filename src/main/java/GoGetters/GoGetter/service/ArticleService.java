@@ -3,9 +3,11 @@ package GoGetters.GoGetter.service;
 import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.article.ArticleSortType;
+import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.dto.article.UpdateArticleRequest;
 import GoGetters.GoGetter.exception.Article.NoSuchArticleException;
 import GoGetters.GoGetter.repository.ArticleRepository;
+import GoGetters.GoGetter.repository.ContentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,7 @@ import java.util.List;
 @Slf4j
 public class ArticleService {
     private final ArticleRepository articleRepository;
-
+    private final ContentRepository contentRepository;
     //
     public List<Article> findArticles() {
         return articleRepository.findCreateArticles();
@@ -40,13 +42,19 @@ public class ArticleService {
     }
 
     @Transactional
-    public Long updateArticleRequest(UpdateArticleRequest article) {
-        List<Article> findArticle = articleRepository.findArticle(article.getArticleId());
+    public Long updateArticleRequest(UpdateArticleRequest articleRequest) {
+        List<Article> findArticle = articleRepository.findArticle(articleRequest.getArticleId());
         if (findArticle.isEmpty()) {
             throw new NoSuchArticleException(MessageResource.articleNotExist);
         }
-        return articleRepository.modifyArticle(findArticle.get(0),article);
-
+        Content destinationContent = contentRepository.findOne(articleRequest.getDestinationContentId());
+        findArticle.get(0).modifyArticle(articleRequest.getDeparture(), articleRequest.getDestination(),
+                destinationContent,
+                articleRequest.getDate(), articleRequest.getTime(),
+                articleRequest.getCurrentParticipants(), articleRequest.getTitle(), articleRequest.getContent(),
+                articleRequest.getDepartureLongitude(), articleRequest.getDepartureLatitude()
+                , articleRequest.getDestinationLongitude(), articleRequest.getDestinationLatitude());
+        return findArticle.get(0).getId();
     }
 
     @Transactional

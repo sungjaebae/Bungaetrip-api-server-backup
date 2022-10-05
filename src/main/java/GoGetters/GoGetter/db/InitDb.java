@@ -36,12 +36,13 @@ public class InitDb {
     log.info(activeProfile);
     if (activeProfile.equals("Development"))
     {
+
+        initService.initDbContent();
+        initService.initDbImage();
         log.info("Db Initializer activated22");
         initService.getMembersFromDB();
         initService.dbInitArticle();
         initService.dbInitMessage();
-        initService.initDbContent();
-        initService.initDbImage();
     }
    }
     @Component
@@ -81,9 +82,11 @@ public class InitDb {
 
         }
         public void dbInitArticle(){
+            int size = contentList.size();
+
             for(int i=0;i<100;i++){
                 Article article=createArticle(members.get(i%10),"출발지"+String.valueOf(i),
-                        "도착지"+String.valueOf(i),LocalDate.of(2020+i%5,i%12+1,i%28+1)
+                        "도착지"+String.valueOf(i),contentList.get(i%size),LocalDate.of(2020+i%5,i%12+1,i%28+1)
                         ,LocalTime.of(i%23+1,i%60), 4/((i%4)+1),
                         "제목 테스트 "+String.valueOf(i),"내용" +String.valueOf(i)
                 , random.nextDouble(), random.nextDouble(),random.nextDouble(),random.nextDouble());
@@ -121,7 +124,7 @@ public class InitDb {
             contentTypes.add(ContentType.CLASS);
             contentTypes.add(ContentType.PHOTO_SPOTS);
             contentTypes.add(ContentType.RESTAURANT);
-            for(int i=0;i<100;i++){
+            for(int i=0;i<10;i++){
                 Content content = createContent("컨텐츠 제목" + i, "부제목"+i, "컨텐츠 내용",
                         contentTypes.get(i%6),"컨텐츠 주소",(i+124)/1.0,
                         (i+124)/1.0,i%5.0,
@@ -143,13 +146,13 @@ public class InitDb {
             return new Member(email,email, pw, nickname, age, gender,description);
         }
 
-        private Article createArticle(Member member, String dep, String des, LocalDate date, LocalTime time,
+        private Article createArticle(Member member, String dep, String des,Content desContent, LocalDate date, LocalTime time,
                                       Integer current,
                                       String title, String content,
                                       Double departureLongitude,Double departureLatitude,
                                       Double destinationLongitude,Double destinationLatitude
         ) {
-            return new Article(member,dep,des,date,time,current,title,content,
+            return new Article(member,dep,des,desContent,date,time,current,title,content,
                     departureLongitude,departureLatitude,
                     destinationLongitude,destinationLatitude);
         }

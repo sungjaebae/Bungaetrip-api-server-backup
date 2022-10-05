@@ -1,7 +1,7 @@
 package GoGetters.GoGetter.domain.article;
 
+import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.member.Member;
-import GoGetters.GoGetter.dto.article.UpdateArticleRequest;
 import GoGetters.GoGetter.util.DateTimeUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +30,11 @@ public class Article {
     private Double departureLatitude;
 
     private String destination;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "content_id")
+    private Content destinationContent;
+
     //도착지 위도
     private Double destinationLongitude;
     //도착지 경도
@@ -53,18 +58,22 @@ public class Article {
     private ArticleStatus status;
 
 
-    public Article(Member member, String departure, String destination, LocalDate date, LocalTime time,
+    public Article(Member member, String departure, String destination,Content destinationContent,
+                   LocalDate date, LocalTime time,
                    Integer currentParticipants,
                    String title, String content,
                    Double departureLongitude,Double departureLatitude,
                    Double destinationLongitude,Double destinationLatitude
+
 
     ){
         this(departure,destination
                 ,date,time,currentParticipants, title,content
                 ,departureLongitude,departureLatitude,
                 destinationLongitude,destinationLatitude);
+
         this.setWriter(member);
+        this.destinationContent=destinationContent;
     }
     public Article(String departure,String destination
             ,LocalDate date,LocalTime time,
@@ -94,19 +103,26 @@ public class Article {
         this.status=status;
     }
 
-    public void modifyArticle(UpdateArticleRequest fixes){
-        this.departure=fixes.getDeparture();
-        this.destination=fixes.getDestination();
-        this.date=fixes.getDate();
-        this.time=fixes.getTime();
-        this.currentParticipants= fixes.getCurrentParticipants();
-        this.title=fixes.getTitle();
-        this.content= fixes.getContent();
+    public void modifyArticle(String departure, String destination,Content destinationContent,
+                              LocalDate date, LocalTime time,
+                              Integer currentParticipants,
+                              String title, String content,
+                              Double departureLongitude,Double departureLatitude,
+                              Double destinationLongitude,Double destinationLatitude){
+        this.departure=departure;
+        this.destination=destination;
+        this.date=date;
+        this.time=time;
+        this.currentParticipants= currentParticipants;
+        this.title=title;
+        this.content= content;
 
-        this.departureLongitude=fixes.getDepartureLongitude();
-        this.departureLatitude=fixes.getDepartureLatitude();
-        this.destinationLongitude=fixes.getDestinationLongitude();
-        this.destinationLatitude=fixes.getDestinationLatitude();
+        this.departureLongitude=departureLongitude;
+        this.departureLatitude=departureLatitude;
+        this.destinationLongitude=destinationLongitude;
+        this.destinationLatitude=destinationLatitude;
+        this.destinationContent=destinationContent;
+
     }
 
 
