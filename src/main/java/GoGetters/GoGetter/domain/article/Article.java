@@ -73,7 +73,7 @@ public class Article {
                 destinationLongitude,destinationLatitude);
 
         this.setWriter(member);
-        this.destinationContent=destinationContent;
+        this.setContent(destinationContent);
     }
     public Article(String departure,String destination
             ,LocalDate date,LocalTime time,
@@ -121,7 +121,6 @@ public class Article {
         this.departureLatitude=departureLatitude;
         this.destinationLongitude=destinationLongitude;
         this.destinationLatitude=destinationLatitude;
-        this.destinationContent=destinationContent;
 
     }
 
@@ -129,5 +128,10 @@ public class Article {
     //연관관계 메서드
     public void setWriter(Member member){
         this.writer= member;
+    }
+
+    public void setContent(Content destinationContent) {
+        this.destinationContent=destinationContent;
+//        this.destinationContent.getArticles().add(this);
     }
 }

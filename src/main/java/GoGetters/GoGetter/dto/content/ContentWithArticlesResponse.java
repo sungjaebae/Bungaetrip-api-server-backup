@@ -1,6 +1,5 @@
 package GoGetters.GoGetter.dto.content;
 
-import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.dto.article.ArticleResponse;
 import GoGetters.GoGetter.dto.image.ContentImageDto;
@@ -40,7 +39,7 @@ public class ContentWithArticlesResponse {
     private List<ArticleResponse> articles;
     private List<ContentImageDto> imageList;
 
-    public ContentWithArticlesResponse(Content content, List<Article> articles) {
+    public ContentWithArticlesResponse(Content content) {
         this.contentId=content.getId();
         this.title = content.getTitle();
         this.subtitle=content.getSubtitle();
@@ -59,7 +58,8 @@ public class ContentWithArticlesResponse {
         this.naverId=content.getNaverId();
         this.contentDetailUrl=content.getContentDetailUrl();
 
-        this.articles = articles.stream().map(article -> new ArticleResponse(article)).collect(Collectors.toList());
+        this.articles = content.getArticles().stream().map(article -> new ArticleResponse(article))
+                .collect(Collectors.toList());
         this.imageList = content.getImages().stream().map(image -> new ContentImageDto(image))
                 .collect(Collectors.toList());
     }

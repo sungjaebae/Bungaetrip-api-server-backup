@@ -1,12 +1,15 @@
 package GoGetters.GoGetter.domain.content;
 
 import GoGetters.GoGetter.domain.Image.Image;
+import GoGetters.GoGetter.domain.article.Article;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter @NoArgsConstructor
@@ -43,8 +46,10 @@ public class Content {
     private String contentDetailUrl;
 
     @OneToMany(mappedBy = "content",cascade = CascadeType.ALL)
-    private List<Image> images=new ArrayList<>();
+    private Set<Image> images=new HashSet<>();
 
+    @OneToMany(mappedBy = "destinationContent",cascade = CascadeType.ALL)
+    private List<Article> articles = new ArrayList<>();
     public Content(String title,String subtitle, String content,ContentType contentType
             ,String address, Double latitude, Double longitude,Double rating,Integer blogReview,Integer visitorReview,
                    String phoneNumber,String naverId,String contentDetailUrl){
