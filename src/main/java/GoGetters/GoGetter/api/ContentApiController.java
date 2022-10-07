@@ -1,6 +1,5 @@
 package GoGetters.GoGetter.api;
 
-import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.content.ContentType;
 import GoGetters.GoGetter.dto.content.ContentListPeopleLikeResponse;
@@ -10,6 +9,7 @@ import GoGetters.GoGetter.service.ArticleService;
 import GoGetters.GoGetter.service.ContentService;
 import GoGetters.GoGetter.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "contents")
+@Slf4j
 public class ContentApiController {
     private final ContentService contentService;
     private final ArticleService articleService;
@@ -43,9 +44,8 @@ public class ContentApiController {
     @GetMapping(value = "/{contentId}")
     public ResponseEntity readTourContent(@PathVariable(value = "contentId") Long contentId) {
         Content content = contentService.findOne(contentId);
-        List<Article> articles = articleService.findArticlesByLocation(content.getTitle());
-
-        return ResponseUtil.successResponse(HttpStatus.OK, new ContentWithArticlesResponse(content, articles));
+        log.info("articles size: {}",content.getArticles().size());
+        return ResponseUtil.successResponse(HttpStatus.OK, new ContentWithArticlesResponse(content));
     }
 
     @GetMapping(value = "/recommend")
@@ -69,7 +69,8 @@ public class ContentApiController {
     @GetMapping(value = "",params = "searchKeyword")
     public ResponseEntity listTourContentBySearchKeyword(@RequestParam(value = "searchKeyword") String searchKeyword) {
         List<Content> contentList=contentService.findAllBySearchKeyword(searchKeyword);
-        List<ContentListResponse> collect = contentList.stream().map(content -> new ContentListResponse(content)).collect(Collectors.toList());
+        List<ContentListResponse> collect = contentList.stream()
+                .map(content -> new ContentListResponse(content)).collect(Collectors.toList());
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
     }
 }

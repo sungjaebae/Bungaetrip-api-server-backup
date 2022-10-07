@@ -23,6 +23,9 @@ public class UpdateArticleRequest {
     @Schema(description = "도착지")
     private String destination;
 
+    @Schema(description = "도착지 content id")
+    private Long destinationContentId;
+
     @Schema(description = "현재 인원")
     private Integer currentParticipants;
 

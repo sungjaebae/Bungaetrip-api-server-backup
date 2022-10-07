@@ -2,7 +2,6 @@ package GoGetters.GoGetter.repository;
 
 import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.article.ArticleStatus;
-import GoGetters.GoGetter.dto.article.UpdateArticleRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -53,10 +52,12 @@ public class ArticleRepository {
     }
 
     //글 수정
-    public Long modifyArticle(Article article, UpdateArticleRequest fixes) {
-        article.modifyArticle(fixes);
-        return article.getId();
-    }
+//    public Long modifyArticle(Article article) {
+//        article.modifyArticle(departure,destination,destinationContent,date,time,
+//                currentParticipants,title,content,departureLongitude,departureLatitude
+//                ,destinationLongitude,destinationLatitude);
+//        return article.getId();
+//    }
 
     //글 검색
     public List<Article> findArticlesByKeyword(String keyword){
