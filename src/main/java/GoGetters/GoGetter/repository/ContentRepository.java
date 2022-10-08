@@ -21,7 +21,7 @@ public class ContentRepository {
         return content.getId();
     }
 
-    public Content findOne(Long contentId) {
+    public Content findContentWithArticles(Long contentId) {
         String query = "select distinct c from Content c" +
 //                " join fetch c.images" +
                 " join fetch c.articles a" +
@@ -34,12 +34,16 @@ public class ContentRepository {
                 .getSingleResult();
     }
 
+    public Content findOne(Long contentId) {
+        return em.find(Content.class, contentId);
+    }
+
     public List<Content> findAllBySearchKeyword(String searchKeyword) {
         String likeVariable="'%"+searchKeyword+"%'";
 
         String query = "select distinct c from Content c" +
-//                " join fetch c.articles"+
-                " join fetch c.images" +
+                " join fetch c.articles"+
+//                " join fetch c.images" +
                 " where c.title like "+likeVariable;
         return em.createQuery(query,Content.class)
                 .getResultList();
@@ -48,8 +52,8 @@ public class ContentRepository {
     public List<Content> findAllByLocationAndFilter(Double left, Double right, Double top, Double bottom,
                                                     ContentType filter,Integer count) {
         String query = "select distinct c from Content c" +
-                " join fetch c.images"+
-//                " join fetch c.articles"+
+//                " join fetch c.images"+
+                " join fetch c.articles"+
                 " where c.latitude <= :top" +
                 " and c.latitude >= :bottom" +
                 " and c.longitude <= :right" +
@@ -77,10 +81,10 @@ public class ContentRepository {
 
     }
 
-    public List<Content> findRestaurantsPeopleLike(Integer count) {
+    public List<Content> findRestaurantsPeopleLike(Double memberLatitude,Double memberLongitude,Integer count) {
         String query="select distinct c from Content c" +
-                " join fetch c.images"+
-//                " join fetch c.articles"+
+//                " join fetch c.images"+
+                " join fetch c.articles"+
                 " where c.contentType=:restaurant" +
                 " order by c.rating*c.visitorReview*c.blogReview desc";
         return em.createQuery(query, Content.class)
@@ -89,10 +93,10 @@ public class ContentRepository {
                 .getResultList();
     }
 
-    public List<Content> findCafesPeopleLike(Integer count) {
+    public List<Content> findCafesPeopleLike(Double memberLatitude,Double memberLongitude,Integer count) {
         String query="select distinct c from Content c" +
-                " join fetch c.images"+
-//                " join fetch c.articles"+
+//                " join fetch c.images"+
+                " join fetch c.articles"+
                 " where c.contentType=:cafe" +
                 " order by c.rating*c.visitorReview*c.blogReview desc";
         return em.createQuery(query, Content.class)
@@ -101,15 +105,35 @@ public class ContentRepository {
                 .getResultList();
     }
 
-    public List<Content> findAttractionsPeopleLike(Integer count) {
+    public List<Content> findAttractionsPeopleLike(Double memberLatitude,Double memberLongitude,Integer count) {
         String query="select distinct c from Content c" +
-                " join fetch c.images"+
-//                " join fetch c.articles"+
+//                " join fetch c.images"+
+                " join fetch c.articles"+
                 " where c.contentType=:attraction" +
                 " order by c.rating*c.visitorReview*c.blogReview desc";
         return em.createQuery(query, Content.class)
                 .setParameter("attraction", ContentType.ATTRACTION)
                 .setMaxResults(count)
                 .getResultList();
+    }
+
+    private String contentBelowCertainDistanceQuery() {
+        return "select c from Content c" +
+                " as distance" +
+                "";
+//            "SELECT\n" +
+//                    "\n" +
+//                    "    (6371*acos(cos(radians(userLatitude))*cos(radians(cafeLatitude))*cos(radians(cafeHardness)\n" +
+//                    "\n" +
+//                    "    -radians(userHardness))+sin(radians(userLatitude))*sin(radians(cafeLatitude))))\n" +
+//                    "\n" +
+//                    "    AS distance\n" +
+//                    "\n" +
+//                    "FROM Cafe,User\n" +
+//                    "\n" +
+//                    "-- HAVING distance <= (이 값을 지정하면 특정거리 이하만 출력하게 할 수 있음)\n" +
+//                    "\n" +
+//                    "ORDER BY distance;\n" +
+//                    "출처: https://yusang.tistory.com/48 [YS's develop story:티스토리]"
     }
 }

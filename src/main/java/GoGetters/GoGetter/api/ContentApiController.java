@@ -43,17 +43,21 @@ public class ContentApiController {
 
     @GetMapping(value = "/{contentId}")
     public ResponseEntity readTourContent(@PathVariable(value = "contentId") Long contentId) {
-        Content content = contentService.findOne(contentId);
+        Content content = contentService.findContentWithArticles(contentId);
         log.info("articles size: {}",content.getArticles().size());
         return ResponseUtil.successResponse(HttpStatus.OK, new ContentWithArticlesResponse(content));
     }
 
     @GetMapping(value = "/recommend")
-    public ResponseEntity listRecommendContent() {
+    public ResponseEntity listRecommendContent(@RequestParam(value = "currentLatitude")Double currentLatitude,
+                                               @RequestParam(value = "currentLongitude")Double currentLongitude) {
         Integer count=10;
-        List<Content> restaurantListPeopleLike=contentService.findRestaurantsPeopleLike(count);
-        List<Content> cafeListPeopleLike=contentService.findCafesPeopleLike(count);
-        List<Content> attractionListPeopleLike=contentService.findAttractionsPeopleLike(count);
+        List<Content> restaurantListPeopleLike=contentService
+                .findRestaurantsPeopleLike(currentLatitude,currentLongitude,count);
+        List<Content> cafeListPeopleLike=contentService
+                .findCafesPeopleLike(currentLatitude,currentLongitude,count);
+        List<Content> attractionListPeopleLike=contentService
+                .findAttractionsPeopleLike(currentLatitude,currentLongitude,count);
 
         List<ContentListPeopleLikeResponse> contentsPeopleLike=new ArrayList<>();
         contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 맛집",

@@ -122,6 +122,8 @@ public class Article {
         this.destinationLongitude=destinationLongitude;
         this.destinationLatitude=destinationLatitude;
 
+        this.setContent(destinationContent);
+
     }
 
 
@@ -132,6 +134,6 @@ public class Article {
 
     public void setContent(Content destinationContent) {
         this.destinationContent=destinationContent;
-//        this.destinationContent.getArticles().add(this);
+        this.destinationContent.getArticles().add(this);
     }
 }

@@ -13,11 +13,15 @@ import java.util.List;
 public class ContentService {
     private final ContentRepository contentRepository;
 
-
-
     public Content findOne(Long contentId) {
         return contentRepository.findOne(contentId);
     }
+
+
+    public Content findContentWithArticles(Long contentId) {
+        return contentRepository.findContentWithArticles(contentId);
+    }
+
 
     public List<Content> findAllBySearchKeyword(String searchKeyword) {
         return contentRepository.findAllBySearchKeyword(searchKeyword);
@@ -28,17 +32,17 @@ public class ContentService {
         return contentRepository.findAllByLocationAndFilter(left, right, top, bottom, filter,count);
     }
 
-    public List<Content> findRestaurantsPeopleLike(Integer count) {
-        return contentRepository.findRestaurantsPeopleLike(count);
+    public List<Content> findRestaurantsPeopleLike(Double memberLatitude, Double memberLongitude,Integer count) {
+        return contentRepository.findRestaurantsPeopleLike(memberLatitude,memberLongitude,count);
     }
 
-    public List<Content> findCafesPeopleLike(Integer count) {
-        return contentRepository.findCafesPeopleLike(count);
+    public List<Content> findCafesPeopleLike(Double memberLatitude, Double memberLongitude,Integer count) {
+        return contentRepository.findCafesPeopleLike(memberLatitude,memberLongitude,count);
 
     }
 
-    public List<Content> findAttractionsPeopleLike(Integer count) {
-        return contentRepository.findAttractionsPeopleLike(count);
+    public List<Content> findAttractionsPeopleLike(Double memberLatitude, Double memberLongitude,Integer count) {
+        return contentRepository.findAttractionsPeopleLike(memberLatitude,memberLongitude,count);
 
     }
 }
