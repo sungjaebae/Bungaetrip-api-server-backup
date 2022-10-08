@@ -36,8 +36,10 @@ public class ContentListResponse {
     private String naverId;
 
     private String contentDetailUrl;
+    private Integer articleCount;
 
     private List<ContentImageDto> imageList;
+
 
     public ContentListResponse(Content content) {
         this.contentId=content.getId();
@@ -58,6 +60,6 @@ public class ContentListResponse {
         this.naverId=content.getNaverId();
         this.contentDetailUrl=content.getContentDetailUrl();
         this.imageList = content.getImages().stream().map(image -> new ContentImageDto(image)).collect(Collectors.toList());
-
+        this.articleCount=content.getArticles().size();
     }
 }
