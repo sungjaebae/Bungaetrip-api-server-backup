@@ -4,6 +4,7 @@ import GoGetters.GoGetter.domain.Image.Image;
 import GoGetters.GoGetter.domain.article.Article;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class Content {
 
     private Double latitude;
     private Double longitude;
-
+    private Point point;
     private String address;
 
     private Double rating;
