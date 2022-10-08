@@ -3,6 +3,7 @@ package GoGetters.GoGetter.api;
 import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.article.ArticleSortType;
+import GoGetters.GoGetter.domain.article.ArticleType;
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.member.Member;
 import GoGetters.GoGetter.dto.article.ArticleResponse;
@@ -48,14 +49,15 @@ public class ArticleApiController {
 
         Member member = memberService.findOne(createArticleRequest.getMemberId());
         Content destinationContent = contentService.findOne(createArticleRequest.getDestinationContentId());
-        Article article = new Article(member, createArticleRequest.getDeparture()
-                , createArticleRequest.getDestination(),destinationContent,
+        Article article = new Article(member, ArticleType.valueOf(createArticleRequest.getArticleType()),
+                createArticleRequest.getDeparture()
+                , createArticleRequest.getDestination(), destinationContent,
                 createArticleRequest.getDate(), createArticleRequest.getTime(),
                 createArticleRequest.getCurrentParticipants(),
                 createArticleRequest.getTitle(), createArticleRequest.getContent(),
-                createArticleRequest.getDepartureLongitude(),createArticleRequest.getDepartureLatitude(),
-                createArticleRequest.getDestinationLongitude(),createArticleRequest.getDestinationLatitude()
-                );
+                createArticleRequest.getDepartureLongitude(), createArticleRequest.getDepartureLatitude(),
+                createArticleRequest.getDestinationLongitude(), createArticleRequest.getDestinationLatitude()
+        );
 
         Long writeId = articleService.writeArticle(article);
         Article findArticle = articleService.findArticle(writeId);

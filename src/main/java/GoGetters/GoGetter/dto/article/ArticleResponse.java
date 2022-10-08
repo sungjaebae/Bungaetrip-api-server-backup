@@ -16,6 +16,8 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class ArticleResponse {
     private Long articleId;
+
+    private String articleType;
     private String departure;
     private Double departureLongitude;
     private Double departureLatitude;
@@ -39,6 +41,7 @@ public class ArticleResponse {
     private MemberInfoDto member;
     public ArticleResponse(Article article){
         this.articleId=article.getId();
+        this.articleType=article.getArticleType().toString();
         this.departure=article.getDeparture();
         this.destination=article.getDestination();
         this.date=article.getDate();

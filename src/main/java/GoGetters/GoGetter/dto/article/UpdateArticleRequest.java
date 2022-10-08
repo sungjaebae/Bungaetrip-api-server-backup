@@ -17,6 +17,9 @@ public class UpdateArticleRequest {
     @Schema(description = "게시글 번호")
     private Long articleId;
 
+    @Schema(description = "게시글 타입")
+    private String articleType;
+
     @Schema(description = "출발지")
     private String departure;
 

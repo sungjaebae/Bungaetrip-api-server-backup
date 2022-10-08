@@ -18,6 +18,9 @@ public class Article {
     @Column(name = "article_id")
     private Long id;
 
+    @Enumerated(value = EnumType.STRING)
+    private ArticleType articleType;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member writer;
@@ -57,17 +60,14 @@ public class Article {
     @Enumerated(EnumType.STRING)
     private ArticleStatus status;
 
-
-    public Article(Member member, String departure, String destination,Content destinationContent,
+    public Article(Member member,ArticleType articleType, String departure, String destination,Content destinationContent,
                    LocalDate date, LocalTime time,
                    Integer currentParticipants,
                    String title, String content,
                    Double departureLongitude,Double departureLatitude,
                    Double destinationLongitude,Double destinationLatitude
-
-
     ){
-        this(departure,destination
+        this(articleType,departure,destination
                 ,date,time,currentParticipants, title,content
                 ,departureLongitude,departureLatitude,
                 destinationLongitude,destinationLatitude);
@@ -75,12 +75,14 @@ public class Article {
         this.setWriter(member);
         this.setContent(destinationContent);
     }
-    public Article(String departure,String destination
+    public Article(ArticleType articleType,
+            String departure,String destination
             ,LocalDate date,LocalTime time,
                    Integer currentParticipants,
             String title,String content,
     Double departureLongitude,Double departureLatitude,
                    Double destinationLongitude,Double destinationLatitude){
+        this.articleType=articleType;
         this.departure=departure;
         this.destination=destination;
         this.date=date;
@@ -103,7 +105,7 @@ public class Article {
         this.status=status;
     }
 
-    public void modifyArticle(String departure, String destination,Content destinationContent,
+    public void modifyArticle(ArticleType articleType,String departure, String destination,Content destinationContent,
                               LocalDate date, LocalTime time,
                               Integer currentParticipants,
                               String title, String content,

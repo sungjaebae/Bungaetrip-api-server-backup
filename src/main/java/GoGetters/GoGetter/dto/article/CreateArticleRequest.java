@@ -16,6 +16,10 @@ public class CreateArticleRequest {
     @Schema(description = "회원 번호")
     private Long memberId;
 
+    @Schema(description = "게시글 타입")
+    private String articleType;
+
+
     @Schema(description = "출발지")
     private String departure;
 

@@ -3,6 +3,7 @@ package GoGetters.GoGetter.service;
 import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.article.ArticleSortType;
+import GoGetters.GoGetter.domain.article.ArticleType;
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.dto.article.UpdateArticleRequest;
 import GoGetters.GoGetter.exception.Article.NoSuchArticleException;
@@ -48,7 +49,7 @@ public class ArticleService {
             throw new NoSuchArticleException(MessageResource.articleNotExist);
         }
         Content destinationContent = contentRepository.findOne(articleRequest.getDestinationContentId());
-        findArticle.get(0).modifyArticle(articleRequest.getDeparture(), articleRequest.getDestination(),
+        findArticle.get(0).modifyArticle(ArticleType.valueOf(articleRequest.getArticleType()),articleRequest.getDeparture(), articleRequest.getDestination(),
                 destinationContent,
                 articleRequest.getDate(), articleRequest.getTime(),
                 articleRequest.getCurrentParticipants(), articleRequest.getTitle(), articleRequest.getContent(),

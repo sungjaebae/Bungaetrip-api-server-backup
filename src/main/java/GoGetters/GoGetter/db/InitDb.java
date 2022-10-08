@@ -2,6 +2,7 @@ package GoGetters.GoGetter.db;
 
 import GoGetters.GoGetter.domain.Image.Image;
 import GoGetters.GoGetter.domain.article.Article;
+import GoGetters.GoGetter.domain.article.ArticleType;
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.content.ContentType;
 import GoGetters.GoGetter.domain.member.Gender;
@@ -152,7 +153,7 @@ public class InitDb {
                                       Double departureLongitude,Double departureLatitude,
                                       Double destinationLongitude,Double destinationLatitude
         ) {
-            return new Article(member,dep,des,desContent,date,time,current,title,content,
+            return new Article(member, ArticleType.INSTANT_MEETING,dep,des,desContent,date,time,current,title,content,
                     departureLongitude,departureLatitude,
                     destinationLongitude,destinationLatitude);
         }
