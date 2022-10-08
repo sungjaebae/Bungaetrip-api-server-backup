@@ -21,7 +21,7 @@ public class ContentRepository {
         return content.getId();
     }
 
-    public Content findOne(Long contentId) {
+    public Content findContentWithArticles(Long contentId) {
         String query = "select distinct c from Content c" +
 //                " join fetch c.images" +
                 " join fetch c.articles a" +
@@ -32,6 +32,10 @@ public class ContentRepository {
         return em.createQuery(query, Content.class)
                 .setParameter("contentId", contentId)
                 .getSingleResult();
+    }
+
+    public Content findOne(Long contentId) {
+        return em.find(Content.class, contentId);
     }
 
     public List<Content> findAllBySearchKeyword(String searchKeyword) {

@@ -43,7 +43,7 @@ public class ContentApiController {
 
     @GetMapping(value = "/{contentId}")
     public ResponseEntity readTourContent(@PathVariable(value = "contentId") Long contentId) {
-        Content content = contentService.findOne(contentId);
+        Content content = contentService.findContentWithArticles(contentId);
         log.info("articles size: {}",content.getArticles().size());
         return ResponseUtil.successResponse(HttpStatus.OK, new ContentWithArticlesResponse(content));
     }

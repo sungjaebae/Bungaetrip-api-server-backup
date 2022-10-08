@@ -13,11 +13,15 @@ import java.util.List;
 public class ContentService {
     private final ContentRepository contentRepository;
 
-
-
     public Content findOne(Long contentId) {
         return contentRepository.findOne(contentId);
     }
+
+
+    public Content findContentWithArticles(Long contentId) {
+        return contentRepository.findContentWithArticles(contentId);
+    }
+
 
     public List<Content> findAllBySearchKeyword(String searchKeyword) {
         return contentRepository.findAllBySearchKeyword(searchKeyword);
