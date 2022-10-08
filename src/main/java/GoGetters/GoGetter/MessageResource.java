@@ -25,4 +25,8 @@ public class MessageResource {
     public static String invalidTokenHeader = "토큰의 헤더값이 형식에 맞지 않습니다.";
 
     public static String alreadyReportedMemberExist = "이미 차단된 회원입니다";
+
+    public static String illegalArgument = "요청한 매개변수가 형식에 맞지 않습니다";
+
+
 }
