@@ -23,9 +23,9 @@ public class ContentRepository {
 
     public Content findContentWithArticles(Long contentId) {
         String query = "select distinct c from Content c" +
-//                " join fetch c.images" +
-                " join fetch c.articles a" +
-                " join fetch a.writer" +
+                " join fetch c.images" +
+//                " left join c.articles a" +
+//                " join fetch a.writer" +
                 " where c.id=:contentId";
 
 

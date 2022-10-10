@@ -21,7 +21,7 @@ public class Article {
     @Enumerated(value = EnumType.STRING)
     private ArticleType articleType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member writer;
 
