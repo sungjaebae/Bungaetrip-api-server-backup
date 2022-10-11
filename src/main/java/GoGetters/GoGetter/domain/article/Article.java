@@ -21,7 +21,7 @@ public class Article {
     @Enumerated(value = EnumType.STRING)
     private ArticleType articleType;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member writer;
 
@@ -131,6 +131,7 @@ public class Article {
 
     //연관관계 메서드
     public void setWriter(Member member){
+
         this.writer= member;
     }
 
