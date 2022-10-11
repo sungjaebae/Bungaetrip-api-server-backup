@@ -21,11 +21,12 @@ public class ArticleRepository {
     }
 
     public List<Article> findArticle(Long articleId){
-        String query = "select a from Article a " +
-                "join fetch a.writer w " +
-                "where a.id=:articleId " +
-                "and a.status=:status " +
-                "and w.deletedAt is null";
+        String query = "select a from Article a" +
+                " join fetch a.writer w" +
+                " join fetch a.destinationContent" +
+                " where a.id=:articleId" +
+                " and a.status=:status" +
+                " and w.deletedAt is null";
         return em.createQuery(query,Article.class)
                 .setParameter("articleId",articleId)
                 .setParameter("status",ArticleStatus.CREATE).getResultList();
@@ -33,15 +34,17 @@ public class ArticleRepository {
     }
 
 
-    public List<Article> findCreateArticles(){
-        String query="select a from Article a "
-                +"join fetch a.writer w "
-                +"where a.status=:status " +
-                "and w.deletedAt is null " +
-                "order by a.createdAt desc";
-        log.debug("findCreateArticles query : {}",query);
-        return em.createQuery(query,Article.class)
-                .setParameter("status",ArticleStatus.CREATE)
+    public List<Article> findCreateArticles() {
+        String query = "select a from Article a"
+                + " join fetch a.writer w" +
+                " join fetch a.destinationContent" +
+
+                " where a.status=:status" +
+                " and w.deletedAt is null" +
+                " order by a.createdAt desc";
+        log.debug("findCreateArticles query : {}", query);
+        return em.createQuery(query, Article.class)
+                .setParameter("status", ArticleStatus.CREATE)
                 .getResultList();
     }
 
@@ -62,26 +65,27 @@ public class ArticleRepository {
     //글 검색
     public List<Article> findArticlesByKeyword(String keyword){
         String likeVariable="'%"+keyword+"%'";
-        String query="select a from Article a " +
-                "join fetch a.writer w " +
-                "where a.status=:status and (a.title like "+likeVariable
+        String query="select a from Article a" +
+                " join fetch a.writer w" +
+                " join fetch a.destinationContent" +
+                " where a.status=:status and (a.title like "+likeVariable
                 +" or a.content like "+likeVariable
                 +" or a.departure like "+likeVariable
                 +" or a.destination like "+likeVariable
-                +") " +
-                "and w.deletedAt is null " +
-                "order by a.createdAt desc";
-
+                +" )" +
+                " and w.deletedAt is null" +
+                " order by a.createdAt desc";
         return em.createQuery(query, Article.class).setParameter("status",ArticleStatus.CREATE).getResultList();
     }
 
 
     public List<Article> findArticlesByMemberId(Long memberId) {
-        String query="select a from Article a " +
-                "join fetch a.writer w " +
-                "where w.id=:memberId " +
-                "and w.deletedAt is null " +
-                "and a.status=:status order by a.createdAt desc";
+        String query="select a from Article a" +
+                " join fetch a.writer w" +
+                " join fetch a.destinationContent" +
+                " where w.id=:memberId" +
+                " and w.deletedAt is null" +
+                " and a.status=:status order by a.createdAt desc";
         log.debug("Log findArticle query: {}", query);
 
         return em.createQuery(query, Article.class)
@@ -91,11 +95,12 @@ public class ArticleRepository {
     }
 
     public List<Article> sortByMeetingDate() {
-        String query = "select a from Article a " +
-                "join fetch a.writer w " +
-                "where a.status=:status " +
-                "and w.deletedAt is null " +
-                "order by a.date, a.time";
+        String query = "select a from Article a" +
+                " join fetch a.writer w" +
+                " join fetch a.destinationContent" +
+                " where a.status=:status" +
+                " and w.deletedAt is null" +
+                " order by a.date, a.time";
         log.debug("Article Repo sort query:{}",query);
         return em.createQuery(query, Article.class)
                 .setParameter("status", ArticleStatus.CREATE)

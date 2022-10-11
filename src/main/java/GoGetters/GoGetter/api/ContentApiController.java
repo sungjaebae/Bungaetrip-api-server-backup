@@ -3,7 +3,7 @@ package GoGetters.GoGetter.api;
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.content.ContentType;
 import GoGetters.GoGetter.dto.content.ContentListPeopleLikeResponse;
-import GoGetters.GoGetter.dto.content.ContentListResponse;
+import GoGetters.GoGetter.dto.content.ContentResponse;
 import GoGetters.GoGetter.dto.content.ContentWithArticlesResponse;
 import GoGetters.GoGetter.service.ArticleService;
 import GoGetters.GoGetter.service.ContentService;
@@ -40,7 +40,7 @@ public class ContentApiController {
         Integer count=50;
         List<Content> contentList = contentService.findPlaceInAreaByFilter(left, right, top, bottom,
                 filter,offset,limit);
-        List<ContentListResponse> collect = contentList.stream().map(content -> new ContentListResponse(content))
+        List<ContentResponse> collect = contentList.stream().map(content -> new ContentResponse(content))
                 .collect(Collectors.toList());
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
     }
@@ -88,8 +88,8 @@ public class ContentApiController {
                                                          @RequestParam(value = "limit", defaultValue
                                                                  = "100") Integer limit) {
         List<Content> contentList = contentService.findAllBySearchKeyword(searchKeyword,offset,limit);
-        List<ContentListResponse> collect = contentList.stream()
-                .map(content -> new ContentListResponse(content)).collect(Collectors.toList());
+        List<ContentResponse> collect = contentList.stream()
+                .map(content -> new ContentResponse(content)).collect(Collectors.toList());
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
     }
 }

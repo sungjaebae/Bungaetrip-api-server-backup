@@ -10,12 +10,12 @@ import java.util.stream.Collectors;
 public class ContentListPeopleLikeResponse {
     private String contentListTitle;
 
-    private List<ContentListResponse> contentList;
+    private List<ContentResponse> contentList;
 
     public ContentListPeopleLikeResponse(String contentListTitle, List<Content> contents) {
         this.contentListTitle=contentListTitle;
         this.contentList=contents.stream()
-                .map(content -> new ContentListResponse(content))
+                .map(content -> new ContentResponse(content))
                 .collect(Collectors.toList());
 
     }
