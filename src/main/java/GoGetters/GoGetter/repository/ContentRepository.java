@@ -4,11 +4,9 @@ import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.content.ContentType;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -25,28 +23,15 @@ public class ContentRepository {
         return content.getId();
     }
 
-    public Content findContentWithArticles(Long contentId) {
+    public Content findContentWithArticles(Long contentId,Integer offset,Integer limit) {
         String query = "select distinct c from Content c" +
-//                " join fetch c.images" +
-//                " left join Article a on a.content = c" +
-//                " left join Member m on a.writer = m" +
-                " join fetch c.articles a" +
-                " join fetch a.writer m"+
                 " where c.id=:contentId";
-        Content content = null;
-        try {
-            System.out.println("211111");
-            content = em.createQuery(query, Content.class).setParameter("contentId", contentId).getSingleResult();
-        } catch (EmptyResultDataAccessException | NoResultException e) {
-            content=em.createQuery("select distinct c from Content c" +
-                            " where c.id=:contentId",Content.class)
-                    .setParameter("contentId", contentId)
-                    .getSingleResult();
-        } catch(Exception e) {
-            log.info("print except: {}",e.toString());
-            return null;
-        }
-        return content;
+
+        return em.createQuery(query, Content.class)
+                .setParameter("contentId", contentId)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList().get(0);
 
     }
 
@@ -54,24 +39,20 @@ public class ContentRepository {
         return em.find(Content.class, contentId);
     }
 
-    public List<Content> findAllBySearchKeyword(String searchKeyword) {
+    public List<Content> findAllBySearchKeyword(String searchKeyword,Integer offset,Integer limit) {
         String likeVariable="'%"+searchKeyword+"%'";
 
         String query = "select distinct c from Content c" +
-//                " join fetch c.articles"+
-                " join fetch c.images" +
                 " where c.title like "+likeVariable;
         return em.createQuery(query,Content.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
                 .getResultList();
     }
 
     public List<Content> findAllByLocationAndFilter(Double left, Double right, Double top, Double bottom,
-                                                    ContentType filter,Integer count) {
-        System.out.println("content log");
+                                                    ContentType filter,Integer offset,Integer limit) {
         String query = "select distinct c from Content c" +
-//                " join fetch c.images"+
-                " left join c.articles a" +
-                " left join a.writer"+
                 " where c.latitude <= :top" +
                 " and c.latitude >= :bottom" +
                 " and c.longitude <= :right" +
@@ -87,7 +68,8 @@ public class ContentRepository {
                 .setParameter("right", right)
                 .setParameter("top", top)
                 .setParameter("bottom", bottom)
-                .setMaxResults(count);
+                .setFirstResult(offset)
+                .setMaxResults(limit);
 
         if (filter != null) {
             contentTypedQuery.setParameter("filter",filter);
@@ -99,39 +81,39 @@ public class ContentRepository {
 
     }
 
-    public List<Content> findRestaurantsPeopleLike(Double memberLatitude,Double memberLongitude,Integer count) {
+    public List<Content> findRestaurantsPeopleLike(Double memberLatitude,Double memberLongitude
+                            ,Integer offset,Integer limit) {
         String query="select distinct c from Content c" +
-                " join fetch c.images"+
-//                " join fetch c.articles"+
                 " where c.contentType=:restaurant" +
                 " order by c.rating*c.visitorReview*c.blogReview desc";
         return em.createQuery(query, Content.class)
                 .setParameter("restaurant", ContentType.RESTAURANT)
-                .setMaxResults(count)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
                 .getResultList();
     }
 
-    public List<Content> findCafesPeopleLike(Double memberLatitude,Double memberLongitude,Integer count) {
+    public List<Content> findCafesPeopleLike(Double memberLatitude,Double memberLongitude,
+                                             Integer offset,Integer limit) {
         String query="select distinct c from Content c" +
-                " join fetch c.images"+
-//                " join fetch c.articles"+
                 " where c.contentType=:cafe" +
                 " order by c.rating*c.visitorReview*c.blogReview desc";
         return em.createQuery(query, Content.class)
                 .setParameter("cafe", ContentType.CAFE)
-                .setMaxResults(count)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
                 .getResultList();
     }
 
-    public List<Content> findAttractionsPeopleLike(Double memberLatitude,Double memberLongitude,Integer count) {
+    public List<Content> findAttractionsPeopleLike(Double memberLatitude,Double memberLongitude,
+                                                   Integer offset,Integer limit ) {
         String query="select distinct c from Content c" +
-                " join fetch c.images"+
-//                " join fetch c.articles"+
                 " where c.contentType=:attraction" +
                 " order by c.rating*c.visitorReview*c.blogReview desc";
         return em.createQuery(query, Content.class)
                 .setParameter("attraction", ContentType.ATTRACTION)
-                .setMaxResults(count)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
                 .getResultList();
     }
 

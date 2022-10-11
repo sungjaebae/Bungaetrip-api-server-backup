@@ -18,32 +18,35 @@ public class ContentService {
     }
 
 
-    public Content findContentWithArticles(Long contentId) {
+    public Content findContentWithArticles(Long contentId,Integer offset,Integer limit) {
         System.out.println("111111");
-        return contentRepository.findContentWithArticles(contentId);
+        return contentRepository.findContentWithArticles(contentId,offset,limit);
     }
 
 
-    public List<Content> findAllBySearchKeyword(String searchKeyword) {
-        return contentRepository.findAllBySearchKeyword(searchKeyword);
+    public List<Content> findAllBySearchKeyword(String searchKeyword,Integer offset,Integer limit) {
+        return contentRepository.findAllBySearchKeyword(searchKeyword,offset,limit);
     }
 
     public List<Content> findPlaceInAreaByFilter(Double left, Double right, Double top, Double bottom,
-                                                 ContentType filter,Integer count) {
-        return contentRepository.findAllByLocationAndFilter(left, right, top, bottom, filter,count);
+                                                 ContentType filter,Integer offset,Integer limit) {
+        return contentRepository.findAllByLocationAndFilter(left, right, top, bottom, filter,offset,limit);
     }
 
-    public List<Content> findRestaurantsPeopleLike(Double memberLatitude, Double memberLongitude,Integer count) {
-        return contentRepository.findRestaurantsPeopleLike(memberLatitude,memberLongitude,count);
+    public List<Content> findRestaurantsPeopleLike(Double memberLatitude, Double memberLongitude,
+                                                   Integer offset,Integer limit) {
+        return contentRepository.findRestaurantsPeopleLike(memberLatitude,memberLongitude,offset,limit);
     }
 
-    public List<Content> findCafesPeopleLike(Double memberLatitude, Double memberLongitude,Integer count) {
-        return contentRepository.findCafesPeopleLike(memberLatitude,memberLongitude,count);
+    public List<Content> findCafesPeopleLike(Double memberLatitude, Double memberLongitude,
+                                             Integer offset,Integer limit) {
+        return contentRepository.findCafesPeopleLike(memberLatitude,memberLongitude,offset,limit);
 
     }
 
-    public List<Content> findAttractionsPeopleLike(Double memberLatitude, Double memberLongitude,Integer count) {
-        return contentRepository.findAttractionsPeopleLike(memberLatitude,memberLongitude,count);
+    public List<Content> findAttractionsPeopleLike(Double memberLatitude, Double memberLongitude,
+                                                   Integer offset,Integer limit) {
+        return contentRepository.findAttractionsPeopleLike(memberLatitude,memberLongitude,offset,limit);
 
     }
 }

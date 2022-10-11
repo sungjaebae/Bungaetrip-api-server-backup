@@ -31,33 +31,44 @@ public class ContentApiController {
                                            @RequestParam(value = "right") Double right,
                                            @RequestParam(value = "top") Double top,
                                            @RequestParam(value = "bottom") Double bottom,
-                                           @RequestParam(value = "filter",required = false) ContentType filter
+                                           @RequestParam(value = "filter",required = false) ContentType filter,
+                                           @RequestParam(value = "offset",
+                                                   defaultValue = "0") Integer offset,
+                                           @RequestParam(value = "limit", defaultValue
+                                                   = "100") Integer limit
     ) {
         Integer count=50;
         List<Content> contentList = contentService.findPlaceInAreaByFilter(left, right, top, bottom,
-                filter,count);
+                filter,offset,limit);
         List<ContentListResponse> collect = contentList.stream().map(content -> new ContentListResponse(content))
                 .collect(Collectors.toList());
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
     }
 
     @GetMapping(value = "/{contentId}")
-    public ResponseEntity readTourContent(@PathVariable(value = "contentId") Long contentId) {
-        Content content = contentService.findContentWithArticles(contentId);
-        log.info("articles size: {}",content.getArticles().size());
+    public ResponseEntity readTourContent(@PathVariable(value = "contentId") Long contentId
+            ,@RequestParam(value = "offset",
+            defaultValue = "0") Integer offset,
+                                          @RequestParam(value = "limit", defaultValue
+                                                  = "100") Integer limit) {
+        Content content = contentService.findContentWithArticles(contentId,offset,limit);
         return ResponseUtil.successResponse(HttpStatus.OK, new ContentWithArticlesResponse(content));
     }
 
     @GetMapping(value = "/recommend")
     public ResponseEntity listRecommendContent(@RequestParam(value = "currentLatitude")Double currentLatitude,
-                                               @RequestParam(value = "currentLongitude")Double currentLongitude) {
+                                               @RequestParam(value = "currentLongitude")Double currentLongitude,
+                                               @RequestParam(value = "offset",
+                                                       defaultValue = "0") Integer offset,
+                                               @RequestParam(value = "limit", defaultValue
+                                                       = "100") Integer limit) {
         Integer count=10;
         List<Content> restaurantListPeopleLike=contentService
-                .findRestaurantsPeopleLike(currentLatitude,currentLongitude,count);
+                .findRestaurantsPeopleLike(currentLatitude,currentLongitude,offset,limit);
         List<Content> cafeListPeopleLike=contentService
-                .findCafesPeopleLike(currentLatitude,currentLongitude,count);
+                .findCafesPeopleLike(currentLatitude,currentLongitude,offset,limit);
         List<Content> attractionListPeopleLike=contentService
-                .findAttractionsPeopleLike(currentLatitude,currentLongitude,count);
+                .findAttractionsPeopleLike(currentLatitude,currentLongitude,offset,limit);
 
         List<ContentListPeopleLikeResponse> contentsPeopleLike=new ArrayList<>();
         contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 맛집",
@@ -70,9 +81,13 @@ public class ContentApiController {
         return ResponseUtil.successResponse(HttpStatus.OK,contentsPeopleLike);
     }
 
-    @GetMapping(value = "",params = "searchKeyword")
-    public ResponseEntity listTourContentBySearchKeyword(@RequestParam(value = "searchKeyword") String searchKeyword) {
-        List<Content> contentList=contentService.findAllBySearchKeyword(searchKeyword);
+    @GetMapping(value = "", params = "searchKeyword")
+    public ResponseEntity listTourContentBySearchKeyword(@RequestParam(value = "searchKeyword") String searchKeyword,
+                                                         @RequestParam(value = "offset",
+                                                                 defaultValue = "0") Integer offset,
+                                                         @RequestParam(value = "limit", defaultValue
+                                                                 = "100") Integer limit) {
+        List<Content> contentList = contentService.findAllBySearchKeyword(searchKeyword,offset,limit);
         List<ContentListResponse> collect = contentList.stream()
                 .map(content -> new ContentListResponse(content)).collect(Collectors.toList());
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
