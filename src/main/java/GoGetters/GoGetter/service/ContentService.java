@@ -19,6 +19,7 @@ public class ContentService {
 
 
     public Content findContentWithArticles(Long contentId) {
+        System.out.println("111111");
         return contentRepository.findContentWithArticles(contentId);
     }
 

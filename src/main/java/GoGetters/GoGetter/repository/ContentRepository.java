@@ -3,15 +3,19 @@ package GoGetters.GoGetter.repository;
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.content.ContentType;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
 @Getter
+@Slf4j
 public class ContentRepository {
     @PersistenceContext
     private EntityManager em;
@@ -23,15 +27,27 @@ public class ContentRepository {
 
     public Content findContentWithArticles(Long contentId) {
         String query = "select distinct c from Content c" +
-                " join fetch c.images" +
-//                " left join c.articles a" +
-//                " join fetch a.writer" +
+//                " join fetch c.images" +
+//                " left join Article a on a.content = c" +
+//                " left join Member m on a.writer = m" +
+                " join fetch c.articles a" +
+                " join fetch a.writer m"+
                 " where c.id=:contentId";
+        Content content = null;
+        try {
+            System.out.println("211111");
+            content = em.createQuery(query, Content.class).setParameter("contentId", contentId).getSingleResult();
+        } catch (EmptyResultDataAccessException | NoResultException e) {
+            content=em.createQuery("select distinct c from Content c" +
+                            " where c.id=:contentId",Content.class)
+                    .setParameter("contentId", contentId)
+                    .getSingleResult();
+        } catch(Exception e) {
+            log.info("print except: {}",e.toString());
+            return null;
+        }
+        return content;
 
-
-        return em.createQuery(query, Content.class)
-                .setParameter("contentId", contentId)
-                .getSingleResult();
     }
 
     public Content findOne(Long contentId) {
@@ -42,8 +58,8 @@ public class ContentRepository {
         String likeVariable="'%"+searchKeyword+"%'";
 
         String query = "select distinct c from Content c" +
-                " join fetch c.articles"+
-//                " join fetch c.images" +
+//                " join fetch c.articles"+
+                " join fetch c.images" +
                 " where c.title like "+likeVariable;
         return em.createQuery(query,Content.class)
                 .getResultList();
@@ -51,9 +67,11 @@ public class ContentRepository {
 
     public List<Content> findAllByLocationAndFilter(Double left, Double right, Double top, Double bottom,
                                                     ContentType filter,Integer count) {
+        System.out.println("content log");
         String query = "select distinct c from Content c" +
 //                " join fetch c.images"+
-                " join fetch c.articles"+
+                " left join c.articles a" +
+                " left join a.writer"+
                 " where c.latitude <= :top" +
                 " and c.latitude >= :bottom" +
                 " and c.longitude <= :right" +
@@ -83,8 +101,8 @@ public class ContentRepository {
 
     public List<Content> findRestaurantsPeopleLike(Double memberLatitude,Double memberLongitude,Integer count) {
         String query="select distinct c from Content c" +
-//                " join fetch c.images"+
-                " join fetch c.articles"+
+                " join fetch c.images"+
+//                " join fetch c.articles"+
                 " where c.contentType=:restaurant" +
                 " order by c.rating*c.visitorReview*c.blogReview desc";
         return em.createQuery(query, Content.class)
@@ -95,8 +113,8 @@ public class ContentRepository {
 
     public List<Content> findCafesPeopleLike(Double memberLatitude,Double memberLongitude,Integer count) {
         String query="select distinct c from Content c" +
-//                " join fetch c.images"+
-                " join fetch c.articles"+
+                " join fetch c.images"+
+//                " join fetch c.articles"+
                 " where c.contentType=:cafe" +
                 " order by c.rating*c.visitorReview*c.blogReview desc";
         return em.createQuery(query, Content.class)
@@ -107,8 +125,8 @@ public class ContentRepository {
 
     public List<Content> findAttractionsPeopleLike(Double memberLatitude,Double memberLongitude,Integer count) {
         String query="select distinct c from Content c" +
-//                " join fetch c.images"+
-                " join fetch c.articles"+
+                " join fetch c.images"+
+//                " join fetch c.articles"+
                 " where c.contentType=:attraction" +
                 " order by c.rating*c.visitorReview*c.blogReview desc";
         return em.createQuery(query, Content.class)

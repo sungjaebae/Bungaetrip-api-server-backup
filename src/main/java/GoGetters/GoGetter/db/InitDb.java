@@ -47,8 +47,8 @@ public class InitDb {
     }
    }
     @Component
-    @Transactional
     @RequiredArgsConstructor
+    @Transactional
     static class InitService{
         private final EntityManager em;
         private final PasswordEncoder pe;
@@ -65,7 +65,7 @@ public class InitDb {
 
                 Member member = em.find(Member.class,Long.valueOf(i));
                 log.debug("member id : {}",member.getId());
-
+                em.persist(member);
                 members.add(member);
             }
 
@@ -83,10 +83,10 @@ public class InitDb {
 
         }
         public void dbInitArticle(){
-            int size = contentList.size();
-
+            int size = contentList.size()-1;
+            int memberSize=members.size();
             for(int i=0;i<100;i++){
-                Article article=createArticle(members.get(i%10),"출발지"+String.valueOf(i),
+                Article article=createArticle(members.get(i%memberSize),"출발지"+String.valueOf(i),
                         "도착지"+String.valueOf(i),contentList.get(i%size),LocalDate.of(2020+i%5,i%12+1,i%28+1)
                         ,LocalTime.of(i%23+1,i%60), 4/((i%4)+1),
                         "제목 테스트 "+String.valueOf(i),"내용" +String.valueOf(i)
