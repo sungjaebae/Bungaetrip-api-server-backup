@@ -124,7 +124,7 @@ public class ContentRepository {
 //            "SELECT\n" +
 //                    "\n" +
 //                    "    (6371*acos(cos(radians(userLatitude))*cos(radians(cafeLatitude))*cos(radians(cafeHardness)\n" +
-//                    "\n" +
+//                    "\n" +Ca
 //                    "    -radians(userHardness))+sin(radians(userLatitude))*sin(radians(cafeLatitude))))\n" +
 //                    "\n" +
 //                    "    AS distance\n" +
