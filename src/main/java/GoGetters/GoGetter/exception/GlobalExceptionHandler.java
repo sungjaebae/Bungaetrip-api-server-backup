@@ -3,6 +3,7 @@ package GoGetters.GoGetter.exception;
 import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.exception.Article.InvalidSortTypeException;
 import GoGetters.GoGetter.exception.Article.NoSuchArticleException;
+import GoGetters.GoGetter.exception.Content.NoSuchContentException;
 import GoGetters.GoGetter.exception.Member.MemberAlreadyExistException;
 import GoGetters.GoGetter.exception.Member.NoSuchMemberException;
 import GoGetters.GoGetter.exception.Message.NoSuchMessageException;
@@ -70,5 +71,13 @@ public class GlobalExceptionHandler {
         log.error("Handle already report exception", e.getMessage());
         return ResponseUtil.errorResponse(MessageResource.illegalArgument, HttpStatus.BAD_REQUEST);
 
+    }
+
+
+    ///////////////////Content////////////////////
+    @ExceptionHandler(NoSuchContentException.class)
+    public ResponseEntity handleNoSuchContentException(final NoSuchContentException e) {
+        log.error("Handle No Such Content Exception",e.getMessage());
+        return ResponseUtil.errorResponse(MessageResource.contentNotExist, HttpStatus.BAD_REQUEST);
     }
 }

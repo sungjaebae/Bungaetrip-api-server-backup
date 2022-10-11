@@ -28,5 +28,8 @@ public class MessageResource {
 
     public static String illegalArgument = "요청한 매개변수가 형식에 맞지 않습니다";
 
+    public static String contentNotExist = "해당 컨텐츠가 존재하지 않습니다";
+
+
 
 }

@@ -61,8 +61,7 @@ public class ContentApiController {
                                                @RequestParam(value = "offset",
                                                        defaultValue = "0") Integer offset,
                                                @RequestParam(value = "limit", defaultValue
-                                                       = "100") Integer limit) {
-        Integer count=10;
+                                                       = "10") Integer limit) {
         List<Content> restaurantListPeopleLike=contentService
                 .findRestaurantsPeopleLike(currentLatitude,currentLongitude,offset,limit);
         List<Content> cafeListPeopleLike=contentService

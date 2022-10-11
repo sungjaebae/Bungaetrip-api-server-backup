@@ -1,7 +1,9 @@
 package GoGetters.GoGetter.repository;
 
+import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.content.ContentType;
+import GoGetters.GoGetter.exception.Content.NoSuchContentException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -36,7 +38,14 @@ public class ContentRepository {
     }
 
     public Content findOne(Long contentId) {
-        return em.find(Content.class, contentId);
+        List<Content> contents = em.createQuery("select c from Content c" +
+                        " where c.id=:contentId", Content.class)
+                .setParameter("contentId", contentId)
+                .getResultList();
+        if (contents.isEmpty()) {
+            throw new NoSuchContentException(MessageResource.contentNotExist);
+        }
+        return contents.get(0);
     }
 
     public List<Content> findAllBySearchKeyword(String searchKeyword,Integer offset,Integer limit) {
