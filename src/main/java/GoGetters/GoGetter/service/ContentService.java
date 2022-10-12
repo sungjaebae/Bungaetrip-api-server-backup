@@ -2,16 +2,18 @@ package GoGetters.GoGetter.service;
 
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.content.ContentType;
-import GoGetters.GoGetter.dto.content.ContentQueryResponse;
+import GoGetters.GoGetter.dto.content.ContentResponse;
 import GoGetters.GoGetter.repository.ContentRepository;
 import GoGetters.GoGetter.repository.query.ContentQueryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ContentService {
     private final ContentRepository contentRepository;
     private final ContentQueryRepository contentQueryRepository;
@@ -36,9 +38,12 @@ public class ContentService {
         return contentRepository.findAllByLocationAndFilter(left, right, top, bottom, filter,offset,limit);
     }
 
-    public List<ContentQueryResponse> findBestContents(Double memberLatitude, Double memberLongitude,
-                                                       Integer offset, Integer limit, ContentType contentType) {
-        return contentQueryRepository.findBestPlaceByDistance(memberLatitude,memberLongitude,offset,limit,contentType);
+    public List<Content> findBestContents(Double memberLatitude, Double memberLongitude,
+                                                  Integer offset, Integer limit,
+                                                  ContentType contentType, Double limitDistance) {
+        List<ContentResponse> bestPlaceByDistance = contentQueryRepository.findBestPlaceByDistance(memberLatitude, memberLongitude, offset, limit,
+                contentType, limitDistance);
+        return contentRepository.findRestaurantsPeopleLike(memberLatitude, memberLongitude, offset, limit);
     }
 
     public List<Content> findCafesPeopleLike(Double memberLatitude, Double memberLongitude,
