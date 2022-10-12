@@ -31,7 +31,7 @@ public class ContentQueryResponse {
     public ContentQueryResponse(Long contentId, String title, String subtitle,
                                 ContentType contentType, Double rating,
                                 Integer blogReview, Integer visitorReview
-//            ,Double distance
+            ,double distance
     ) {
         this.contentId=contentId;
         this.title = title;
@@ -40,7 +40,7 @@ public class ContentQueryResponse {
         this.rating=rating;
         this.blogReview = blogReview;
         this.visitorReview=visitorReview;
-//        this.distance=distance;
+        this.distance=distance;
 
     }
 }
