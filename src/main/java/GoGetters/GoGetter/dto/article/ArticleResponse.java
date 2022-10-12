@@ -1,6 +1,7 @@
 package GoGetters.GoGetter.dto.article;
 
 import GoGetters.GoGetter.domain.article.Article;
+import GoGetters.GoGetter.dto.content.ContentResponseInArticle;
 import GoGetters.GoGetter.dto.member.MemberInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,6 +38,7 @@ public class ArticleResponse {
 
     private String content;
 
+    private ContentResponseInArticle destinationContent;
 
     private MemberInfoDto member;
     public ArticleResponse(Article article){
@@ -57,6 +59,7 @@ public class ArticleResponse {
         this.departureLatitude=article.getDepartureLatitude();
         this.destinationLongitude=article.getDestinationLongitude();
         this.destinationLatitude=article.getDestinationLatitude();
+        this.destinationContent = new ContentResponseInArticle(article.getDestinationContent());
     }
 
     public ArticleResponse(CreateArticleRequest articleRequest, LocalDate date, LocalTime time) {

@@ -2,8 +2,7 @@ package GoGetters.GoGetter.api;
 
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.content.ContentType;
-import GoGetters.GoGetter.dto.content.ContentListPeopleLikeResponse;
-import GoGetters.GoGetter.dto.content.ContentListResponse;
+import GoGetters.GoGetter.dto.content.ContentResponse;
 import GoGetters.GoGetter.dto.content.ContentWithArticlesResponse;
 import GoGetters.GoGetter.service.ArticleService;
 import GoGetters.GoGetter.service.ContentService;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +38,7 @@ public class ContentApiController {
         Integer count=50;
         List<Content> contentList = contentService.findPlaceInAreaByFilter(left, right, top, bottom,
                 filter,offset,limit);
-        List<ContentListResponse> collect = contentList.stream().map(content -> new ContentListResponse(content))
+        List<ContentResponse> collect = contentList.stream().map(content -> new ContentResponse(content))
                 .collect(Collectors.toList());
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
     }
@@ -61,23 +59,24 @@ public class ContentApiController {
                                                @RequestParam(value = "offset",
                                                        defaultValue = "0") Integer offset,
                                                @RequestParam(value = "limit", defaultValue
-                                                       = "10") Integer limit) {
-        List<Content> restaurantListPeopleLike=contentService
-                .findRestaurantsPeopleLike(currentLatitude,currentLongitude,offset,limit);
-        List<Content> cafeListPeopleLike=contentService
-                .findCafesPeopleLike(currentLatitude,currentLongitude,offset,limit);
-        List<Content> attractionListPeopleLike=contentService
-                .findAttractionsPeopleLike(currentLatitude,currentLongitude,offset,limit);
 
-        List<ContentListPeopleLikeResponse> contentsPeopleLike=new ArrayList<>();
-        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 맛집",
-                restaurantListPeopleLike));
-        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 카페"
-                ,cafeListPeopleLike));
-        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 관광지",
-                attractionListPeopleLike));
+                                                       = "100") Integer limit) {
+//        List<Content> restaurantListPeopleLike=contentService
+//                .findBestContents(currentLatitude,currentLongitude,offset,limit,ContentType.RESTAURANT,5.0);
+//        List<Content> cafeListPeopleLike=contentService
+//                .findCafesPeopleLike(currentLatitude,currentLongitude,offset,limit);
+//        List<Content> attractionListPeopleLike=contentService
+//                .findAttractionsPeopleLike(currentLatitude,currentLongitude,offset,limit);
 
-        return ResponseUtil.successResponse(HttpStatus.OK,contentsPeopleLike);
+//        List<ContentListPeopleLikeResponse> contentsPeopleLike=new ArrayList<>();
+//        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 맛집",
+//                C));
+//        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 카페"
+//                ,cafeListPeopleLike));
+//        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 관광지",
+//                attractionListPeopleLike));
+
+        return ResponseUtil.successResponse(HttpStatus.OK,"");
     }
 
     @GetMapping(value = "", params = "searchKeyword")
@@ -87,8 +86,8 @@ public class ContentApiController {
                                                          @RequestParam(value = "limit", defaultValue
                                                                  = "100") Integer limit) {
         List<Content> contentList = contentService.findAllBySearchKeyword(searchKeyword,offset,limit);
-        List<ContentListResponse> collect = contentList.stream()
-                .map(content -> new ContentListResponse(content)).collect(Collectors.toList());
+        List<ContentResponse> collect = contentList.stream()
+                .map(content -> new ContentResponse(content)).collect(Collectors.toList());
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
     }
 }
