@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
-public class ContentListResponse {
+public class ContentResponse {
     private Long contentId;
     private String title;
 
@@ -41,7 +41,7 @@ public class ContentListResponse {
     private List<ContentImageDto> imageList;
 
 
-    public ContentListResponse(Content content) {
+    public ContentResponse(Content content) {
         this.contentId=content.getId();
         this.title = content.getTitle();
         this.subtitle=content.getSubtitle();
