@@ -78,7 +78,7 @@ public class ContentApiController {
         contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 관광지",
                 bestAttractions));
 
-        return ResponseUtil.successResponse(HttpStatus.OK,"");
+        return ResponseUtil.successResponse(HttpStatus.OK,contentsPeopleLike);
     }
 
     @GetMapping(value = "", params = "searchKeyword")
