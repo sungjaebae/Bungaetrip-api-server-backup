@@ -127,8 +127,8 @@ public class InitDb {
             contentTypes.add(ContentType.RESTAURANT);
             for(int i=0;i<10;i++){
                 Content content = createContent("컨텐츠 제목" + i, "부제목"+i, "컨텐츠 내용",
-                        contentTypes.get(i%6),"컨텐츠 주소",(i+30)/1.0,
-                        (i+124)/1.0,i%5.0,
+                        contentTypes.get(i%6),"컨텐츠 주소", 35.0+(i/100.0),
+                        129.0+(i/100.0),i%5.0,
                         i+10,i+20,"02-900-2121","naverId",
                         "https://www.naver.com");
                 em.persist(content);
