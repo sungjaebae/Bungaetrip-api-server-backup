@@ -43,8 +43,6 @@ public class ContentService {
                                                        ContentType contentType, Double limitDistance) {
         return   contentQueryRepository.findBestPlaceByDistance(memberLatitude, memberLongitude, offset, limit,
                 contentType, limitDistance);
-//        log.info("print size:{}",bestPlaceByDistance.size());
-//        return contentRepository.findRestaurantsPeopleLike(memberLatitude, memberLongitude, offset, limit);
     }
 
     public List<Content> findCafesPeopleLike(Double memberLatitude, Double memberLongitude,

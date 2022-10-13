@@ -62,24 +62,23 @@ public class ContentApiController {
                                                @RequestParam(value = "offset",
                                                        defaultValue = "0") Integer offset,
                                                @RequestParam(value = "limit", defaultValue
-
-                                                       = "100") Integer limit) {
-        List<ContentQueryResponse> restaurantListPeopleLike=contentService
+                                                       = "10") Integer limit) {
+        List<ContentQueryResponse> bestRestaurants=contentService
                 .findBestContents(currentLatitude,currentLongitude,offset,limit,ContentType.RESTAURANT,5.0);
-//        List<Content> cafeListPeopleLike=contentService
-//                .findCafesPeopleLike(currentLatitude,currentLongitude,offset,limit);
-//        List<Content> attractionListPeopleLike=contentService
-//                .findAttractionsPeopleLike(currentLatitude,currentLongitude,offset,limit);
+        List<ContentQueryResponse> bestCafes = contentService
+                .findBestContents(currentLatitude, currentLongitude, offset, limit, ContentType.CAFE, 5.0);
+        List<ContentQueryResponse> bestAttractions = contentService
+                .findBestContents(currentLatitude, currentLongitude, offset, limit, ContentType.ATTRACTION, 10.0);
 
         List<ContentListPeopleLikeResponse> contentsPeopleLike=new ArrayList<>();
         contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 맛집",
-                restaurantListPeopleLike));
-//        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 카페"
-//                ,cafeListPeopleLike));
-//        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 관광지",
-//                attractionListPeopleLike));
+                bestRestaurants));
+        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 카페",
+                bestCafes));
+        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 관광지",
+                bestAttractions));
 
-        return ResponseUtil.successResponse(HttpStatus.OK,"");
+        return ResponseUtil.successResponse(HttpStatus.OK,contentsPeopleLike);
     }
 
     @GetMapping(value = "", params = "searchKeyword")
