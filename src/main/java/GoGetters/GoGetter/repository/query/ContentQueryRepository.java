@@ -28,10 +28,7 @@ public class ContentQueryRepository {
         List<ContentQueryResponse> result = findBestContentList(memberLatitude,memberLongitude,offset,limit
                 ,contentType,limitDistance);
         log.info("print size: {}",result.size());
-//        Map<Long,List<ContentImageDto>> imageListMap=findContentImageMap(
-//                toContentIds(result)
-//        );
-//        result.forEach(c-> c.setImageList(imageListMap.get(c.getContentId())));
+
 
         return result;
     }
@@ -65,19 +62,18 @@ public class ContentQueryRepository {
                 .setParameter("limit",limit);
         List<Object[]> resultList = query.getResultList();
         List<ContentQueryResponse> contentQueryResponseList = new ArrayList<>();
-        System.out.println("print: 00000");
         for (Object[] row : resultList) {
             contentQueryResponseList.add(new ContentQueryResponse(row[0].toString(), row[1].toString(),
                     row[2].toString(), row[3].toString(), row[4].toString(), row[5].toString(),
                     row[6].toString(), row[7].toString()));
-            System.out.println("print id : "+row[0]);
-            System.out.println("print title : "+row[1]);
-            System.out.println("print subtitle: "+row[2]);
-            System.out.println("print contentType: "+row[3]);
-            System.out.println("print rating: "+row[4]);
-            System.out.println("print blog: "+row[5]);
-            System.out.println("print visitor: "+row[6]);
-            System.out.println("print distance: "+row[7]);
+            log.info("print id : "+row[0]);
+            log.info("print title : "+row[1]);
+            log.info("print subtitle: "+row[2]);
+            log.info("print contentType: "+row[3]);
+            log.info("print rating: "+row[4]);
+            log.info("print blog: "+row[5]);
+            log.info("print visitor: "+row[6]);
+            log.info("print distance: "+row[7]);
         }
 
         return contentQueryResponseList;
