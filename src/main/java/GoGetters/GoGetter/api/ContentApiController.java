@@ -2,6 +2,8 @@ package GoGetters.GoGetter.api;
 
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.content.ContentType;
+import GoGetters.GoGetter.dto.content.ContentListPeopleLikeResponse;
+import GoGetters.GoGetter.dto.content.ContentQueryResponse;
 import GoGetters.GoGetter.dto.content.ContentResponse;
 import GoGetters.GoGetter.dto.content.ContentWithArticlesResponse;
 import GoGetters.GoGetter.service.ArticleService;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,22 +62,21 @@ public class ContentApiController {
                                                @RequestParam(value = "offset",
                                                        defaultValue = "0") Integer offset,
                                                @RequestParam(value = "limit", defaultValue
+                                                       = "10") Integer limit) {
+        List<ContentQueryResponse> bestRestaurants=contentService
+                .findBestContents(currentLatitude,currentLongitude,offset,limit,ContentType.RESTAURANT,5.0);
+        List<ContentQueryResponse> bestCafes = contentService
+                .findBestContents(currentLatitude, currentLongitude, offset, limit, ContentType.CAFE, 5.0);
+        List<ContentQueryResponse> bestAttractions = contentService
+                .findBestContents(currentLatitude, currentLongitude, offset, limit, ContentType.ATTRACTION, 10.0);
 
-                                                       = "100") Integer limit) {
-//        List<Content> restaurantListPeopleLike=contentService
-//                .findBestContents(currentLatitude,currentLongitude,offset,limit,ContentType.RESTAURANT,5.0);
-//        List<Content> cafeListPeopleLike=contentService
-//                .findCafesPeopleLike(currentLatitude,currentLongitude,offset,limit);
-//        List<Content> attractionListPeopleLike=contentService
-//                .findAttractionsPeopleLike(currentLatitude,currentLongitude,offset,limit);
-
-//        List<ContentListPeopleLikeResponse> contentsPeopleLike=new ArrayList<>();
-//        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 맛집",
-//                C));
-//        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 카페"
-//                ,cafeListPeopleLike));
-//        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 관광지",
-//                attractionListPeopleLike));
+        List<ContentListPeopleLikeResponse> contentsPeopleLike=new ArrayList<>();
+        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 맛집",
+                bestRestaurants));
+        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 카페",
+                bestCafes));
+        contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 관광지",
+                bestAttractions));
 
         return ResponseUtil.successResponse(HttpStatus.OK,"");
     }
