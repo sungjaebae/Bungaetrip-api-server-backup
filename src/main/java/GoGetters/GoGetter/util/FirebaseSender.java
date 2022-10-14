@@ -7,12 +7,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -93,11 +91,11 @@ public class FirebaseSender {
 
     public void pushBrowserSend(String token, String title, String body,String messageId) throws IOException {
 //        발송 API 호출
-        log.info("Push message info token:{}, title:{},body:{}",token,title,body);
+        log.info("print push message info token:{}, title:{},body:{}",token,title,body);
 
         ObjectMapper objectMapper=new ObjectMapper();
         String message = objectMapper.writeValueAsString(makeMessageBody(token, title, body,messageId));
-        log.info("message body json {}",message);
+        log.info("print message body json: {}",message);
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message,
                 okhttp3.MediaType.get("application/json; charset=utf-8"));
@@ -105,11 +103,24 @@ public class FirebaseSender {
                 .url(SEND_URL)
                 .post(requestBody)
                 .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
-                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
+//                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
                 .build();
 
-        Response response = client.newCall(request).execute();
+        client.newCall(request).enqueue(
+                new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                        System.out.printf("print fcm message");
+                        log.error("print fcm message error : {}", e.getMessage());
+                    }
 
-        log.info("message response : {}",response.body().string());
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        log.error("print fcm message response {}",response.body().string());
+
+                    }
+                }
+        );
+
     }
 }
