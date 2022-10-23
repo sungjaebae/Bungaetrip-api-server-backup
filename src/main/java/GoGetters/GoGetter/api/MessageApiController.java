@@ -69,18 +69,7 @@ public class MessageApiController {
             "메세지 내용을 입력받아 정보들을 데이터베이스에 저장하고 메세지를 받을 사람에게 " +
             "알림을 보낸다")
     public ResponseEntity createMessage(@RequestBody MessageRequest messageRequest) throws IOException {
-//        //senderId, receiverId를 통해 sender,receiver 찾기
-//        Sender sender= memberService.sender(messageRequest.getSenderId());
-//        Receiver receiver= memberService.receiver(messageRequest.getReceiverId());
 //
-//        //메세지 작성
-//        Message message=new Message(messageRequest.getContent());
-//        Long messageId= messageService.send(sender,receiver,message);
-//
-//        ////////////////////////////
-//        //fcm 에 메세지 보내기
-//        sendMessageToFCM(receiver,messageId);
-//        //////////////////////////////
         Long messageId = messageQueryService.createMessage(messageRequest);
         Map<String,Long> ret=new HashMap<>();
         ret.put("messageId",messageId);

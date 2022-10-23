@@ -1,13 +1,11 @@
 package GoGetters.GoGetter.api;
 
-import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.domain.content.ContentType;
 import GoGetters.GoGetter.dto.content.ContentListPeopleLikeResponse;
-import GoGetters.GoGetter.dto.content.ContentQueryResponse;
 import GoGetters.GoGetter.dto.content.ContentResponse;
 import GoGetters.GoGetter.dto.content.ContentWithArticlesResponse;
-import GoGetters.GoGetter.service.ArticleService;
 import GoGetters.GoGetter.service.ContentService;
+import GoGetters.GoGetter.service.query.ContentQueryService;
 import GoGetters.GoGetter.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ContentApiController {
     private final ContentService contentService;
-    private final ArticleService articleService;
+    private final ContentQueryService contentQueryService;
 
     @GetMapping(value = "",params = {"left","right","top","bottom"})
     public ResponseEntity listTourContents(@RequestParam(value = "left") Double left,
@@ -38,11 +34,8 @@ public class ContentApiController {
                                            @RequestParam(value = "limit", defaultValue
                                                    = "100") Integer limit
     ) {
-        Integer count=50;
-        List<Content> contentList = contentService.findPlaceInAreaByFilter(left, right, top, bottom,
-                filter,offset,limit);
-        List<ContentResponse> collect = contentList.stream().map(content -> new ContentResponse(content))
-                .collect(Collectors.toList());
+        List<ContentResponse> collect = contentQueryService
+                .listTourContents(left, right, top, bottom, filter, offset, limit);
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
     }
 
@@ -52,8 +45,8 @@ public class ContentApiController {
             defaultValue = "0") Integer offset,
                                           @RequestParam(value = "limit", defaultValue
                                                   = "100") Integer limit) {
-        Content content = contentService.findContentWithArticles(contentId,offset,limit);
-        return ResponseUtil.successResponse(HttpStatus.OK, new ContentWithArticlesResponse(content));
+        ContentWithArticlesResponse contentWithArticlesResponse = contentQueryService.readContent(contentId, offset, limit);
+        return ResponseUtil.successResponse(HttpStatus.OK,contentWithArticlesResponse);
     }
 
     @GetMapping(value = "/recommend")
@@ -63,30 +56,11 @@ public class ContentApiController {
                                                        defaultValue = "0") Integer offset,
                                                @RequestParam(value = "limit", defaultValue
                                                        = "10") Integer limit) {
-        List<ContentQueryResponse> bestRestaurants=contentService
-                .findBestContents(currentLatitude,currentLongitude,offset,limit,ContentType.RESTAURANT,5.0);
-        List<ContentQueryResponse> bestCafes = contentService
-                .findBestContents(currentLatitude, currentLongitude, offset, limit, ContentType.CAFE, 5.0);
-        List<ContentQueryResponse> bestAttractions = contentService
-                .findBestContents(currentLatitude, currentLongitude, offset, limit, ContentType.ATTRACTION, 10.0);
-
-        List<ContentListPeopleLikeResponse> contentsPeopleLike=new ArrayList<>();
-        if (!bestRestaurants.isEmpty()) {
-            contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 맛집",
-                    bestRestaurants));
-        }
-        if (!bestCafes.isEmpty()) {
-            contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 카페",
-                    bestCafes));
-        }
-        if (!bestAttractions.isEmpty()) {
-            contentsPeopleLike.add(new ContentListPeopleLikeResponse("주변에 가장 인기 있는 관광지",
-                    bestAttractions));
-        }
+        List<ContentListPeopleLikeResponse> contentsRecommended = contentQueryService
+                .listRecommendContent(currentLatitude, currentLongitude, offset, limit);
 
 
-
-        return ResponseUtil.successResponse(HttpStatus.OK,contentsPeopleLike);
+        return ResponseUtil.successResponse(HttpStatus.OK,contentsRecommended);
     }
 
     @GetMapping(value = "", params = "searchKeyword")
@@ -95,9 +69,7 @@ public class ContentApiController {
                                                                  defaultValue = "0") Integer offset,
                                                          @RequestParam(value = "limit", defaultValue
                                                                  = "100") Integer limit) {
-        List<Content> contentList = contentService.findAllBySearchKeyword(searchKeyword,offset,limit);
-        List<ContentResponse> collect = contentList.stream()
-                .map(content -> new ContentResponse(content)).collect(Collectors.toList());
+        List<ContentResponse> collect = contentQueryService.listContentBySearchKeyword(searchKeyword, offset, limit);
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
     }
 }
