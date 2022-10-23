@@ -1,9 +1,11 @@
 package GoGetters.GoGetter.repository;
 
+import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.message.Receiver;
 import GoGetters.GoGetter.domain.message.Sender;
 import GoGetters.GoGetter.domain.member.Member;
 import GoGetters.GoGetter.dto.member.UpdateMemberRequest;
+import GoGetters.GoGetter.exception.Member.NoSuchMemberException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -21,14 +23,18 @@ public class MemberRepository {
         return member.getId();
     }
 
-    public List<Member> findOne(Long memberId){
+    public Member findOne(Long memberId){
         String query = "select m from Member m " +
                 "where m.id=:memberId " +
                 "and m.deletedAt is null";
 
-        return em.createQuery(query,Member.class)
-                .setParameter("memberId",memberId)
+        List<Member> member = em.createQuery(query, Member.class)
+                .setParameter("memberId", memberId)
                 .getResultList();
+        if (member.isEmpty()) {
+            throw new NoSuchMemberException(MessageResource.memberNotExist);
+        }
+        return member.get(0);
     }
 
     public List<Member> findAllUsers(){
