@@ -6,8 +6,8 @@ import GoGetters.GoGetter.dto.member.CanMemberGenerate;
 import GoGetters.GoGetter.dto.member.MemberInfoReturn;
 import GoGetters.GoGetter.dto.member.UpdateMemberRequest;
 import GoGetters.GoGetter.exception.Member.InvalidUpdateMemberInfoException;
-import GoGetters.GoGetter.exception.Member.NoSuchMemberException;
 import GoGetters.GoGetter.service.MemberService;
+import GoGetters.GoGetter.service.query.MemberQueryService;
 import GoGetters.GoGetter.util.BlobStorage;
 import GoGetters.GoGetter.util.JwtUtil;
 import GoGetters.GoGetter.util.ResponseUtil;
@@ -30,6 +30,7 @@ import java.util.List;
 public class MemberApiController {
     private final JwtUtil jwtUtil;
     private final MemberService memberService;
+    private final MemberQueryService memberQueryService;
 
     private final BlobStorage blobStorage;
 
@@ -37,9 +38,8 @@ public class MemberApiController {
     @Operation(summary = "회원 정보 조회 API",description = "회원 번호를 통해 회원의 정보를 조회합니다. 회원 번호, 아이디, 이메일, 닉네임, " +
             "나이를 JSON 형태로 반환합니다")
     public ResponseEntity readMemberById(@PathVariable("memberId") Long memberId) {
-        Member member = memberService.findOne(memberId);
-        MemberInfoReturn memberResponse=new MemberInfoReturn(member);
-        return ResponseUtil.successResponse(HttpStatus.OK,memberResponse);
+        MemberInfoReturn member = memberQueryService.readMemberById(memberId);
+        return ResponseUtil.successResponse(HttpStatus.OK,member);
     }
     @PatchMapping(value = "/myInfo", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "회원 정보 수정 API", description = "회원 번호, 닉네임, 나이, 성별, 자기 소개 그리고 프로필 사진을 입력받아 사용자 정보를" +
@@ -100,17 +100,8 @@ public class MemberApiController {
             " 회원 번호를 파싱하고, 이를 사용하여 회원 정보를 JSON 형태로 반환한다")
     public ResponseEntity readMember(
             @RequestHeader("Authorization") String authorization) {
-        log.debug("JWT authorization : {}",authorization);
-        String token = authorization.substring("Bearer ".length());
-        log.debug("JWT token content : {}", token);
-        String username = jwtUtil.getUsername(token);
-        log.debug("JWT token claim username : {}",username);
-        List<Member> memberByUsername = memberService.findMemberByUsername(username);
-        if (memberByUsername.size() == 0) {
-            throw new NoSuchMemberException(MessageResource.memberNotExist);
-        }
-        Member member = memberByUsername.get(0);
-        return ResponseUtil.successResponse(HttpStatus.OK, new MemberInfoReturn(member));
+        MemberInfoReturn member = memberQueryService.readMember(authorization);
+        return ResponseUtil.successResponse(HttpStatus.OK, member);
 
     }
 

@@ -3,13 +3,14 @@ package GoGetters.GoGetter.api;
 import GoGetters.GoGetter.domain.message.Message;
 import GoGetters.GoGetter.domain.message.Receiver;
 import GoGetters.GoGetter.domain.message.Sender;
+import GoGetters.GoGetter.dto.member.MemberInfoDto;
 import GoGetters.GoGetter.dto.message.MessageDto;
+import GoGetters.GoGetter.dto.message.MessageRequest;
 import GoGetters.GoGetter.dto.message.ReceivedMessageResponse;
 import GoGetters.GoGetter.dto.message.SentMessageResponse;
-import GoGetters.GoGetter.dto.message.MessageRequest;
-import GoGetters.GoGetter.dto.member.MemberInfoDto;
-import GoGetters.GoGetter.service.MessageService;
 import GoGetters.GoGetter.service.MemberService;
+import GoGetters.GoGetter.service.MessageService;
+import GoGetters.GoGetter.service.query.MessageQueryService;
 import GoGetters.GoGetter.util.FirebaseSender;
 import GoGetters.GoGetter.util.ResponseUtil;
 import io.swagger.annotations.ApiImplicitParam;
@@ -24,13 +25,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class MessageApiController {
     private final MessageService messageService;
+    private final MessageQueryService messageQueryService;
+
     private final MemberService memberService;
     private final FirebaseSender firebaseSender;
     //receiver_id 를 통해 message 목록 조회 api
@@ -41,12 +43,8 @@ public class MessageApiController {
     @ApiImplicitParam(name="receiverId",value = "메세지 받는 회원 번호",dataType = "Long",required = true,paramType = "query")
     public ResponseEntity listReceivedMessage(
                                       @RequestParam("receiverId") Long receiverId) {
-        memberService.findOne(receiverId);
 
-        List<Message> messages=messageService.findReceivedMessages(receiverId);
-        List<ReceivedMessageResponse> collect = messages.stream().map(m ->
-                new ReceivedMessageResponse(m)).collect(Collectors.toList());
-
+        List<ReceivedMessageResponse> collect = messageQueryService.listReceivedMessage(receiverId);
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
 
     }
@@ -71,19 +69,8 @@ public class MessageApiController {
             "메세지 내용을 입력받아 정보들을 데이터베이스에 저장하고 메세지를 받을 사람에게 " +
             "알림을 보낸다")
     public ResponseEntity createMessage(@RequestBody MessageRequest messageRequest) throws IOException {
-        //senderId, receiverId를 통해 sender,receiver 찾기
-        Sender sender= memberService.sender(messageRequest.getSenderId());
-        Receiver receiver= memberService.receiver(messageRequest.getReceiverId());
-
-        //메세지 작성
-        Message message=new Message(messageRequest.getContent());
-        Long messageId= messageService.send(sender,receiver,message);
-
-        ////////////////////////////
-        //fcm 에 메세지 보내기
-        sendMessageToFCM(receiver,messageId);
-        //////////////////////////////
-
+//
+        Long messageId = messageQueryService.createMessage(messageRequest);
         Map<String,Long> ret=new HashMap<>();
         ret.put("messageId",messageId);
 
@@ -105,12 +92,8 @@ public class MessageApiController {
     @Operation(summary = "보낸 메세지 목록 조회 API",description = "회원 번호를 통해" +
             "해당 회원이 보낸 메세지 목록을 JSON 형태로 반환한다")
     public ResponseEntity listSentMessages(@RequestParam("memberId") Long memberId) {
-        memberService.findOne(memberId);
 
-        List<Message> sentMessages= messageService.findSentMessages(memberId);
-        List<SentMessageResponse> collect = sentMessages.stream()
-                .map(message -> new SentMessageResponse(message))
-                .collect(Collectors.toList());
+        List<SentMessageResponse> collect = messageQueryService.listSentMessages(memberId);
         return ResponseUtil.successResponse(HttpStatus.OK, collect);
     }
 

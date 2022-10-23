@@ -1,12 +1,10 @@
 package GoGetters.GoGetter.service;
 
-import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.article.ArticleSortType;
 import GoGetters.GoGetter.domain.article.ArticleType;
 import GoGetters.GoGetter.domain.content.Content;
 import GoGetters.GoGetter.dto.article.UpdateArticleRequest;
-import GoGetters.GoGetter.exception.Article.NoSuchArticleException;
 import GoGetters.GoGetter.repository.ArticleRepository;
 import GoGetters.GoGetter.repository.ContentRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +27,8 @@ public class ArticleService {
     }
 
     public Article findArticle(Long articleId) {
-        List<Article> article = articleRepository.findArticle(articleId);
-        if(article.isEmpty())
-            throw new NoSuchArticleException(MessageResource.articleNotExist);
-        return article.get(0);
+        return articleRepository.findArticle(articleId);
+
     }
 
 
@@ -44,26 +40,22 @@ public class ArticleService {
 
     @Transactional
     public Long updateArticleRequest(UpdateArticleRequest articleRequest) {
-        List<Article> findArticle = articleRepository.findArticle(articleRequest.getArticleId());
-        if (findArticle.isEmpty()) {
-            throw new NoSuchArticleException(MessageResource.articleNotExist);
-        }
+        Article findArticle = articleRepository.findArticle(articleRequest.getArticleId());
+
         Content destinationContent = contentRepository.findOne(articleRequest.getDestinationContentId());
-        findArticle.get(0).modifyArticle(ArticleType.valueOf(articleRequest.getArticleType()),articleRequest.getDeparture(), articleRequest.getDestination(),
+        findArticle.modifyArticle(ArticleType.valueOf(articleRequest.getArticleType()),articleRequest.getDeparture(), articleRequest.getDestination(),
                 destinationContent,
                 articleRequest.getDate(), articleRequest.getTime(),
                 articleRequest.getCurrentParticipants(), articleRequest.getTitle(), articleRequest.getContent(),
                 articleRequest.getDepartureLongitude(), articleRequest.getDepartureLatitude()
                 , articleRequest.getDestinationLongitude(), articleRequest.getDestinationLatitude());
-        return findArticle.get(0).getId();
+        return findArticle.getId();
     }
 
     @Transactional
     public Long deleteArticle(Long articleId){
-        List<Article> article = articleRepository.findArticle(articleId);
-        if(article.isEmpty())
-            throw new NoSuchArticleException(MessageResource.articleNotExist);
-        return articleRepository.deleteArticle(article.get(0));
+        Article article = articleRepository.findArticle(articleId);
+        return articleRepository.deleteArticle(article);
     }
 
     public Long save(Article article) {
