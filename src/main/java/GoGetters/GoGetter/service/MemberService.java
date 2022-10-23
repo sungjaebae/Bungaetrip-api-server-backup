@@ -1,12 +1,10 @@
 package GoGetters.GoGetter.service;
 
-import GoGetters.GoGetter.MessageResource;
-import GoGetters.GoGetter.domain.message.Receiver;
-import GoGetters.GoGetter.domain.member.SecurityMember;
-import GoGetters.GoGetter.domain.message.Sender;
 import GoGetters.GoGetter.domain.member.Member;
+import GoGetters.GoGetter.domain.member.SecurityMember;
+import GoGetters.GoGetter.domain.message.Receiver;
+import GoGetters.GoGetter.domain.message.Sender;
 import GoGetters.GoGetter.dto.member.UpdateMemberRequest;
-import GoGetters.GoGetter.exception.Member.NoSuchMemberException;
 import GoGetters.GoGetter.repository.MemberRepository;
 import GoGetters.GoGetter.repository.ReceiverRepository;
 import GoGetters.GoGetter.repository.SenderRepository;
@@ -16,8 +14,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -30,11 +28,8 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     public Member findOne(Long memberId) {
-        List<Member> member = memberRepository.findOne(memberId);
-        if (member.isEmpty()) {
-            throw new NoSuchMemberException(MessageResource.memberNotExist);
-        }
-        return member.get(0);
+        return memberRepository.findOne(memberId);
+
     }
     public User loadUserbyUsername(String username) {
         List<Member> members= memberRepository.loadUserbyUsername(username);

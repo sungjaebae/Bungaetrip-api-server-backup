@@ -3,9 +3,6 @@ package GoGetters.GoGetter.api;
 import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.article.ArticleSortType;
-import GoGetters.GoGetter.domain.article.ArticleType;
-import GoGetters.GoGetter.domain.content.Content;
-import GoGetters.GoGetter.domain.member.Member;
 import GoGetters.GoGetter.dto.article.ArticleResponse;
 import GoGetters.GoGetter.dto.article.CreateArticleRequest;
 import GoGetters.GoGetter.dto.article.UpdateArticleRequest;
@@ -13,6 +10,7 @@ import GoGetters.GoGetter.exception.Article.InvalidSortTypeException;
 import GoGetters.GoGetter.service.ArticleService;
 import GoGetters.GoGetter.service.ContentService;
 import GoGetters.GoGetter.service.MemberService;
+import GoGetters.GoGetter.service.query.ArticleQueryService;
 import GoGetters.GoGetter.util.ResponseUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,6 +35,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "articles")
 public class ArticleApiController {
     private final ArticleService articleService;
+    private final ArticleQueryService articleQueryService;
     private final MemberService memberService;
     private final ContentService contentService;
 
@@ -47,20 +46,8 @@ public class ArticleApiController {
                     "게시글을 생성합니다")
     public ResponseEntity createArticle(@RequestBody CreateArticleRequest createArticleRequest) {
 
-        Member member = memberService.findOne(createArticleRequest.getMemberId());
-        Content destinationContent = contentService.findOne(createArticleRequest.getDestinationContentId());
-        Article article = new Article(member, ArticleType.valueOf(createArticleRequest.getArticleType()),
-                createArticleRequest.getDeparture()
-                , createArticleRequest.getDestination(), destinationContent,
-                createArticleRequest.getDate(), createArticleRequest.getTime(),
-                createArticleRequest.getCurrentParticipants(),
-                createArticleRequest.getTitle(), createArticleRequest.getContent(),
-                createArticleRequest.getDepartureLongitude(), createArticleRequest.getDepartureLatitude(),
-                createArticleRequest.getDestinationLongitude(), createArticleRequest.getDestinationLatitude()
-        );
 
-        Long writeId = articleService.writeArticle(article);
-        Article findArticle = articleService.findArticle(writeId);
+        Article findArticle = articleQueryService.createQueryArticle(createArticleRequest);
 
         Map<String, Long> ret = new HashMap<>();
         ret.put("articleId", findArticle.getId());

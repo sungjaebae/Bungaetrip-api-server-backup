@@ -41,7 +41,8 @@ FROM adoptopenjdk/openjdk11
 WORKDIR usr/src/app
 # wait-for 스크립트 복사
 COPY wait-for.sh ./
-RUN sed -i 's/\r$//' ./wait-for.sh 
+RUN sed -i 's/\r$//' ./wait-for.sh
+
 # nc(netcat) 커맨드 설치
 RUN apt update && apt install netcat -y
 ARG JAR_FILE=build/libs/GoGetter-0.0.1-SNAPSHOT.jar

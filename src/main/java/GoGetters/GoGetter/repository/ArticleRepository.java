@@ -1,7 +1,9 @@
 package GoGetters.GoGetter.repository;
 
+import GoGetters.GoGetter.MessageResource;
 import GoGetters.GoGetter.domain.article.Article;
 import GoGetters.GoGetter.domain.article.ArticleStatus;
+import GoGetters.GoGetter.exception.Article.NoSuchArticleException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -20,16 +22,20 @@ public class ArticleRepository {
         return article.getId();
     }
 
-    public List<Article> findArticle(Long articleId){
+    public Article findArticle(Long articleId){
         String query = "select a from Article a" +
                 " join fetch a.writer w" +
                 " join fetch a.destinationContent" +
                 " where a.id=:articleId" +
                 " and a.status=:status" +
                 " and w.deletedAt is null";
-        return em.createQuery(query,Article.class)
-                .setParameter("articleId",articleId)
-                .setParameter("status",ArticleStatus.CREATE).getResultList();
+        List<Article> article = em.createQuery(query, Article.class)
+                .setParameter("articleId", articleId)
+                .setParameter("status", ArticleStatus.CREATE).getResultList();
+        if (article.isEmpty()) {
+            throw new NoSuchArticleException(MessageResource.articleNotExist);
+        }
+        return article.get(0);
 //
     }
 
