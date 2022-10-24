@@ -30,6 +30,12 @@ FROM adoptopenjdk:11-jdk-hotspot
 # builder 이미지에서 build/libs/*.jar 파일을 java.jar로 복사
 COPY --from=builder build/libs/*.jar java.jar
 
+COPY wait-for.sh ./
+RUN chmod 755 ./wait-for.sh
+RUN sed -i 's/\r$//' ./wait-for.sh
+
+# nc(netcat) 커맨드 설치
+RUN apt update && apt install netcat -y
 # 컨테이너 Port 노출
 EXPOSE 8080
 
@@ -37,15 +43,15 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-jar","/java.jar"]
 
 ######################################################
-# FROM adoptopenjdk/openjdk11
-# WORKDIR usr/src/app
-# # wait-for 스크립트 복사
-# COPY wait-for.sh ./
-
-# RUN sed -i 's/\r$//' ./wait-for.sh 
-# # nc(netcat) 커맨드 설치
-# RUN apt update && apt install netcat -y
-# ARG JAR_FILE=build/libs/GoGetter-0.0.1-SNAPSHOT.jar
-# COPY ${JAR_FILE} app.jar
-# ENTRYPOINT ["java","-jar","/usr/src/app/app.jar"]
-
+#FROM adoptopenjdk/openjdk11
+#WORKDIR usr/src/app
+## wait-for 스크립트 복사
+#COPY wait-for.sh ./
+#RUN chmod 755 ./wait-for.sh
+#RUN sed -i 's/\r$//' ./wait-for.sh
+#
+## nc(netcat) 커맨드 설치
+#RUN apt update && apt install netcat -y
+#ARG JAR_FILE=build/libs/GoGetter-0.0.1-SNAPSHOT.jar
+#COPY ${JAR_FILE} app.jar
+#ENTRYPOINT ["java","-jar","/usr/src/app/app.jar"]
