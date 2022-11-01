@@ -46,7 +46,8 @@ public class MemberApiController {
             " 추가합니다")
     public ResponseEntity updateMemberInfo(@RequestPart UpdateMemberRequest request,
                                            @RequestPart(required = false) MultipartFile imgFile) throws IOException {
-        if (!request.getGender().equals("MALE") && !request.getGender().equals("FEMALE")) {
+        if (!request.getGender().equals("MALE") && !request.getGender().equals("FEMALE")
+                && !request.getGender().equals("ETC")) {
             throw new InvalidUpdateMemberInfoException(MessageResource.invalidMemberRequestForm);
         }
         String imageBlobUrl = null;
